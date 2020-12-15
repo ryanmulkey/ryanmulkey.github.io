@@ -4,8 +4,8 @@
        <title>Ryan Mulkey</title>
             <style>
                 body {
-                    background: rgb(125, 198, 205);
-                    color: rgb(45, 45, 45);
+                    background: rgb(43, 45, 47);
+                    color: rgb(10, 10, 10);
                     padding: 10px;
                     font-family: arial;
                 }
@@ -19,17 +19,21 @@
 
                  /* navigation menu */
                 nav {
-                    background: rgb(239, 80, 41);
+                    background: purple;
                     margin: 0 auto;
+                    margin-bottom: 20px;
                     display: flex;
                     padding: 10px;
+                    border: 2px solid violet;
+                    border-radius: 25px;
                 }
                 h1 {
                     display: flex;
                     align-items: center;
-                    color: white;
+                    color: black;
                     flex: 1;
                     margin: 0;
+                    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
                 }
                 #nav-ul {
                     list-style-image: none;
@@ -40,13 +44,15 @@
                 }
                 a {
                     text-decoration: none;
-                    color: #fff;
+                    color: grey;
                 }
 
                 /* main container area beneath menu */
                 main {
-                    background: rgb(245, 238, 219);
+                    background: rgb(60,60,60);
                     display: flex;
+                    border: 2px solid black;
+                    border-radius: 15px;
                 }
                 .sidebar {
                     margin-right: 25px;
@@ -87,21 +93,21 @@
         <main>
          <!-- Sidebar section -->
          <div class="sidebar">
-            <img id="face" src="https://mauve.thames.repl.co/real.jpg">
+            <img id="face" class="sidebar.sidebar-img" src="https://mauve.thames.repl.co/real.jpg">
          </div>
 
          <!-- Content section -->
-         <div>
+         <div class="content">
             <h2>Ryan Mulkey</h2>
             <p>Student at Northshore High School </p>
             <!-- Interests section -->
-            <div>
+            <div id="interests">
                 <h3>Interests</h3>
                     <li>Coding</li>
                     <li>Travelling</li>
                     <li>History</li>
-</div>
-        </div>
+            </div>
+         </div>
         </main>
     </div>
     </body>
