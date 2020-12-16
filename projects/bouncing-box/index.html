@@ -47,9 +47,8 @@
             /////////////////// CORE LOGIC /////////////////////////
             //////////////////////////////////////////////////////////////////
             // TODO 2 - Variable declarations 
-            var randNum = Math.random() * boardWidth;
-            var positionX = randNum;
-            var positionY = randNum;
+            var positionX = 0;
+            var positionY = 0;
             var speedX = 10;
             var speedY = 10;
             var points = 0;
@@ -93,8 +92,8 @@
                 points += 1;
                 $box.text(points);
                 speedX += 3;
-                positionX = randNum;
-                positionY = randNum;
+                positionX = 0;
+                positionY = 0;
 
             };
 
