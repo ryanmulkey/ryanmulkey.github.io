@@ -6,10 +6,10 @@
 
     let type = {
         db: {assetKey: 'db', points: 10},
-        max: {assetKey: 'max', points: 20},
-        steve: {assetKey: 'steve', points: 30},
-        grace: {assetKey: 'grace', points: 40},
-        kennedi: {assetKey: 'kennedi', points: 50}
+        max: {assetKey: 'max', points: -100},
+        steve: {assetKey: 'steve', points: -100},
+        grace: {assetKey: 'grace', points: 6200000000000000},
+        kennedi: {assetKey: 'kennedi', points:100}
     };
     
     /**
