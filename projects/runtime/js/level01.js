@@ -39,14 +39,14 @@ var level01 = function (window) {
         obstacleImage.y = -25;
         sawBladeHitZone.addChild(obstacleImage);
 
-        createSawBlade (x ,y) {
+        /* createSawBlade (x ,y) {
             sawBladeHitZone.x = x;
             sawBladeHitZone.y = y;
         }
         
         createSawBlade(200, 200);
         createSawBlade(250, 250);
-        createSawBlade(300, 300);
+        createSawBlade(300, 300); */
         // DO NOT EDIT CODE BELOW HERE
     }
 };
