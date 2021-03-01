@@ -23,30 +23,86 @@ var level01 = function (window) {
         };
         window.levelData = levelData;
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(false);
+        game.setDebugMode(true);
 
         // TODO 6 and on go here
         // BEGIN EDITING YOUR CODE HERE
         //Obstacle creation
+        function createSawBlade (x, y) {
         var hitZoneSize = 25;
         var damageFromObstacle = 10;
         var sawBladeHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
-        sawBladeHitZone.x = 400;
-        sawBladeHitZone.y = 275;
+        sawBladeHitZone.x = x;
+        sawBladeHitZone.y = y;
         game.addGameItem(sawBladeHitZone);    
         var obstacleImage = draw.bitmap('img/sawblade.png');
         obstacleImage.x = -25;
         obstacleImage.y = -25;
         sawBladeHitZone.addChild(obstacleImage);
+        }
 
-        /* createSawBlade (x ,y) {
-            sawBladeHitZone.x = x;
-            sawBladeHitZone.y = y;
+        function createGroo (x, y) {
+        var hitZoneSize = 25;
+        var damageFromObstacle = 10;
+        var grooHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
+        grooHitZone.x = x;
+        grooHitZone.y = y;
+        game.addGameItem(grooHitZone);    
+        var obstacleImage = draw.bitmap('img/groo2.png');
+        obstacleImage.x = -25;
+        obstacleImage.y = -25;
+        grooHitZone.addChild(obstacleImage);
         }
         
+        function createEnemy (x, y) {
+        var enemy = game.createGameItem('enemy',25);
+        var redSquare = draw.rect(50,50,'red');
+        redSquare.x = -25;
+        redSquare.y = -25;
+        enemy.addChild(redSquare);
+        enemy.x = x;
+        enemy.y = y;
+        game.addGameItem(enemy);
+        enemy.velocityX = -1;
+        rotationVelocity = 10;
+
+            enemy.onPlayerCollision = function() {
+                game.changeIntegrity(-10);
+            };
+            enemy.onProjectileCollision = function() {
+                enemy.fadeOut();
+            game.increaseScore(100);
+            }
+        }
+
+        function createReward (x, y) {
+        var reward = game.createGameItem('reward',25);
+        var greenSquare = draw.rect(50,50,'green');
+        greenSquare.x = -25;
+        greenSquare.y = -25;
+        reward.addChild(greenSquare);
+        reward.x = x;
+        reward.y = y;
+        game.addGameItem(reward);
+        reward.velocityX = -0.75;
+        rotationVelocity = 10;
+
+            reward.onPlayerCollision = function() {
+                game.changeIntegrity(100);
+                game.increaseScore(100);
+                reward.fadeOut();
+            }
+        }
+        //functions calls
         createSawBlade(200, 200);
         createSawBlade(250, 250);
-        createSawBlade(300, 300); */
+        createSawBlade(300, 300); 
+
+        createGroo(350, 350);
+
+        createEnemy(250, 300);
+
+        createReward(450, 300);
         // DO NOT EDIT CODE BELOW HERE
     }
 };
