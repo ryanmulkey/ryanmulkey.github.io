@@ -28,7 +28,7 @@ var level01 = function (window) {
         for (i = 0; i < levelData.gameItems.length; i++) {
             var firstGameItemObject = levelData.gameItems[i];
             var firstX = firstGameItemObject.x;
-            var firstY = firstGameItemObject.y
+            var firstY = firstGameItemObject.y;
             var firstType = firstGameItemObject.type;
             
             if (firstGameItemObject === "sawblade") {
