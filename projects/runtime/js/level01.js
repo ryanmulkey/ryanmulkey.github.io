@@ -31,13 +31,13 @@ var level01 = function (window) {
             var firstY = firstGameItemObject.y;
             var firstType = firstGameItemObject.type;
             
-            if (firstGameItemObject === "sawblade") {
+            if (firstType === "sawblade") {
                 createSawBlade(firstX, firstY);
-            } else if (firstGameItemObject === "reward") {
+            } else if (firstType === "reward") {
                 createReward(firstX, firstY);
-            } else if (firstGameItemObject === "enemy") {
+            } else if (firstType === "enemy") {
                 createEnemy(firstX, firstY);
-            } else if (firstGameItemObject === "groo") {
+            } else if (firstType === "groo") {
                 createGroo(firstX, firstY);  
             }
         }
