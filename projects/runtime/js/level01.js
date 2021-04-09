@@ -37,7 +37,7 @@ var level01 = function (window) {
                 createReward(firstX, firstY);
             } else if (firstType === "enemy") {
                 createEnemy(firstX, firstY);
-            } else if (firstType === "groo") {
+            } else {
                 createGroo(firstX, firstY);  
             }
         }
