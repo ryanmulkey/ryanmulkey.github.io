@@ -113,16 +113,6 @@ var level01 = function (window) {
                 reward.fadeOut();
             }
         }
-        //functions calls
-        createSawBlade(200, 200);
-        createSawBlade(250, 250);
-        createSawBlade(300, 300); 
-
-        createGroo(350, 350);
-
-        createEnemy(250, 300);
-
-        createReward(450, 300);
         // DO NOT EDIT CODE BELOW HERE
     }
 };
