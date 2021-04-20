@@ -76,10 +76,10 @@ var level01 = function (window) {
         
         function createEnemy (x, y) {
         var enemy = game.createGameItem('enemy',25);
-        var redSquare = draw.rect(50,50,'red');
-        redSquare.x = -25;
-        redSquare.y = -25;
-        enemy.addChild(redSquare);
+        var frown = draw.bitmap('img/enemy.png');
+        frown.x = -25;
+        frown.y = -25;
+        enemy.addChild(frown);
         enemy.x = x;
         enemy.y = y;
         game.addGameItem(enemy);
@@ -97,10 +97,10 @@ var level01 = function (window) {
 
         function createReward (x, y) {
         var reward = game.createGameItem('reward',25);
-        var greenSquare = draw.rect(50,50,'green');
-        greenSquare.x = -25;
-        greenSquare.y = -25;
-        reward.addChild(greenSquare);
+        var smile = draw.bitmap('img/reward.png');
+        smile.x = -25;
+        smile.y = -25;
+        reward.addChild(smile);
         reward.x = x;
         reward.y = y;
         game.addGameItem(reward);
