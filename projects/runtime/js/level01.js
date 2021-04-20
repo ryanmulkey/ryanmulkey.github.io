@@ -16,9 +16,9 @@ var level01 = function (window) {
             "number": 1, 
             "speed": -3,
             "gameItems": [
-                { "type": "sawblade", "x": 200, "y": groundY + 300 },
-                { "type": "sawblade", "x": 400, "y": groundY + 300 },
-                { "type": "sawblade", "x": 600, "y": groundY + 300 },
+                { "type": "sawblade", "x": 200, "y": canvasHeight / 8 },
+                { "type": "sawblade", "x": 400, "y": canvasHeight / 8  },
+                { "type": "sawblade", "x": 600, "y": canvasHeight / 8  },
                 { "type": "reward", "x": 5000, "y": 300 },
                 { "type": "enemy", "x": 250, "y": 300 },
                 { "type": "groo", "x": 1000, "y": groundY + 300 },
