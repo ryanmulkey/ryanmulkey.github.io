@@ -21,7 +21,7 @@ var level01 = function (window) {
                 { "type": "sawblade", "x": 600, "y": groundY + 300 },
                 { "type": "reward", "x": 5000, "y": 300 },
                 { "type": "enemy", "x": 250, "y": 300 },
-                { "type": "groo", "x": 350, "y": 350 },
+                { "type": "groo", "x": 1000, "y": groundY + 300 },
             ]
         };
         
