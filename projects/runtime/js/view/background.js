@@ -41,10 +41,10 @@ var background = function (window) {
             
             // TODO: 3 - Add a moon and starfield
             var moon = draw.bitmap('img/moon.png');
-                moon.x = canvasWidth / 1.4;
-                moon.y = canvasHeight / 11;
-                //moon.scaleX = 0.5;
-                //moon.scaleY = 0.5;
+                moon.x = canvasWidth / 1.3;
+                moon.y = canvasHeight / 15;
+                moon.scaleX = 0.4;
+                moon.scaleY = 0.4;
             background.addChild(moon);
             
             var loopsCompleted = 0; 
