@@ -20,7 +20,7 @@ var level01 = function (window) {
                 { "type": "sawblade", "x": 400, "y": canvasHeight / 8  },
                 { "type": "sawblade", "x": 600, "y": canvasHeight / 8  },
                 { "type": "reward", "x": 5000, "y": 300 },
-                { "type": "enemy", "x": 250, "y": 300 },
+                { "type": "enemy", "x": 250, "y": canvasHeight / 8 },
                 { "type": "groo", "x": 1000, "y": groundY + 300 },
             ]
         };
@@ -75,24 +75,24 @@ var level01 = function (window) {
         }
         
         function createEnemy (x, y) {
-        var enemy = game.createGameItem('enemy',25);
-        var frown = draw.bitmap('img/enemy.png');
-        frown.x = -25;
-        frown.y = -25;
-        enemy.addChild(frown);
-        enemy.x = x;
-        enemy.y = y;
-        game.addGameItem(enemy);
-        enemy.velocityX = -1;
-        rotationVelocity = 10;
+        var hitZoneSize = 25;
+        var damageFromObstacle = 10;
+        var enemyHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
+        enemyHitZone.x = x;
+        enemyHitZone.y = y;
+        game.addGameItem(enemyHitZone);    
+        var obstacleImage = draw.bitmap('img/enemy.png');
+        obstacleImage.x = -25;
+        obstacleImage.y = -25;
+        enemy.addChild(obstacleImage);
 
-            enemy.onPlayerCollision = function() {
+            /*enemyHitZone.onPlayerCollision = function() {
                 game.changeIntegrity(-10);
             };
-            enemy.onProjectileCollision = function() {
-                enemy.fadeOut();
+            enemyHitZone.onProjectileCollision = function() {
+                enemyHitZone.fadeOut();
             game.increaseScore(100);
-            }
+            }*/
         }
 
         function createReward (x, y) {
