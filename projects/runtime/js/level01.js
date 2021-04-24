@@ -16,12 +16,12 @@ var level01 = function (window) {
             "number": 1, 
             "speed": -3,
             "gameItems": [
-                { "type": "sawblade", "x": 200, "y": groundY / 8 },
-                { "type": "sawblade", "x": 400, "y": groundY / 8  },
-                { "type": "sawblade", "x": 600, "y": groundY / 8  },
-                { "type": "reward", "x": 500, "y": groundY / 8 },
-                { "type": "enemy", "x": 250, "y": groundY / 8 },
-                { "type": "groo", "x": 1000, "y": groundY / 8 },
+                //{ "type": "sawblade", "x": 200, "y": groundY / 8 },
+                //{ "type": "sawblade", "x": 400, "y": groundY / 8  },
+                //{ "type": "sawblade", "x": 600, "y": groundY / 8  },
+                //{ "type": "reward", "x": 500, "y": groundY / 8 },
+                //{ "type": "enemy", "x": 250, "y": groundY / 8 },
+                //{ "type": "groo", "x": 1000, "y": groundY / 8 },
             ]
         };
         
@@ -88,13 +88,13 @@ var level01 = function (window) {
             obstacleImage.y = -25;
             enemyHitZone.addChild(obstacleImage);
 
-            /*enemyHitZone.onPlayerCollision = function() {
+            enemyHitZone.onPlayerCollision = function() {
                 game.changeIntegrity(-10);
             };
             enemyHitZone.onProjectileCollision = function() {
                 enemyHitZone.fadeOut();
             game.increaseScore(100);
-            }*/
+            }
         }
 
         function createReward (x, y) {
