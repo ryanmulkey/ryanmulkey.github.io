@@ -16,12 +16,17 @@ var level01 = function (window) {
             "number": 1, 
             "speed": -3,
             "gameItems": [
-                { "type": "sawblade", "x": 200, "y": groundY - 100},
-                { "type": "sawblade", "x": 400, "y": groundY - 100},
-                { "type": "sawblade", "x": 600, "y": groundY - 100},
-                { "type": "reward", "x": 500, "y": groundY - 100},
-                { "type": "enemy", "x": 250, "y": groundY - 100},
-                { "type": "groo", "x": 1000, "y": groundY - 100},
+                { "type": "sawblade", "x": 1200, "y": groundY - 160},
+                { "type": "sawblade", "x": 2200, "y": groundY - 160},
+                { "type": "sawblade", "x": 5400, "y": groundY - 160},
+
+                { "type": "reward", "x": 1000, "y": groundY - 90},
+                { "type": "reward2", "x": 2000, "y": groundY - 85},
+                { "type": "reward3", "x": 3000, "y": groundY - 135},
+                { "type": "reward4", "x": 4000, "y": groundY - 120},
+
+                { "type": "enemy", "x": 700, "y": groundY - 160},
+                { "type": "enemy", "x": 2500, "y": groundY - 160},
             ]
         };
         
@@ -36,11 +41,15 @@ var level01 = function (window) {
                 createSawBlade(objX, objY);
             } else if (objType === "reward") {
                 createReward(objX, objY);
-            } else if (objType === "enemy") {
-                createEnemy(objX, objY);
+            } else if (objType === "reward2") {
+                createReward2(objX, objY);
+            } else if (objType === "reward3") {
+                createReward3(objX, objY);
+            } else if (objType === "reward4") {
+                createReward4(objX, objY);
             } else {
-                createGroo(objX, objY);  
-            }
+                createEnemy(objX, objY);
+            } 
         }
         
         window.levelData = levelData;
@@ -56,24 +65,21 @@ var level01 = function (window) {
             var sawBladeHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
             sawBladeHitZone.x = x;
             sawBladeHitZone.y = y;
+            sawBladeHitZone.scaleX = 0.5;
+            sawBladeHitZone.scaleY = 0.5; 
             game.addGameItem(sawBladeHitZone);    
             var obstacleImage = draw.bitmap('img/sawblade.png');
             obstacleImage.x = -25;
             obstacleImage.y = -25;
             sawBladeHitZone.addChild(obstacleImage);
-        }
-
-        function createGroo (x, y) {
-            var hitZoneSize = 25;
-            var damageFromObstacle = 10;
-            var grooHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
-            grooHitZone.x = x;
-            grooHitZone.y = y;
-            game.addGameItem(grooHitZone);    
-            var obstacleImage = draw.bitmap('img/groo2.png');
-            obstacleImage.x = -25;
-            obstacleImage.y = -25;
-            grooHitZone.addChild(obstacleImage);
+            
+            sawBladeHitZone.onPlayerCollision = function() {
+                game.changeIntegrity(-20);
+            };
+            sawBladeHitZone.onProjectileCollision = function() {
+                sawBladeHitZone.fadeOut();
+            game.increaseScore(1);
+            }
         }
 
         function createEnemy (x, y) {
@@ -82,6 +88,8 @@ var level01 = function (window) {
             var enemyHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
             enemyHitZone.x = x;
             enemyHitZone.y = y;
+            enemyHitZone.scaleX = 0.4;
+            enemyHitZone.scaleY = 0.4;
             game.addGameItem(enemyHitZone);    
             var obstacleImage = draw.bitmap('img/enemy.png');
             obstacleImage.x = -25;
@@ -93,7 +101,7 @@ var level01 = function (window) {
             };
             enemyHitZone.onProjectileCollision = function() {
                 enemyHitZone.fadeOut();
-            game.increaseScore(100);
+            game.increaseScore(1);
             }
         }
 
@@ -102,6 +110,8 @@ var level01 = function (window) {
             var smile = draw.bitmap('img/reward.png');
             smile.x = -25;
             smile.y = -25;
+            smile.scaleX = 0.3;
+            smile.scaleY = 0.3;
             reward.addChild(smile);
             reward.x = x;
             reward.y = y;
@@ -111,8 +121,71 @@ var level01 = function (window) {
 
             reward.onPlayerCollision = function() {
                 game.changeIntegrity(100);
-                game.increaseScore(100);
+                game.increaseScore(1);
                 reward.fadeOut();
+            }
+        }
+
+        function createReward2 (x, y) {
+            var reward2 = game.createGameItem('reward2',25);
+            var smile2 = draw.bitmap('img/reward2.png');
+            smile2.x = -25;
+            smile2.y = -25;
+            smile2.scaleX = 0.3;
+            smile2.scaleY = 0.3;
+            reward2.addChild(smile2);
+            reward2.x = x;
+            reward2.y = y;
+            game.addGameItem(reward2);
+            reward2.velocityX = -0.75;
+            rotationVelocity = 10;
+
+            reward2.onPlayerCollision = function() {
+                game.changeIntegrity(100);
+                game.increaseScore(1);
+                reward2.fadeOut();
+            }
+        }
+
+        function createReward3 (x, y) {
+            var reward3 = game.createGameItem('reward3',25);
+            var smile3 = draw.bitmap('img/reward3.png');
+            smile3.x = -25;
+            smile3.y = -25;
+            smile3.scaleX = 0.2;
+            smile3.scaleY = 0.2;
+            reward3.addChild(smile3);
+            reward3.x = x;
+            reward3.y = y;
+            game.addGameItem(reward3);
+            reward3.velocityX = -0.75;
+            rotationVelocity = 10;
+
+            reward3.onPlayerCollision = function() {
+                game.changeIntegrity(100);
+                game.increaseScore(1);
+                reward3.fadeOut();
+            }
+        }
+
+        function createReward4 (x, y) {
+            var reward4 = game.createGameItem('reward4',25);
+            var smile4 = draw.bitmap('img/reward4.png');
+            smile4.x = -25;
+            smile4.y = -25;
+            smile4.scaleX = 0.3;
+            smile4.scaleY = 0.3;
+            reward4.addChild(smile4);
+            reward4.x = x;
+            reward4.y = y;
+            game.addGameItem(reward4);
+            reward4.velocityX = -0.75;
+            rotationVelocity = 10;
+
+            reward4.onPlayerCollision = function() {
+                game.changeIntegrity(100);
+                game.increaseScore(1);
+                reward4.fadeOut();
             }
         }
 
