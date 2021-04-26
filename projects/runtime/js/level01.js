@@ -16,17 +16,39 @@ var level01 = function (window) {
             "number": 1, 
             "speed": -3,
             "gameItems": [
-                { "type": "sawblade", "x": 1200, "y": groundY - 160},
-                { "type": "sawblade", "x": 2200, "y": groundY - 160},
-                { "type": "sawblade", "x": 5400, "y": groundY - 160},
+                { "type": "sawblade", "x": 1200, "y": groundY + 120},
+                { "type": "sawblade", "x": 2400, "y": groundY + 120},
+                { "type": "sawblade", "x": 3600, "y": groundY + 120},
+                { "type": "sawblade", "x": 4800, "y": groundY + 120},
+                { "type": "sawblade", "x": 6000, "y": groundY + 120},
+                { "type": "sawblade", "x": 7200, "y": groundY + 120},
+                { "type": "sawblade", "x": 8400, "y": groundY + 120},
+
+                { "type": "witch", "x": 1500, "y": groundY - 170},
+                { "type": "witch", "x": 3000, "y": groundY - 170},
+                { "type": "witch", "x": 4500, "y": groundY - 170},
+                { "type": "witch", "x": 7500, "y": groundY - 170},
+
+                { "type": "frank", "x": 1400, "y": groundY - 170},
+                { "type": "frank", "x": 3400, "y": groundY - 170},
+                { "type": "frank", "x": 5400, "y": groundY - 170},
+                { "type": "frank", "x": 7400, "y": groundY - 170},
+                { "type": "frank", "x": 9400, "y": groundY - 170},
 
                 { "type": "reward", "x": 1000, "y": groundY - 90},
-                { "type": "reward2", "x": 2000, "y": groundY - 85},
-                { "type": "reward3", "x": 3000, "y": groundY - 135},
-                { "type": "reward4", "x": 4000, "y": groundY - 120},
+                { "type": "reward2", "x": 3000, "y": groundY - 85},
+                { "type": "reward3", "x": 5000, "y": groundY - 135},
+                { "type": "reward4", "x": 7000, "y": groundY - 120},
+                { "type": "reward", "x": 9000, "y": groundY - 90},
 
-                { "type": "enemy", "x": 700, "y": groundY - 160},
-                { "type": "enemy", "x": 2500, "y": groundY - 160},
+                { "type": "enemy", "x": 800, "y": groundY + 10},
+                { "type": "enemy", "x": 1700, "y": groundY + 10},
+                { "type": "enemy", "x": 2600, "y": groundY + 10},
+                { "type": "enemy", "x": 3500, "y": groundY + 10},
+                { "type": "enemy", "x": 4400, "y": groundY + 10},
+                { "type": "enemy", "x": 5300, "y": groundY + 10},
+                { "type": "enemy", "x": 6200, "y": groundY + 10},
+                { "type": "enemy", "x": 7150, "y": groundY + 10},
             ]
         };
         
@@ -39,6 +61,10 @@ var level01 = function (window) {
             
             if (objType === "sawblade") {
                 createSawBlade(objX, objY);
+            } else if (objType === "witch") {
+                createWitch(objX, objY);
+            } else if (objType === "frank") {
+                createFrank(objX, objY);
             } else if (objType === "reward") {
                 createReward(objX, objY);
             } else if (objType === "reward2") {
@@ -69,8 +95,8 @@ var level01 = function (window) {
             sawBladeHitZone.scaleY = 0.5; 
             game.addGameItem(sawBladeHitZone);    
             var obstacleImage = draw.bitmap('img/sawblade.png');
-            obstacleImage.x = -25;
-            obstacleImage.y = -25;
+            obstacleImage.x = -x;
+            obstacleImage.y = -y;
             sawBladeHitZone.addChild(obstacleImage);
             
             sawBladeHitZone.onPlayerCollision = function() {
@@ -78,7 +104,6 @@ var level01 = function (window) {
             };
             sawBladeHitZone.onProjectileCollision = function() {
                 sawBladeHitZone.fadeOut();
-            game.increaseScore(1);
             }
         }
 
@@ -92,8 +117,8 @@ var level01 = function (window) {
             enemyHitZone.scaleY = 0.4;
             game.addGameItem(enemyHitZone);    
             var obstacleImage = draw.bitmap('img/enemy.png');
-            obstacleImage.x = -25;
-            obstacleImage.y = -25;
+            obstacleImage.x = -x;
+            obstacleImage.y = -y;
             enemyHitZone.addChild(obstacleImage);
 
             enemyHitZone.onPlayerCollision = function() {
@@ -101,10 +126,52 @@ var level01 = function (window) {
             };
             enemyHitZone.onProjectileCollision = function() {
                 enemyHitZone.fadeOut();
-            game.increaseScore(1);
             }
         }
 
+        function createWitch (x, y) {
+            var hitZoneSize = 25;
+            var damageFromObstacle = 10;
+            var witchHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
+            witchHitZone.x = x;
+            witchHitZone.y = y;
+            witchHitZone.scaleX = 0.25;
+            witchHitZone.scaleY = 0.25;
+            game.addGameItem(witchHitZone);    
+            var obstacleImage = draw.bitmap('img/witch.png');
+            obstacleImage.x = -24;
+            obstacleImage.y = -32;
+            witchHitZone.addChild(obstacleImage);
+
+            witchHitZone.onPlayerCollision = function() {
+                game.changeIntegrity(-10);
+            };
+            witchHitZone.onProjectileCollision = function() {
+                witchHitZone.fadeOut();
+            }
+        }
+
+        function createFrank (x, y) {
+            var hitZoneSize = 25;
+            var damageFromObstacle = 10;
+            var frankHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
+            frankHitZone.x = x;
+            frankHitZone.y = y;
+            frankHitZone.scaleX = 0.15;
+            frankHitZone.scaleY = 0.15;
+            game.addGameItem(frankHitZone);    
+            var obstacleImage = draw.bitmap('img/frank.png');
+            obstacleImage.x = -30;
+            obstacleImage.y = -25;
+            frankHitZone.addChild(obstacleImage);
+
+            frankHitZone.onPlayerCollision = function() {
+                game.changeIntegrity(-10);
+            };
+            frankHitZone.onProjectileCollision = function() {
+                frankHitZone.fadeOut();
+            }
+        }
         function createReward (x, y) {
             var reward = game.createGameItem('reward',25);
             var smile = draw.bitmap('img/reward.png');
