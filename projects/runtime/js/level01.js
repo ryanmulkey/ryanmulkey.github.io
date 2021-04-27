@@ -17,7 +17,7 @@ var level01 = function (window) {
             "speed": -3,
             "gameItems": [
                 
-                { "type": "sawblade", "x": 1200, "y": groundY - 110}, 
+                /*{ "type": "sawblade", "x": 1200, "y": groundY - 110}, 
                 { "type": "sawblade", "x": 2400, "y": groundY - 120},
                 { "type": "sawblade", "x": 3600, "y": groundY - 120},
                 { "type": "sawblade", "x": 4800, "y": groundY - 120},
@@ -49,10 +49,10 @@ var level01 = function (window) {
                 { "type": "enemy", "x": 4400, "y": groundY - 30},
                 { "type": "enemy", "x": 5300, "y": groundY - 30},
                 { "type": "robot", "x": 6200, "y": groundY - 160},
-                { "type": "enemy", "x": 7150, "y": groundY - 30}, 
-            ]
+                { "type": "enemy", "x": 7150, "y": groundY - 30}, */
+            ] 
         };
-        
+        createSawBlade(500, groundY - 110);
 
         for (i = 0; i < levelData.gameItems.length; i++) {
             var obj = levelData.gameItems[i];
@@ -98,8 +98,8 @@ var level01 = function (window) {
             sawBladeHitZone.scaleY = 0.3; 
             game.addGameItem(sawBladeHitZone);    
             var obstacleImage = draw.bitmap('img/sawblade.png');
-            obstacleImage.x = -10;
-            obstacleImage.y = -40;
+            obstacleImage.x = -400;
+            obstacleImage.y = -50;
             sawBladeHitZone.addChild(obstacleImage);
             
             sawBladeHitZone.onPlayerCollision = function() {

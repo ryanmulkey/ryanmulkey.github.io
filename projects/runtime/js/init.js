@@ -42,7 +42,7 @@ var init = function (window) {
     help.y = ground.y + ground.getBounds().height + 10;
     view.addChild(help);
     
-    var help2 = draw.textfield('Collect all five of your awards to win!', 
+    var help2 = draw.textfield('Collect all five awards to win!', 
         '20px Limelight',
         '#ccc', 'left');
     help2.x = 10;
