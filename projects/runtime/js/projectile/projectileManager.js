@@ -26,7 +26,7 @@
             
             projectile.handleCollision = function (impact) {
                 // TODO : Consider if particles are necessary here //
-                // particleManager.makeEmitter(1, 2, '#FF0000').emit({x: projectile.x, y: projectile.y}, 0.5);
+                //particleManager.makeEmitter(1, 2, '#FF0000').emit({x: projectile.x, y: projectile.y}, 0.5);
             };
             
             return projectile;
@@ -53,7 +53,8 @@
                 }
                 object.x = -(object.width);
                 object.alpha = 1;
-                object.scaleX = object.scaleY = 1;
+                object.scaleX = 1; 
+                object.scaleY = 1;
                 _objects.push(object);
             }
         };
@@ -68,8 +69,8 @@
                 //console.log(projectile.rotation);
                 
                 degrees = emitter.rotation;
-                projectile.velocityX = 10; //Math.cos(physikz.degreesToRadians(degrees)) * (projectile.velocityMax + emitter.velocityX || 0);
-                projectile.velocityY = 0; //Math.sin(physikz.degreesToRadians(degrees)) * (projectile.velocityMax + emitter.velocityY || 0);
+                projectile.velocityX = 10//Math.cos(physikz.degreesToRadians(degrees)) * (projectile.velocityMax + emitter.velocityX || 0);
+                projectile.velocityY = 0//Math.sin(physikz.degreesToRadians(degrees)) * (projectile.velocityMax + emitter.velocityY || 0);
                 projectile.rotationalVelocity = 0;
                 
                 //console.log(projectile.velocityX);

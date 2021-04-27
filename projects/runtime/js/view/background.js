@@ -49,9 +49,9 @@ var background = function (window) {
             
             var loopsCompleted = 0; 
             while (loopsCompleted < 100) {
-            var circle = draw.circle(10,'white','LightGray',2);
+            var circle = draw.circle(4,'white','LightGray',2);
             circle.x = canvasWidth*Math.random();
-            circle.y = groundY*Math.random();
+            circle.y = groundY*Math.random() - 20;
             background.addChild(circle);
             loopsCompleted++
             }

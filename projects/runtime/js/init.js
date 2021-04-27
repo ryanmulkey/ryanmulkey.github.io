@@ -36,11 +36,18 @@ var init = function (window) {
     view.addChild(background);
     
     var help = draw.textfield('MOVES || up: jump | right: flying jump | down: duck | space: fire | q self destruct!', 
-        '20px Arial',
+        '20px Limelight',
         '#ccc', 'left');
     help.x = 10;
     help.y = ground.y + ground.getBounds().height + 10;
     view.addChild(help);
+    
+    var help2 = draw.textfield('Collect all five of your awards to win!', 
+        '20px Limelight',
+        '#ccc', 'left');
+    help2.x = 10;
+    help2.y = ground.y + ground.getBounds().height + 40;
+    view.addChild(help2);
     
     window.opspark.makeSpriteSheet(data)
         .then(function (ss) {
