@@ -17,42 +17,43 @@ var level01 = function (window) {
             "speed": -3,
             "gameItems": [
                 
-                /*{ "type": "sawblade", "x": 1200, "y": groundY - 110}, 
-                { "type": "sawblade", "x": 2400, "y": groundY - 120},
-                { "type": "sawblade", "x": 3600, "y": groundY - 120},
-                { "type": "sawblade", "x": 4800, "y": groundY - 120},
-                { "type": "sawblade", "x": 6000, "y": groundY - 120},
-                { "type": "sawblade", "x": 7200, "y": groundY - 120},
-                { "type": "sawblade", "x": 8400, "y": groundY - 120},
+                /* { "type": "sawblade", "x": 1200, "y": groundY - 35}, 
+                { "type": "sawblade", "x": 2400, "y": groundY - 35},
+                { "type": "sawblade", "x": 3600, "y": groundY - 35},
+                { "type": "sawblade", "x": 4800, "y": groundY - 35},
+                { "type": "sawblade", "x": 6000, "y": groundY - 35},
+                { "type": "sawblade", "x": 7200, "y": groundY - 35},
+                { "type": "sawblade", "x": 8400, "y": groundY - 35},
 
-                { "type": "robot", "x": 1300, "y": groundY - 70},
                 { "type": "witch", "x": 3000, "y": groundY - 170},
                 { "type": "witch", "x": 4500, "y": groundY - 170},
-                { "type": "robot", "x": 7500, "y": groundY - 160},
 
-                { "type": "frank", "x": 1400, "y": groundY - 170},
-                { "type": "robot", "x": 3400, "y": groundY - 160},
-                { "type": "frank", "x": 5400, "y": groundY - 170},
-                { "type": "frank", "x": 7400, "y": groundY - 170},
-                { "type": "frank", "x": 9400, "y": groundY - 170},
+                { "type": "robot", "x": 1300, "y": groundY - 70},
+                { "type": "robot", "x": 2600, "y": groundY - 70},
+                { "type": "robot", "x": 3400, "y": groundY - 70},
+                { "type": "robot", "x": 6200, "y": groundY - 70},
+                { "type": "robot", "x": 7500, "y": groundY - 70},
+
+                { "type": "frank", "x": 1400, "y": groundY - 70},
+                { "type": "frank", "x": 5400, "y": groundY - 70},
+                { "type": "frank", "x": 7400, "y": groundY - 70},
+                { "type": "frank", "x": 9400, "y": groundY - 70},
+
+                { "type": "enemy", "x": 800, "y": groundY - 30},
+                { "type": "enemy", "x": 1700, "y": groundY - 30},
+                { "type": "enemy", "x": 3500, "y": groundY - 30},
+                { "type": "enemy", "x": 4400, "y": groundY - 30},
+                { "type": "enemy", "x": 5300, "y": groundY - 30},
+                { "type": "enemy", "x": 7150, "y": groundY - 30},
 
                 { "type": "reward", "x": 1000, "y": groundY - 90},
                 { "type": "reward2", "x": 3000, "y": groundY - 85},
                 { "type": "reward3", "x": 5000, "y": groundY - 135},
                 { "type": "reward4", "x": 7000, "y": groundY - 120},
                 { "type": "reward", "x": 9000, "y": groundY - 90},
-
-                { "type": "enemy", "x": 800, "y": groundY - 30},
-                { "type": "enemy", "x": 1700, "y": groundY - 30},
-                { "type": "robot", "x": 2600, "y": groundY - 160},
-                { "type": "enemy", "x": 3500, "y": groundY - 30},
-                { "type": "enemy", "x": 4400, "y": groundY - 30},
-                { "type": "enemy", "x": 5300, "y": groundY - 30},
-                { "type": "robot", "x": 6200, "y": groundY - 160},
-                { "type": "enemy", "x": 7150, "y": groundY - 30}, */
+ */
             ] 
         };
-        createSawBlade(500, groundY - 110);
 
         for (i = 0; i < levelData.gameItems.length; i++) {
             var obj = levelData.gameItems[i];
@@ -85,22 +86,25 @@ var level01 = function (window) {
         // set this to true or false depending on if you want to see hitzones
         game.setDebugMode(true);
 
+
+            
         // TODO 6 and on go here
         // BEGIN EDITING YOUR CODE HERE
         //Obstacle creation
         function createSawBlade (x, y) {
-            var hitZoneSize = 20;
+            var hitZoneSize = 25;
             var damageFromObstacle = 10;
             var sawBladeHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
             sawBladeHitZone.x = x;
             sawBladeHitZone.y = y;
-            sawBladeHitZone.scaleX = -0.3;
-            sawBladeHitZone.scaleY = 0.3; 
             game.addGameItem(sawBladeHitZone);    
             var obstacleImage = draw.bitmap('img/sawblade.png');
-            obstacleImage.x = -400;
-            obstacleImage.y = -50;
+            obstacleImage.x = 100;
+            obstacleImage.y = -90;
+            obstacleImage.scaleX = -0.3;
+            obstacleImage.scaleY = 0.3; 
             sawBladeHitZone.addChild(obstacleImage);
+            sawBladeHitZone.velocityX = -5;
             
             sawBladeHitZone.onPlayerCollision = function() {
                 game.changeIntegrity(-20);
@@ -129,7 +133,6 @@ var level01 = function (window) {
                 };
                 
                 enemy.onProjectileCollision = function() {
-                    game.increaseScore(50);
                     enemy.fadeOut();
                 };
             }
@@ -144,8 +147,8 @@ var level01 = function (window) {
             robotHitZone.scaleY = 0.4;
             game.addGameItem(robotHitZone);    
             var obstacleImage = draw.bitmap('img/robot.png');
-            obstacleImage.x = -25;
-            obstacleImage.y = -25;
+            obstacleImage.x = -100;
+            obstacleImage.y = -200;
             robotHitZone.addChild(obstacleImage);
 
             robotHitZone.onPlayerCollision = function() {
@@ -162,12 +165,12 @@ var level01 = function (window) {
             var witchHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
             witchHitZone.x = x;
             witchHitZone.y = y;
-            witchHitZone.scaleX = 0.25;
-            witchHitZone.scaleY = 0.25;
             game.addGameItem(witchHitZone);    
             var obstacleImage = draw.bitmap('img/witch.png');
-            obstacleImage.x = -24;
-            obstacleImage.y = -32;
+            obstacleImage.x = -70;
+            obstacleImage.y = -130;
+            obstacleImage.scaleX = 0.25;
+            obstacleImage.scaleY = 0.25;
             witchHitZone.addChild(obstacleImage);
 
             witchHitZone.onPlayerCollision = function() {
@@ -178,18 +181,21 @@ var level01 = function (window) {
             }
         }
 
+        createWitch(300, groundY - 50);
+
         function createFrank (x, y) {
             var hitZoneSize = 25;
             var damageFromObstacle = 10;
             var frankHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
             frankHitZone.x = x;
             frankHitZone.y = y;
-            frankHitZone.scaleX = 0.15;
-            frankHitZone.scaleY = 0.15;
+      
             game.addGameItem(frankHitZone);    
             var obstacleImage = draw.bitmap('img/frank.png');
-            obstacleImage.x = -30;
-            obstacleImage.y = -25;
+            obstacleImage.x = -35;
+            obstacleImage.y = -100;
+            obstacleImage.scaleX = 0.15;
+            obstacleImage.scaleY = 0.15;
             frankHitZone.addChild(obstacleImage);
 
             frankHitZone.onPlayerCollision = function() {
