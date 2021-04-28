@@ -17,25 +17,42 @@ var level01 = function (window) {
             "speed": -3,
             "gameItems": [
                 
-                /* { "type": "sawblade", "x": 1200, "y": groundY - 35}, 
-                { "type": "sawblade", "x": 2400, "y": groundY - 35},
-                { "type": "sawblade", "x": 3600, "y": groundY - 35},
-                { "type": "sawblade", "x": 4800, "y": groundY - 35},
-                { "type": "sawblade", "x": 6000, "y": groundY - 35},
-                { "type": "sawblade", "x": 7200, "y": groundY - 35},
-                { "type": "sawblade", "x": 8400, "y": groundY - 35},
+                { "type": "sawblade", "x": 1200, "y": groundY - 40}, 
+                { "type": "sawblade", "x": 2400, "y": groundY - 40},
+                { "type": "sawblade", "x": 3600, "y": groundY - 40},
+                { "type": "sawblade", "x": 4800, "y": groundY - 40},
+                { "type": "sawblade", "x": 6000, "y": groundY - 40},
+                { "type": "sawblade", "x": 7200, "y": groundY - 40},
+                { "type": "sawblade", "x": 8400, "y": groundY - 40},
+                { "type": "sawblade", "x": 9600, "y": groundY - 40},
+                { "type": "sawblade", "x": 10800, "y": groundY - 40},
+                { "type": "sawblade", "x": 12000, "y": groundY - 40},
+                { "type": "sawblade", "x": 13200, "y": groundY - 40},
+                { "type": "sawblade", "x": 14400, "y": groundY - 40},
+                { "type": "sawblade", "x": 15600, "y": groundY - 40},
+                { "type": "sawblade", "x": 16800, "y": groundY - 40},
+                { "type": "sawblade", "x": 18000, "y": groundY - 40},
+                { "type": "sawblade", "x": 19200, "y": groundY - 40},
+                { "type": "sawblade", "x": 20400, "y": groundY - 40},
 
-                { "type": "witch", "x": 3000, "y": groundY - 170},
-                { "type": "witch", "x": 4500, "y": groundY - 170},
+                { "type": "witch", "x": 3000, "y": groundY - 50},
+                { "type": "witch", "x": 4500, "y": groundY - 50},
+                { "type": "witch", "x": 6000, "y": groundY - 50},
+                { "type": "witch", "x": 7300, "y": groundY - 50},
+                { "type": "witch", "x": 1500, "y": groundY - 50},
+                { "type": "witch", "x": 8000, "y": groundY - 50},
 
-                { "type": "robot", "x": 1300, "y": groundY - 70},
-                { "type": "robot", "x": 2600, "y": groundY - 70},
-                { "type": "robot", "x": 3400, "y": groundY - 70},
-                { "type": "robot", "x": 6200, "y": groundY - 70},
-                { "type": "robot", "x": 7500, "y": groundY - 70},
+                { "type": "robot", "x": 1300, "y": groundY - 60},
+                { "type": "robot", "x": 2600, "y": groundY - 60},
+                { "type": "robot", "x": 3400, "y": groundY - 60},
+                { "type": "robot", "x": 6200, "y": groundY - 60},
+                { "type": "robot", "x": 5200, "y": groundY - 60},
+                { "type": "robot", "x": 7500, "y": groundY - 60},
 
                 { "type": "frank", "x": 1400, "y": groundY - 70},
+                { "type": "frank", "x": 3200, "y": groundY - 70},
                 { "type": "frank", "x": 5400, "y": groundY - 70},
+                { "type": "frank", "x": 6300, "y": groundY - 70},
                 { "type": "frank", "x": 7400, "y": groundY - 70},
                 { "type": "frank", "x": 9400, "y": groundY - 70},
 
@@ -51,7 +68,7 @@ var level01 = function (window) {
                 { "type": "reward3", "x": 5000, "y": groundY - 135},
                 { "type": "reward4", "x": 7000, "y": groundY - 120},
                 { "type": "reward", "x": 9000, "y": groundY - 90},
- */
+ 
             ] 
         };
 
@@ -100,14 +117,14 @@ var level01 = function (window) {
             game.addGameItem(sawBladeHitZone);    
             var obstacleImage = draw.bitmap('img/sawblade.png');
             obstacleImage.x = 100;
-            obstacleImage.y = -90;
+            obstacleImage.y = -80;
             obstacleImage.scaleX = -0.3;
             obstacleImage.scaleY = 0.3; 
             sawBladeHitZone.addChild(obstacleImage);
             sawBladeHitZone.velocityX = -5;
             
             sawBladeHitZone.onPlayerCollision = function() {
-                game.changeIntegrity(-20);
+                game.changeIntegrity(-50);
             };
         }
 
@@ -128,7 +145,7 @@ var level01 = function (window) {
                 game.addGameItem(enemy);
                 
                 enemy.onPlayerCollision = function() {
-                    game.changeIntegrity(-10);
+                    game.changeIntegrity(-25);
                     enemy.fadeOut();
                 };
                 
@@ -152,7 +169,7 @@ var level01 = function (window) {
             robotHitZone.addChild(obstacleImage);
 
             robotHitZone.onPlayerCollision = function() {
-                game.changeIntegrity(-10);
+                game.changeIntegrity(-25);
             };
             robotHitZone.onProjectileCollision = function() {
                 robotHitZone.fadeOut();
@@ -174,14 +191,12 @@ var level01 = function (window) {
             witchHitZone.addChild(obstacleImage);
 
             witchHitZone.onPlayerCollision = function() {
-                game.changeIntegrity(-10);
+                game.changeIntegrity(-25);
             };
             witchHitZone.onProjectileCollision = function() {
                 witchHitZone.fadeOut();
             }
         }
-
-        createWitch(300, groundY - 50);
 
         function createFrank (x, y) {
             var hitZoneSize = 25;
@@ -199,7 +214,7 @@ var level01 = function (window) {
             frankHitZone.addChild(obstacleImage);
 
             frankHitZone.onPlayerCollision = function() {
-                game.changeIntegrity(-10);
+                game.changeIntegrity(-25);
             };
             frankHitZone.onProjectileCollision = function() {
                 frankHitZone.fadeOut();
@@ -237,7 +252,7 @@ var level01 = function (window) {
             reward2.x = x;
             reward2.y = y;
             game.addGameItem(reward2);
-            reward2.velocityX = -0.75;
+            reward2.velocityX = -1.5;
             rotationVelocity = 10;
 
             reward2.onPlayerCollision = function() {
@@ -258,7 +273,7 @@ var level01 = function (window) {
             reward3.x = x;
             reward3.y = y;
             game.addGameItem(reward3);
-            reward3.velocityX = -0.75;
+            reward3.velocityX = -1.5;
             rotationVelocity = 10;
 
             reward3.onPlayerCollision = function() {
@@ -279,7 +294,7 @@ var level01 = function (window) {
             reward4.x = x;
             reward4.y = y;
             game.addGameItem(reward4);
-            reward4.velocityX = -0.75;
+            reward4.velocityX = -1.5;
             rotationVelocity = 10;
 
             reward4.onPlayerCollision = function() {
