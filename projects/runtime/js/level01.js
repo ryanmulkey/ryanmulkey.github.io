@@ -124,7 +124,7 @@ var level01 = function (window) {
             sawBladeHitZone.velocityX = -5;
             
             sawBladeHitZone.onPlayerCollision = function() {
-                game.changeIntegrity(-50);
+                game.changeIntegrity(-12.5);
             };
         }
 
