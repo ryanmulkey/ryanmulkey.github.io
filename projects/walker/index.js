@@ -95,11 +95,11 @@ var gameItem2Height = $('#gameItem2').height();
 	  }
 	  
 	  if (event.which === KEY.A){
-  	  gameItem2.speedX = +1;
+  	  gameItem2.speedX = -1;
       gameItem2.speedY = 0;
   	}
   	if (event.which === KEY.D){
-  	  gameItem2.speedX = -1;
+  	  gameItem2.speedX = +1;
       gameItem2.speedY = 0;
   	}
     if (event.which === KEY.W){
