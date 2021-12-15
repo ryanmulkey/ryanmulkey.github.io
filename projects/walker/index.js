@@ -32,14 +32,16 @@ function runProgram(){
   gameItem.speedY = 0;
   gameItem.id = "#gameItem";
   gameItem.it = true; 
+  gameItem.points = 0;
 
 var gameItem2 = {};
-  gameItem2.x = 500;
-  gameItem2.y = 500;
+  gameItem2.x = 50;
+  gameItem2.y = 0;
   gameItem2.speedX = 0;
   gameItem2.speedY = 0;
   gameItem2.id = "#gameItem2";
-  gameItem.it = false; 
+  gameItem2.it = false; 
+  gameItem2.points = 0;
 
 var boardWidth = $('#board').width();	
 var boardHeight = $('#board').height();
@@ -76,28 +78,37 @@ var gameItem2Height = $('#gameItem2').height();
   function handleKeyDown(event) {
     if (event.which === KEY.LEFT){
   	  gameItem.speedX = -1;
+      gameItem.speedY = 0;
+
   	}
   	if (event.which === KEY.RIGHT){
   	  gameItem.speedX = +1;
+      gameItem.speedY = 0;
 	  }
     if (event.which === KEY.UP){
       gameItem.speedY = -1;
+      gameItem.speedX = 0;
     }
     if (event.which === KEY.DOWN){
       gameItem.speedY = +1;
+      gameItem.speedX = 0;
 	  }
 	  
 	  if (event.which === KEY.A){
   	  gameItem2.speedX = +1;
+      gameItem2.speedY = 0;
   	}
   	if (event.which === KEY.D){
   	  gameItem2.speedX = -1;
+      gameItem2.speedY = 0;
   	}
     if (event.which === KEY.W){
       gameItem2.speedY = +1;
+      gameItem2.speedX = 0;
     }
     if (event.which === KEY.S){
       gameItem2.speedY = -1;
+      gameItem2.speedX = 0;
 	  }
 
   }
@@ -146,8 +157,38 @@ var gameItem2Height = $('#gameItem2').height();
 
   function processTag() {
     if (gameItem.it === true) {
-      $("#gameItem").css("border", "3px solid white")
+      $("#gameItem").css("border", "1px solid white")
     }
+    if (gameItem.it === false) {
+      $("#gameItem").css("border", "1px solid blue")
+    }
+
+    if (gameItem2.it === true) {
+      $("#gameItem2").css("border", "1px solid white")
+    }
+    if (gameItem2.it === false) {
+      $("#gameItem2").css("border", "1px solid red")
+    }
+
+    if (gameItem.x === gameItem2.x && gameItem.y === gameItem2.y && gameItem.it === true) {
+      gameItem.it = false;
+      gameItem2.it = true;
+      gameItem2.x = 500;
+      gameItem2.y = 500;
+      gameItem.x = 0;
+      gameItem.y = 0;
+      console.log("Red Player is it")
+      gameIt
+    }
+      if (gameItem.x === gameItem2.x && gameItem.y === gameItem2.y && gameItem.it === false) {
+      gameItem.it = true;
+      gameItem2.it = false;
+      gameItem2.x = 0;
+      gameItem2.y = 0;
+      gameItem.x = 500;
+      gameItem.y = 500;
+      console.log("Blue Player is it")
+    } 
   }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
