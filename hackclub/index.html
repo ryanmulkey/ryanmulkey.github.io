@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Northshore Hacks!</title>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script src="index.js"></script>
+     <link rel="stylesheet" href="styles.css">
+</head>
+
+<body style="background-color: darkgrey;">
+  <div class="topnav">
+    <p class="text"> WELCOME TO NORTHSHORE HACKS </p>
+  </div>
+
+  <div id="colorlab">
+    <p> COLOR LAB! </p>
+     <button id = "blue"> BLUE </button>
+     <button id = "red"> RED </button>
+     <button id = "green"> GREEN </button>
+  </div>
+
+  <div id="fontlab">
+    <p> FONT LAB! </p>
+     <button id = "serif"> SERIF </button>
+     <button id = "sansserif"> SANS-SERIF </button>
+     <button id = "monospace"> MONOSPACE </button>
+     <button id = "cursive"> CURSIVE </button>
+  </div>
+
+  <script> 
+    $("#blue").click(function() {
+        $(".topnav").css("background-color", "blue");
+        $("#fontlab").css("outline-color", "blue");
+        $("#colorlab").css("outline-color", "blue");
+        $("body").css("background-color","CornflowerBlue");
+    });
+    $("#red").click(function() {
+        $(".topnav").css("background-color", "red");
+        $("#fontlab").css("outline-color", "red");
+        $("#colorlab").css("outline-color", "red");
+        $("body").css("background-color","Tomato");
+    });
+    $("#green").click(function() {
+        $(".topnav").css("background-color", "green");
+        $("#fontlab").css("outline-color", "green");
+        $("#colorlab").css("outline-color", "green");
+        $("body").css("background-color","LightGreen");
+    });
+
+    $("#serif").click(function() {
+      $("*").css("font-family", "serif");
+    });
+    $("#sansserif").click(function() {
+      $("*").css("font-family", "sans-serif");
+    });
+    $("#monospace").click(function() {
+      $("*").css("font-family", "monospace");
+    });
+    $("#cursive").click(function() {
+      $("*").css("font-family", "cursive");
+    });
+  </script>
+</body>
+</html>
