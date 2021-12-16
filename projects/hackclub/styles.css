@@ -20,14 +20,14 @@
     padding-bottom: 3%;
     margin-right: 45%;
     margin-left: 45%;
-    align-items: center; 
-    text-align: center;
+    text-align: center; 
   }
   #blue {
     display: block;
     font-size: 24px;
     cursor: grab;
     position: relative; 
+    margin:auto;
     margin-bottom: 1%;
     float: top;
     text-align: center;
@@ -48,6 +48,7 @@
     font-size: 24px;
     cursor: grab;
     position: relative;
+    margin:auto;
     margin-bottom: 1%;
     top: 10px;  
     text-align: center;
@@ -68,7 +69,8 @@
     font-size: 24px;
     cursor: grab;
     position: relative;
-    margin-bottom: 10%;
+    margin:auto;
+    margin-bottom: 7%;
     top: 20px;  
     text-align: center;
     outline: none;
@@ -88,6 +90,8 @@
     font-size: 24px;
     cursor: grab;
     position: relative;
+    margin:auto;
+    margin-bottom: 1%;
     top: 20px;  
     text-align: center;
     outline: none;
@@ -120,6 +124,7 @@
     font-size: 24px;
     cursor: grab;
     position: relative; 
+    margin:auto;
     margin-bottom: 1%;
     float: top;
     text-align: center;
@@ -140,6 +145,7 @@
     font-size: 24px;
     cursor: grab;
     position: relative;
+    margin:auto;
     margin-bottom: 1%;
     top: 10px;  
     text-align: center;
@@ -160,6 +166,7 @@
     font-size: 24px;
     cursor: grab;
     position: relative;
+    margin:auto;
     margin-bottom: 5%;
     top: 20px;  
     text-align: center;
@@ -180,6 +187,7 @@
     font-size: 24px;
     cursor: grab;
     position: relative;
+    margin:auto;
     margin-bottom: 1%;
     top: 20px;  
     text-align: center;
