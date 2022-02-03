@@ -76,10 +76,15 @@
                 h2, h3 {
                     margin: 0px;
                 }
+                #button {
+                    height: 5%;
+                    width: 2.5%;
+                    position: absolute; 
+                }
             </style>
     </head>
     
-    <body>
+    <body onload="loadBigFoot()">
        <!-- All content goes here -->
     <div id="all-contents">  
         <nav>
@@ -120,6 +125,23 @@
          </div>
         </main>
     </div>
-    
+        <img id="button" onclick = "moveBigFoot()"; />
+
+        <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+        <script>
+              function moveBigFoot() {
+                var picture = document.getElementById('button')
+
+                var x = Math.random()*$(document).width();
+                var y = Math.random()*$(document).height();
+        
+                picture.style.top = x + 'px';picture.style.left = y + 'px';
+                }
+
+            function loadBigFoot() {
+            document.getElementById('button').src=' button.png'
+            }
+        </script>
     </body>
 </html>
