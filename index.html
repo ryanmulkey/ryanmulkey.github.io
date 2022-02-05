@@ -84,7 +84,7 @@
             </style>
     </head>
     
-    <body onload="loadBigFoot()">
+    <body onload="loadButton()">
        <!-- All content goes here -->
     <div id="all-contents">  
         <nav>
@@ -125,12 +125,12 @@
          </div>
         </main>
     </div>
-        <img id="button" onclick = "moveBigFoot()"; />
+        <img id="button" onclick = "moveButton()"; />
 
         <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
         <script>
-              function moveBigFoot() {
+              function moveButton() {
                 var picture = document.getElementById('button')
 
                 var x = Math.random()*$(document).width();
@@ -139,8 +139,8 @@
                 picture.style.top = x + 'px';picture.style.left = y + 'px';
                 }
 
-            function loadBigFoot() {
-            document.getElementById('button').src=' button.png'
+            function loadButton() {
+            document.getElementById('button').src='button.png'
             }
         </script>
     </body>
