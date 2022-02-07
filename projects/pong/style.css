@@ -1,0 +1,32 @@
+
+body {
+    background-color: darkgreen;
+  }
+  
+  #board {
+    width: 440px;
+    height: 440px;
+    border: 1px solid white;
+    background-color: black;
+    position: relative;
+    left: 30%
+  }
+  
+  #gameItem {
+    background-color: white;
+    width: 3%;
+    height: 10%;
+    position: absolute;
+  /*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
+  /*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+  }
+  
+  #gameItem2 {
+    background-color: white;
+    width: 3%;
+    height: 10%;
+    position: absolute;
+  /*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
+  /*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+  }
+  
