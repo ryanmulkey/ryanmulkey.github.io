@@ -25,32 +25,27 @@ function runProgram(){
     
   };
   // Game Item Objects
-  var gameItem = {};
-  gameItem.x = 0;
-  gameItem.y = 0;
-  gameItem.speedX = 0;
-  gameItem.speedY = 0;
-  gameItem.id = "#gameItem";
-  gameItem.it = true; 
-  gameItem.points = 0;
+  function Factory (id, x, y, speedX, speedY) {
+    var instance = {};
+  
+    instance.id = id;
+    instance.x = x;
+    instance.y = y;
+    instance.width = $(id).width();
+    instance.height = $(id).height();
+    instance.speedX = speedX;
+    instance.speedY = speedY;
+    
+    return instance;
+  }
 
-var gameItem2 = {};
-  gameItem2.x = 427;
-  gameItem2.y = 0;
-  gameItem2.speedX = 0;
-  gameItem2.speedY = 0;
-  gameItem2.id = "#gameItem2";
-  gameItem2.it = false; 
-  gameItem2.points = 0;
+  var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
+  var paddleRight = Factory("#paddleRight", 417, 0, 0, 0);
+  var box = Factory("#box", 100, 0, -1, -1);
+
 
 var boardWidth = $('#board').width();	
 var boardHeight = $('#board').height();
-
-var gameItemWidth = $('#gameItem').width();	
-var gameItemHeight = $('#gameItem').height();
-
-var gameItem2Width = $('#gameItem2').width();
-var gameItem2Height = $('#gameItem2').height();
 
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -68,7 +63,10 @@ var gameItem2Height = $('#gameItem2').height();
   */
   function newFrame() {
     repositionAndRedrawGameItems();
-    checkBoundaries();
+    checkBoundaries(paddleLeft);
+    checkBoundaries(paddleRight);
+    checkBoundaries(box);
+
   }
   
   /* 
@@ -76,67 +74,74 @@ var gameItem2Height = $('#gameItem2').height();
   */
   function handleKeyDown(event) {
     if (event.which === KEY.UP){
-      gameItem.speedY = -2;
-      gameItem.speedX = 0;
+      paddleLeft.speedY = -2;
+      paddleLeft.speedX = 0;
     }
     if (event.which === KEY.DOWN){
-      gameItem.speedY = +2;
-      gameItem.speedX = 0;
+      paddleLeft.speedY = +2;
+      paddleLeft.speedX = 0;
 	}
 	  
     if (event.which === KEY.W){
-      gameItem2.speedY = +2;
-      gameItem2.speedX = 0;
+      paddleRight.speedY = +2;
+      paddleRight.speedX = 0;
     }
     if (event.which === KEY.S){
-      gameItem2.speedY = -2;
-      gameItem2.speedX = 0;
+      paddleRight.speedY = -2;
+      paddleRight.speedX = 0;
 	}
 
   }
   function handleKeyUp(event) {
     if (event.which === KEY.LEFT || event.which === KEY.RIGHT){
-  	  gameItem.speedX = 0;
+  	  paddleLeft.speedX = 0;
   	}
     if (event.which === KEY.UP || event.which === KEY.DOWN){
-      gameItem.speedY = 0;
+      paddleLeft.speedY = 0;
     }
 	  if (event.which === KEY.A || event.which === KEY.D){
-  	  gameItem2.speedX = 0;
+  	  paddleRight.speedX = 0;
   	}
     if (event.which === KEY.W || event.which === KEY.S){
-      gameItem2.speedY = 0;
+      paddleRight.speedY = 0;
     }
 
   }
 
-  function checkBoundaries(){
-		if (gameItem.y > boardHeight - gameItemHeight){ 
-    	  gameItem.y  = boardHeight - gameItemHeight;
+  function checkBoundaries(id){
+		if (id.y > boardHeight - id.height){ 
+    	  id.y  = boardHeight - id.height;
 		}
-		if (gameItem.y < 0){ 
-    	  gameItem.y  = 0;
-        }
-		if (gameItem2.y > boardHeight - gameItem2Height){ 
-    	  gameItem2.y= boardHeight - gameItem2Height;
-		}
-		if (gameItem2.y < 0){ 
-    	  gameItem2.y= 0;
-		}
+		if (id.y < 0){ 
+    	  id.y  = 0;
+    }
+    if (id.x > boardWidth - id.height){ 
+      id.y  = boardWidth - id.height;
+    }
+    if (id.x < 0){ 
+      id.x  = 0;
+    }
+
   }
 
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
   function repositionAndRedrawGameItems() {
-    gameItem.x += gameItem.speedX;
-    gameItem.y += gameItem.speedY;
-    $("#gameItem").css("left", gameItem.x);
-    $("#gameItem").css("top", gameItem.y);
-    gameItem2.x += gameItem2.speedX;
-    gameItem2.y += gameItem2.speedY;
-    $("#gameItem2").css("left", gameItem2.x);
-    $("#gameItem2").css("top", gameItem2.y);
+    paddleLeft.x += paddleLeft.speedX;
+    paddleLeft.y += paddleLeft.speedY;
+    $("#paddleLeft").css("left", paddleLeft.x);
+    $("#paddleLeft").css("top", paddleLeft.y);
+
+    paddleRight.x += paddleRight.speedX;
+    paddleRight.y += paddleRight.speedY;
+    $("#paddleRight").css("left", paddleRight.x);
+    $("#paddleRight").css("top", paddleRight.y);
+
+    box.x += box.speedX;
+    box.y += box.speedY;
+    $("#box").css("left", box.x);
+    $("#box").css("top", box.y);
   }
   
   function endGame() {
