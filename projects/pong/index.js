@@ -40,8 +40,8 @@ function runProgram(){
   }
 
   var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
-  var paddleRight = Factory("#paddleRight", 417, 0, 0, 0);
-  var box = Factory("#box", 100, 0, -1, -1);
+  var paddleRight = Factory("#paddleRight", 477, 0, 0, 0);
+  var box = Factory("#box", 100, 0, 1, 1);
 
 
 var boardWidth = $('#board').width();	
@@ -66,7 +66,8 @@ var boardHeight = $('#board').height();
     checkBoundaries(paddleLeft);
     checkBoundaries(paddleRight);
     checkBoundaries(box);
-
+    doCollide(paddleLeft, box);
+    doCollide(paddleRight, box);
   }
   
   /* 
@@ -111,19 +112,43 @@ var boardHeight = $('#board').height();
   function checkBoundaries(id){
 		if (id.y > boardHeight - id.height){ 
     	  id.y  = boardHeight - id.height;
-		}
-		if (id.y < 0){ 
+		} 
+    if (id.y < 0){ 
     	  id.y  = 0;
-    }
-    if (id.x > boardWidth - id.height){ 
-      id.y  = boardWidth - id.height;
-    }
+    } 
+    if (id.x > boardWidth - id.width){ 
+      id.x  = boardWidth - id.width;
+    }  
     if (id.x < 0){ 
       id.x  = 0;
     }
 
   }
+  
+  function doCollide(obj1, obj2) {
+    obj1.leftX = obj1.x;
+    obj1.topY = obj1.y;
+    obj1.rightX = obj1.leftX + obj1.width;
+    obj1.bottomY = obj1.y + obj1.height;
+    
+    obj2.leftX = obj2.x;
+    obj2.topY = obj2.y;
+    obj2.rightX = obj2.leftX + obj1.width;
+    obj2.bottomY = obj2.y + obj2.height;
 
+	if((obj1.rightX > obj2.leftX) &&
+      (obj1.leftX < obj2.rightX) &&
+       (obj1.bottomY > obj2.topY) &&
+       (obj1.topY < obj2.bottomY))
+    {
+      obj2.speedX = -obj2.speedX;
+      obj2.speedY = -obj2.speedY;
+
+    } else {
+      return false
+    }
+		
+}
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
