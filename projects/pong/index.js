@@ -35,13 +35,14 @@ function runProgram(){
     instance.height = $(id).height();
     instance.speedX = speedX;
     instance.speedY = speedY;
+    instance.score = 0; 
     
     return instance;
   }
 
   var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
-  var paddleRight = Factory("#paddleRight", 477, 0, 0, 0);
-  var box = Factory("#box", 100, 0, 1, 1);
+  var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
+  var box = Factory("#box", 100, 100, 2.5, 2.5);
 
 
 var boardWidth = $('#board').width();	
@@ -68,6 +69,7 @@ var boardHeight = $('#board').height();
     checkBoundaries(box);
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
+    boxBounds();
   }
   
   /* 
@@ -142,13 +144,24 @@ var boardHeight = $('#board').height();
        (obj1.topY < obj2.bottomY))
     {
       obj2.speedX = -obj2.speedX;
-      obj2.speedY = -obj2.speedY;
-
     } else {
       return false
     }
 		
-}
+  }
+  function boxBounds () {
+    if (box.x < 0 + box.width) {
+      $("#box").hide()
+      paddleRight.score = paddleRight.score + 1;
+    } else if (box.x > boardWidth - (1 + box.width)) {
+      $("#box").hide()
+      paddleLeft.score = paddleLeft.score + 1;
+    }
+
+    if (box.y < 0.1 || box.y > boardHeight - (1 + box.height)) {
+      box.speedY = -box.speedY;
+    }
+  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////

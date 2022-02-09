@@ -4,18 +4,17 @@ body {
   }
   
   #board {
-    width: 500px;
+    width: 750px;
     height: 500px;
     border: 1px solid white;
     background-color: black;
     position: relative;
-    left: 25%
   }
   
   #paddleLeft {
     background-color: white;
-    width: 3%;
-    height: 12%;
+    width: 15px;
+    height: 60px;
     position: absolute;
   /*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
   /*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
@@ -23,16 +22,16 @@ body {
   
   #paddleRight {
     background-color: white;
-    width: 3%;
-    height: 12%;
+    width: 15px;
+    height: 60px;
     position: absolute;
   /*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
   /*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
   }
 
   #box {
-    width: 3%;
-    height: 3%;
+    width: 15px;
+    height: 15px;
     background-color: white;
     display: block;
     position: absolute;
