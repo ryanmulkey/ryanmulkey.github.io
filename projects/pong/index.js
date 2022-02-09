@@ -11,18 +11,10 @@ function runProgram(){
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
   var KEY = {
-    "ENTER": 13,
-    "LEFT": 37,
-    "RIGHT": 39,
     "UP": 38,
-    "DOWN": 40,
-    "SPACE": 32,
-    
-    "A": 68,
+    "DOWN": 40,    
     "W": 83,
-    "S": 87,
-    "D": 65,
-    
+    "S": 87,    
   };
   // Game Item Objects
   function Factory (id, x, y, speedX, speedY) {
@@ -42,7 +34,7 @@ function runProgram(){
 
   var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
   var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
-  var box = Factory("#box", 100, 100, 2.5, 2.5);
+  var box = Factory("#box", 350 , 250, Math.round(Math.random()) * 2 - 1, Math.round(Math.random()) * 2 - 1);
 
 
 var boardWidth = $('#board').width();	
@@ -70,42 +62,37 @@ var boardHeight = $('#board').height();
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
+    drawScore();
   }
   
   /* 
   Called in response to events.
   */
   function handleKeyDown(event) {
-    if (event.which === KEY.UP){
+    if (event.which === KEY.S){
       paddleLeft.speedY = -2;
       paddleLeft.speedX = 0;
     }
-    if (event.which === KEY.DOWN){
+    if (event.which === KEY.W){
       paddleLeft.speedY = +2;
       paddleLeft.speedX = 0;
 	}
 	  
-    if (event.which === KEY.W){
+    if (event.which === KEY.DOWN){
       paddleRight.speedY = +2;
       paddleRight.speedX = 0;
     }
-    if (event.which === KEY.S){
+    if (event.which === KEY.UP){
       paddleRight.speedY = -2;
       paddleRight.speedX = 0;
 	}
 
   }
   function handleKeyUp(event) {
-    if (event.which === KEY.LEFT || event.which === KEY.RIGHT){
-  	  paddleLeft.speedX = 0;
-  	}
-    if (event.which === KEY.UP || event.which === KEY.DOWN){
+    if (event.which === KEY.W || event.which === KEY.S){
       paddleLeft.speedY = 0;
     }
-	  if (event.which === KEY.A || event.which === KEY.D){
-  	  paddleRight.speedX = 0;
-  	}
-    if (event.which === KEY.W || event.which === KEY.S){
+    if (event.which === KEY.UP || event.which === KEY.DOWN){
       paddleRight.speedY = 0;
     }
 
@@ -143,7 +130,10 @@ var boardHeight = $('#board').height();
        (obj1.bottomY > obj2.topY) &&
        (obj1.topY < obj2.bottomY))
     {
-      obj2.speedX = -obj2.speedX;
+      obj2.speedX = -(0.5 + obj2.speedX);
+      obj2.speedY = (0.5 + obj2.speedY);
+
+      
     } else {
       return false
     }
@@ -153,25 +143,45 @@ var boardHeight = $('#board').height();
     if (box.x < 0 + box.width) {
       $("#box").hide()
       paddleRight.score = paddleRight.score + 1;
+      setTimeout(function(){
+        $("#box").show()
+        box.x = 100;
+        box.y = 100;
+        box.speedX = Math.round(Math.random()) * 2 - 1;
+        box.speedY = Math.round(Math.random()) * 2 - 1;
+      }, 2000); 
     } else if (box.x > boardWidth - (1 + box.width)) {
       $("#box").hide()
       paddleLeft.score = paddleLeft.score + 1;
+      setTimeout(function(){
+        $("#box").show()
+        box.x = 100;
+        box.y = 100;
+        box.speedX = Math.round(Math.random()) * 2 - 1;
+        box.speedY = Math.round(Math.random()) * 2 - 1;
+      }, 2000); 
     }
 
     if (box.y < 0.1 || box.y > boardHeight - (1 + box.height)) {
       box.speedY = -box.speedY;
     }
   }
+
+  function drawScore() {
+    setTimeout(function(){
+    $('#scorePaddleLeft').text(paddleLeft.score);
+    $('#scorePaddleRight').text(paddleRight.score);
+    }, 2000);
+  }
+
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
   function repositionAndRedrawGameItems() {
-    paddleLeft.x += paddleLeft.speedX;
     paddleLeft.y += paddleLeft.speedY;
     $("#paddleLeft").css("left", paddleLeft.x);
     $("#paddleLeft").css("top", paddleLeft.y);
 
-    paddleRight.x += paddleRight.speedX;
     paddleRight.y += paddleRight.speedY;
     $("#paddleRight").css("left", paddleRight.x);
     $("#paddleRight").css("top", paddleRight.y);

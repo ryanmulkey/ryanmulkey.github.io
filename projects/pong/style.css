@@ -37,3 +37,21 @@ body {
     position: absolute;
   }
   
+  #scorePaddleLeft {
+    left: 225px;
+    top: 50px;
+    font-size: 3vw;
+    font-family: 'VT323', monospace;
+    color: white;
+    position: absolute;
+    
+  }
+  
+  #scorePaddleRight {
+    right: 225px;
+    top: 50px;
+    font-size: 3vw;
+    font-family: 'VT323', monospace;
+    position: absolute;
+    
+  }
