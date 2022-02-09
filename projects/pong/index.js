@@ -16,6 +16,9 @@ function runProgram(){
     "W": 83,
     "S": 87,    
   };
+
+  var scoreLeft = 0;
+  var scoreRight = 0;
   // Game Item Objects
   function Factory (id, x, y, speedX, speedY) {
     var instance = {};
@@ -34,7 +37,7 @@ function runProgram(){
 
   var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
   var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
-  var box = Factory("#box", 350 , 250, Math.round(Math.random()) * 2 - 1, Math.round(Math.random()) * 2 - 1);
+  var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 2 - 1), (Math.round(Math.random()) * 2 - 1));
 
 
 var boardWidth = $('#board').width();	
@@ -62,6 +65,7 @@ var boardHeight = $('#board').height();
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
+    calcScore();
     drawScore();
   }
   
@@ -145,8 +149,8 @@ var boardHeight = $('#board').height();
       paddleRight.score = paddleRight.score + 1;
       setTimeout(function(){
         $("#box").show()
-        box.x = 100;
-        box.y = 100;
+        box.x = 350;
+        box.y = 250;
         box.speedX = Math.round(Math.random()) * 2 - 1;
         box.speedY = Math.round(Math.random()) * 2 - 1;
       }, 2000); 
@@ -155,8 +159,8 @@ var boardHeight = $('#board').height();
       paddleLeft.score = paddleLeft.score + 1;
       setTimeout(function(){
         $("#box").show()
-        box.x = 100;
-        box.y = 100;
+        box.x = 350;
+        box.y = 250;
         box.speedX = Math.round(Math.random()) * 2 - 1;
         box.speedY = Math.round(Math.random()) * 2 - 1;
       }, 2000); 
@@ -166,12 +170,17 @@ var boardHeight = $('#board').height();
       box.speedY = -box.speedY;
     }
   }
-
+  function calcScore () {
+    if (box.x > boardWidth - box.width) {
+      scoreLeft++;
+    }
+    if (box.x < 0) {
+      scoreRight++;
+    }
+  }
   function drawScore() {
-    setTimeout(function(){
-    $('#scorePaddleLeft').text(paddleLeft.score);
-    $('#scorePaddleRight').text(paddleRight.score);
-    }, 2000);
+    $('#scorePaddleLeft').text(scoreLeft);
+    $('#scorePaddleRight').text(scoreRight);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
