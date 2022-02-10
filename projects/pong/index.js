@@ -36,7 +36,7 @@ function runProgram(){
 
   var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
   var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
-  var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 4 - 2), (Math.round(Math.random()) * 4 - 2));
+  var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 6 - 3), (Math.round(Math.random()) * 6 - 3));
 
 
 var boardWidth = $('#board').width();	
@@ -66,7 +66,6 @@ var boardHeight = $('#board').height();
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
-    speedHandler(); 
   }
   
   /* 
@@ -74,20 +73,20 @@ var boardHeight = $('#board').height();
   */
   function handleKeyDown(event) {
     if (event.which === KEY.S){
-      paddleLeft.speedY = -2;
+      paddleLeft.speedY = -4;
       paddleLeft.speedX = 0;
     }
     if (event.which === KEY.W){
-      paddleLeft.speedY = +2;
+      paddleLeft.speedY = +4;
       paddleLeft.speedX = 0;
 	}
 	  
     if (event.which === KEY.DOWN){
-      paddleRight.speedY = +2;
+      paddleRight.speedY = +4;
       paddleRight.speedX = 0;
     }
     if (event.which === KEY.UP){
-      paddleRight.speedY = -2;
+      paddleRight.speedY = -4;
       paddleRight.speedX = 0;
 	}
 
@@ -134,10 +133,16 @@ var boardHeight = $('#board').height();
        (obj1.bottomY > obj2.topY) &&
        (obj1.topY < obj2.bottomY))
     {
-      obj2.speedX = -(0.5 + obj2.speedX);
-      obj2.speedY = (0.5 + obj2.speedY);
-
-      
+      if (obj2.speedX > 0) {
+        obj2.speedX = -(0.2 + obj2.speedX);
+      } else if (obj2.speedX < 0) {
+        obj2.speedX = -(-0.2 + obj2.speedX);
+      }
+      if (obj2.speedY > 0) {
+        obj2.speedY = (0.2 + obj2.speedY);
+      } else if (obj2.speedY < 0) {
+        obj2.speedY = (-0.2 + obj2.speedY);
+      }      
     } else {
       return false
     }
@@ -146,21 +151,25 @@ var boardHeight = $('#board').height();
   function boxBounds () {
     if (box.x < 0 + box.width) {
       $("#box").hide()
+      box.speedX = 0;
+      box.speedY = 0;
       box.x = 350;
       box.y = 250;
         setTimeout(function(){
           $("#box").show()
-            box.speedX = Math.round(Math.random()) * 2 - 1;
-            box.speedY = Math.round(Math.random()) * 2 - 1;
+            box.speedX = Math.round(Math.random()) * 6 - 3;
+            box.speedY = Math.round(Math.random()) * 6 - 3;
       }, 2000); 
     } else if (box.x > boardWidth - (1 + box.width)) {
       $("#box").hide()
+      box.speedX = 0;
+      box.speedY = 0;
       box.x = 350;
       box.y = 250;
         setTimeout(function(){
           $("#box").show()
-            box.speedX = Math.round(Math.random()) * 2 - 1;
-            box.speedY = Math.round(Math.random()) * 2 - 1;
+            box.speedX = Math.round(Math.random()) * 6 - 3;
+            box.speedY = Math.round(Math.random()) * 6 - 3;
       }, 2000); 
     }
     if (box.y < 0.1 || box.y > boardHeight - (1 + box.height)) {
@@ -178,21 +187,10 @@ var boardHeight = $('#board').height();
   }
 
   function drawScore() {
-    $('#scorePaddleLeft').text(scoreLeft);
-    $('#scorePaddleRight').text(scoreRight);
+    $('#scorePaddleLeft').text(paddleLeft);
+    $('#scorePaddleRight').text(paddleRight);
   }
 
-  function speedHandler () {
-    if (box.speedX > 3) {
-      box.speedX = 3; 
-    } else if (box.speedY > 3) {
-      box.speedY = 3; 
-    } else if (box.speedX < -3) {
-      box.speedX = -3;
-    } else if (box.speedY < -3) {
-      box.speedY = -3; 
-    }
-  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
