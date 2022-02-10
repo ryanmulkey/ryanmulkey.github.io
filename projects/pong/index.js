@@ -30,14 +30,13 @@ function runProgram(){
     instance.height = $(id).height();
     instance.speedX = speedX;
     instance.speedY = speedY;
-    instance.score = 0; 
     
     return instance;
   }
 
   var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
   var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
-  var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 2 - 1), (Math.round(Math.random()) * 2 - 1));
+  var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 4 - 2), (Math.round(Math.random()) * 4 - 2));
 
 
 var boardWidth = $('#board').width();	
@@ -59,14 +58,15 @@ var boardHeight = $('#board').height();
   */
   function newFrame() {
     repositionAndRedrawGameItems();
+    calcScore();
+    drawScore();
     checkBoundaries(paddleLeft);
     checkBoundaries(paddleRight);
     checkBoundaries(box);
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
-    calcScore();
-    drawScore();
+    speedHandler(); 
   }
   
   /* 
@@ -146,43 +146,53 @@ var boardHeight = $('#board').height();
   function boxBounds () {
     if (box.x < 0 + box.width) {
       $("#box").hide()
-      paddleRight.score = paddleRight.score + 1;
-      setTimeout(function(){
-        $("#box").show()
-        box.x = 350;
-        box.y = 250;
-        box.speedX = Math.round(Math.random()) * 2 - 1;
-        box.speedY = Math.round(Math.random()) * 2 - 1;
+      box.x = 350;
+      box.y = 250;
+        setTimeout(function(){
+          $("#box").show()
+            box.speedX = Math.round(Math.random()) * 2 - 1;
+            box.speedY = Math.round(Math.random()) * 2 - 1;
       }, 2000); 
     } else if (box.x > boardWidth - (1 + box.width)) {
       $("#box").hide()
-      paddleLeft.score = paddleLeft.score + 1;
-      setTimeout(function(){
-        $("#box").show()
-        box.x = 350;
-        box.y = 250;
-        box.speedX = Math.round(Math.random()) * 2 - 1;
-        box.speedY = Math.round(Math.random()) * 2 - 1;
+      box.x = 350;
+      box.y = 250;
+        setTimeout(function(){
+          $("#box").show()
+            box.speedX = Math.round(Math.random()) * 2 - 1;
+            box.speedY = Math.round(Math.random()) * 2 - 1;
       }, 2000); 
     }
-
     if (box.y < 0.1 || box.y > boardHeight - (1 + box.height)) {
       box.speedY = -box.speedY;
     }
   }
+
   function calcScore () {
-    if (box.x > boardWidth - box.width) {
+    if (box.x > boardWidth - (1 + box.width)) {
       scoreLeft++;
     }
-    if (box.x < 0) {
+    if (box.x < 0 + box.width) {
       scoreRight++;
     }
   }
+
   function drawScore() {
     $('#scorePaddleLeft').text(scoreLeft);
     $('#scorePaddleRight').text(scoreRight);
   }
 
+  function speedHandler () {
+    if (box.speedX > 3) {
+      box.speedX = 3; 
+    } else if (box.speedY > 3) {
+      box.speedY = 3; 
+    } else if (box.speedX < -3) {
+      box.speedX = -3;
+    } else if (box.speedY < -3) {
+      box.speedY = -3; 
+    }
+  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
