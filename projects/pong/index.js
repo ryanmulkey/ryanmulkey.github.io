@@ -19,6 +19,10 @@ function runProgram(){
 
   var scoreLeft = 0;
   var scoreRight = 0;
+  var boxPing = 0; 
+  var multiplier = 1; 
+  //var colorArray = [(rgb(255, 255, 255)), (rgb(255, 230, 230)), (rgb(255, 205, 205)), (rgb(255, 180, 180)), (rgb(255, 155, 155)), (rgb(255, 130, 130)), (rgb(255, 105, 105)), (rgb(255, 80, 80)), (rgb(255, 55, 55)), (rgb(255, 0, 0))];
+  var colorArray = ["(rgb(100, 200, 300))", "(rgb(255, 230, 230))", "(rgb(255, 205, 205))", "(rgb(255, 180, 180))", "(rgb(255, 155, 155))", "(rgb(255, 130, 130))", "(rgb(255, 105, 105))", "(rgb(255, 80, 80))", "(rgb(255, 55, 55))", "(rgb(255, 0, 0))"];
   // Game Item Objects
   function Factory (id, x, y, speedX, speedY) {
     var instance = {};
@@ -66,6 +70,7 @@ var boardHeight = $('#board').height();
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
+    heat();
   }
   
   /* 
@@ -135,13 +140,15 @@ var boardHeight = $('#board').height();
     {
       if (obj2.speedX > 0) {
         obj2.speedX = -(0.2 + obj2.speedX);
+        boxPing++; 
       } else if (obj2.speedX < 0) {
         obj2.speedX = -(-0.2 + obj2.speedX);
+        boxPing++;
       }
       if (obj2.speedY > 0) {
-        obj2.speedY = (0.2 + obj2.speedY);
+        obj2.speedY = (0.25 + obj2.speedY);
       } else if (obj2.speedY < 0) {
-        obj2.speedY = (-0.2 + obj2.speedY);
+        obj2.speedY = (-0.25 + obj2.speedY);
       }      
     } else {
       return false
@@ -150,27 +157,9 @@ var boardHeight = $('#board').height();
   }
   function boxBounds () {
     if (box.x < 0 + box.width) {
-      $("#box").hide()
-      box.speedX = 0;
-      box.speedY = 0;
-      box.x = 350;
-      box.y = 250;
-        setTimeout(function(){
-          $("#box").show()
-            box.speedX = Math.round(Math.random()) * 6 - 3;
-            box.speedY = Math.round(Math.random()) * 6 - 3;
-      }, 2000); 
+      reset();
     } else if (box.x > boardWidth - (1 + box.width)) {
-      $("#box").hide()
-      box.speedX = 0;
-      box.speedY = 0;
-      box.x = 350;
-      box.y = 250;
-        setTimeout(function(){
-          $("#box").show()
-            box.speedX = Math.round(Math.random()) * 6 - 3;
-            box.speedY = Math.round(Math.random()) * 6 - 3;
-      }, 2000); 
+      reset();
     }
     if (box.y < 0.1 || box.y > boardHeight - (1 + box.height)) {
       box.speedY = -box.speedY;
@@ -179,18 +168,49 @@ var boardHeight = $('#board').height();
 
   function calcScore () {
     if (box.x > boardWidth - (1 + box.width)) {
-      scoreLeft++;
+      scoreLeft = scoreLeft + multiplier;
     }
     if (box.x < 0 + box.width) {
-      scoreRight++;
+      scoreRight = scoreRight + multiplier;
     }
   }
 
   function drawScore() {
-    $('#scorePaddleLeft').text(paddleLeft);
-    $('#scorePaddleRight').text(paddleRight);
+    $('#scorePaddleLeft').text(scoreLeft);
+    $('#scorePaddleRight').text(scoreRight);
   }
 
+  function heat() {
+    if (boxPing === 0) {
+      onFire(false);
+    } else if (boxPing == 1) {
+      $("#box").css("background-color", "rgb(255, 230, 230)")
+      $("body").css("background-color", "rgb(230, 230, 230)")
+    } else if (boxPing == 2) {
+      $("#box").css("background-color", "rgb(255, 205, 205)")
+      $("body").css("background-color", "rgb(205, 205, 205)")
+    } else if (boxPing == 3) {
+      $("#box").css("background-color", "rgb(255, 180, 180)")
+      $("body").css("background-color", "rgb(180, 180, 180)")
+    } else if (boxPing == 4) {
+      $("#box").css("background-color", "rgb(255, 155, 155)")
+      $("body").css("background-color", "rgb(155, 155, 155)")
+    } else if (boxPing == 5) {
+      $("#box").css("background-color", "rgb(255, 130, 130)")
+      $("body").css("background-color", "rgb(130, 130, 130)")
+    } else if (boxPing == 6) {
+      $("#box").css("background-color", "rgb(255, 105, 105)")
+      $("body").css("background-color", "rgb(105, 105, 105)")
+    } else if (boxPing == 7) {
+      $("#box").css("background-color", "rgb(255, 80, 80)")
+      $("body").css("background-color", "rgb(80, 80, 80)")
+    } else if (boxPing == 8) {
+      $("#box").css("background-color", "rgb(255, 55, 55)")
+      $("body").css("background-color", "rgb(55, 55, 55)")
+    } else{
+      onFire(true);
+    } 
+  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -209,6 +229,43 @@ var boardHeight = $('#board').height();
     $("#box").css("top", box.y);
   }
   
+  function reset() {
+    $("#box").hide()
+    box.speedX = 0;
+    box.speedY = 0;
+    box.x = 350;
+    box.y = 250;
+    boxPing = 0; 
+      setTimeout(function(){
+        $("#box").show()
+          box.speedX = Math.round(Math.random()) * 6 - 3;
+          box.speedY = Math.round(Math.random()) * 6 - 3;
+    }, 2000); 
+  } 
+
+  function onFire (bool) {
+    if (bool == false) {
+      $("#box").css("background-color", "rgb(255, 255, 255)")
+      $("body").css("background-color", "rgb(255, 255, 255)")
+      $("#paddleLeft").css("background-color", "rgb(255, 255, 255)")
+      $("#paddleRight").css("background-color", "rgb(255, 255, 255)")
+      $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)")
+      $("#scorePaddleRight").css("color", "rgb(255, 255, 255)")
+      $("#board").css("border", "1px solid white")
+      $("#streak").hide()
+      multiplier = 1; 
+    } else if (bool == true) {
+      $("#box").css("background-color", "rgb(255, 30, 30)")
+      $("body").css("background-color", "rgb(25, 25, 25)")
+      $("#paddleLeft").css("background-color", "rgb(255, 30, 30)")
+      $("#paddleRight").css("background-color", "rgb(255, 30, 30)")
+      $("#scorePaddleLeft").css("color", "rgb(255, 30, 30)")
+      $("#scorePaddleRight").css("color", "rgb(255, 30, 30)")
+      $("#board").css("border", "1px solid red")
+      $("#streak").show()
+      multiplier = 2; 
+    }
+  }
   function endGame() {
     // stop the interval timer
     clearInterval(interval);

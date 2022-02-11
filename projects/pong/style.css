@@ -1,6 +1,6 @@
 
 body {
-    background-color: slategrey;
+    background-color: whitesmoke;
   }
   
   #board {
@@ -9,6 +9,7 @@ body {
     border: 1px solid white;
     background-image: url("background.png");
     position: relative;
+    left: 17.5vw; 
   }
   
   #paddleLeft {
@@ -32,7 +33,7 @@ body {
   #box {
     width: 15px;
     height: 15px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     display: block;
     position: absolute;
   }
@@ -40,7 +41,7 @@ body {
   #scorePaddleLeft {
     left: 225px;
     top: 50px;
-    font-size: 3vw;
+    font-size: 6vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
@@ -50,9 +51,20 @@ body {
   #scorePaddleRight {
     right: 225px;
     top: 50px;
-    font-size: 3vw;
+    font-size: 6vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
     
+  }
+  
+  #streak {
+    left: 225px;
+    top: 25vw;
+    color: red;
+    position: absolute; 
+    font-size: 4vw;
+    font-family: 'VT323', monospace;
+    text-align: center;
+
   }
