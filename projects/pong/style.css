@@ -57,7 +57,22 @@ body {
     position: absolute;
     
   }
-  
+  #paddleLeftName {
+    left: 5%;
+    top: 5%;
+    font-size: 3vw;
+    font-family: 'VT323', monospace;
+    color: white;
+    position: absolute;
+  }
+  #paddleRightName {
+    left: 90%;
+    top: 5%;
+    font-size: 3vw;
+    font-family: 'VT323', monospace;
+    color: white;
+    position: absolute;
+  }
   #streak {
     left: 225px;
     top: 25vw;

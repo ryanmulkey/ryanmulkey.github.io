@@ -1,13 +1,11 @@
 /* global $, sessionStorage */
 
-$(document).ready(runProgram); // wait for the HTML / CSS elements of the page to fully load, then execute runProgram()
+$(document).ready(runProgram); 
   
 function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////// SETUP /////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
-
-  // Constant Variables
   var FRAME_RATE = 60;
   var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
   var KEY = {
@@ -21,11 +19,11 @@ function runProgram(){
   var scoreRight = 0;
   var boxPing = 0; 
   var multiplier = 1; 
-  //var colorArray = [(rgb(255, 255, 255)), (rgb(255, 230, 230)), (rgb(255, 205, 205)), (rgb(255, 180, 180)), (rgb(255, 155, 155)), (rgb(255, 130, 130)), (rgb(255, 105, 105)), (rgb(255, 80, 80)), (rgb(255, 55, 55)), (rgb(255, 0, 0))];
-  var colorArray = ["(rgb(100, 200, 300))", "(rgb(255, 230, 230))", "(rgb(255, 205, 205))", "(rgb(255, 180, 180))", "(rgb(255, 155, 155))", "(rgb(255, 130, 130))", "(rgb(255, 105, 105))", "(rgb(255, 80, 80))", "(rgb(255, 55, 55))", "(rgb(255, 0, 0))"];
-  // Game Item Objects
+  var winState = prompt("How many points to win?")
+  var paddleLeftName = prompt("Player 1 Name")
+  var paddleRightName = prompt("Player 2 Name")
   function Factory (id, x, y, speedX, speedY) {
-    var instance = {};
+  var instance = {};
   
     instance.id = id;
     instance.x = x;
@@ -38,32 +36,25 @@ function runProgram(){
     return instance;
   }
 
-  var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
-  var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
-  var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 6 - 3), (Math.round(Math.random()) * 6 - 3));
-
+var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
+var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
+var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 6 - 3), (Math.round(Math.random()) * 6 - 3));
 
 var boardWidth = $('#board').width();	
 var boardHeight = $('#board').height();
 
-  // one-time setup
-  var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
-  $(document).on('keydown', handleKeyDown);                           // change 'eventType' to the type of event you want to handle
-  $(document).on('keyup', handleKeyUp);                           // change 'eventType' to the type of event you want to handle
+var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);
+$(document).on('keydown', handleKeyDown);
+$(document).on('keyup', handleKeyUp);
 
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
-
-  /* 
-  On each "tick" of the timer, a new frame is dynamically drawn using JavaScript
-  by calling this function and executing the code inside.
-  */
   function newFrame() {
     repositionAndRedrawGameItems();
     calcScore();
-    drawScore();
+    drawPlayerInfo();
     checkBoundaries(paddleLeft);
     checkBoundaries(paddleRight);
     checkBoundaries(box);
@@ -73,9 +64,6 @@ var boardHeight = $('#board').height();
     heat();
   }
   
-  /* 
-  Called in response to events.
-  */
   function handleKeyDown(event) {
     if (event.which === KEY.S){
       paddleLeft.speedY = -4;
@@ -175,9 +163,11 @@ var boardHeight = $('#board').height();
     }
   }
 
-  function drawScore() {
+  function drawPlayerInfo() {
     $('#scorePaddleLeft').text(scoreLeft);
     $('#scorePaddleRight').text(scoreRight);
+    $('#paddleLeftName').text(paddleLeftName);
+    $('#paddleRightName').text(paddleRightName);
   }
 
   function heat() {
@@ -267,10 +257,8 @@ var boardHeight = $('#board').height();
     }
   }
   function endGame() {
-    // stop the interval timer
     clearInterval(interval);
 
-    // turn off event handlers
     $(document).off();
   }
   
