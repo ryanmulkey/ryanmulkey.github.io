@@ -74,7 +74,7 @@ body {
     position: absolute;
   }
   #streak {
-    margin: 30% auto;
+    margin: auto auto;
     color: orangered;
     position: absolute; 
     font-size: 4vw;
@@ -83,16 +83,16 @@ body {
   }
 
   #winPaddleLeft {
-    margin: 30% auto; 
-    color: blueviolet;
+    margin: auto auto; 
+    color: grey;
     position: absolute; 
     font-size: 4vw;
     font-family: 'VT323', monospace;
     text-align: center;
 
   }#winPaddleRight {
-    margin: 30% auto;
-    color: blueviolet;
+    margin: auto auto;
+    color: grey;
     position: absolute; 
     font-size: 4vw;
     font-family: 'VT323', monospace;

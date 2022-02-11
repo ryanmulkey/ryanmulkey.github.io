@@ -15,6 +15,7 @@ function runProgram(){
     "S": 87,    
   };
 
+  $("#playAgain").hide()
   var scoreLeft = 0;
   var scoreRight = 0;
   var boxPing = 0; 
@@ -128,16 +129,16 @@ $(document).on('keyup', handleKeyUp);
        (obj1.topY < obj2.bottomY))
     {
       if (obj2.speedX > 0) {
-        obj2.speedX = -(0.2 + obj2.speedX);
+        obj2.speedX = -(0.35 + obj2.speedX);
         boxPing++; 
       } else if (obj2.speedX < 0) {
-        obj2.speedX = -(-0.2 + obj2.speedX);
+        obj2.speedX = -(-0.35 + obj2.speedX);
         boxPing++;
       }
       if (obj2.speedY > 0) {
-        obj2.speedY = (0.25 + obj2.speedY);
+        obj2.speedY = (0.35 + obj2.speedY);
       } else if (obj2.speedY < 0) {
-        obj2.speedY = (-0.25 + obj2.speedY);
+        obj2.speedY = (-0.35 + obj2.speedY);
       }      
     } else {
       return false
@@ -174,12 +175,12 @@ $(document).on('keyup', handleKeyUp);
   function win () {
     if (scoreLeft >= winState) {
       $("#winPaddleLeft").append(namePaddleLeft + " wins!");
-      scoreLeft = 0;
-      reset();
+      $("#playAgain").show()
+      $("#playAgain").on("click", playAgain())
     } else if (scoreRight >= winState) {
       $("#winPaddleRight").append(namePaddleRight + " wins!");
-      scoreRight = 0; 
-      reset();
+      $("#playAgain").show()
+      $("#playAgain").on("click", playAgain())
     }
   }
   function heat() {
@@ -273,6 +274,14 @@ $(document).on('keyup', handleKeyUp);
       $("#streak").show()
       multiplier = 2; 
     }
+  }
+  function playAgain () {
+    scoreLeft = 0;
+    scoreRight = 0;
+    $("#winPaddleLeft").hide();
+    $("#winPaddleRight").hide();
+    $("#playAgain").hide();
+    reset(); 
   }
   function endGame() {
     clearInterval(interval);
