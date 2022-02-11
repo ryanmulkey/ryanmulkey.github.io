@@ -57,21 +57,23 @@ body {
     position: absolute;
     
   }
-  #paddleLeftName {
+  #namePaddleLeft {
     left: 5%;
     top: 5%;
     font-size: 3vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
+    text-align: left; 
   }
-  #paddleRightName {
+  #namePaddleRight {
     left: 90%;
     top: 5%;
     font-size: 3vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
+    text-align: right; 
   }
   #streak {
     left: 225px;

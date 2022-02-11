@@ -20,8 +20,8 @@ function runProgram(){
   var boxPing = 0; 
   var multiplier = 1; 
   var winState = prompt("How many points to win?")
-  var paddleLeftName = prompt("Player 1 Name")
-  var paddleRightName = prompt("Player 2 Name")
+  var namePaddleLeft = prompt("Player 1 Name")
+  var namePaddleRight = prompt("Player 2 Name")
   function Factory (id, x, y, speedX, speedY) {
   var instance = {};
   
@@ -166,8 +166,8 @@ $(document).on('keyup', handleKeyUp);
   function drawPlayerInfo() {
     $('#scorePaddleLeft').text(scoreLeft);
     $('#scorePaddleRight').text(scoreRight);
-    $('#paddleLeftName').text(paddleLeftName);
-    $('#paddleRightName').text(paddleRightName);
+    $('#namePaddleLeft').text(namePaddleLeft);
+    $('#namePaddleRight').text(namePaddleRight);
   }
 
   function heat() {
@@ -246,7 +246,7 @@ $(document).on('keyup', handleKeyUp);
       multiplier = 1; 
     } else if (bool == true) {
       $("#box").css("background-color", "rgb(255, 30, 30)")
-      $("body").css("background-color", "rgb(25, 25, 25)")
+      $("body").css("background-color", "rgb(30, 30, 30)")
       $("#paddleLeft").css("background-color", "rgb(255, 30, 30)")
       $("#paddleRight").css("background-color", "rgb(255, 30, 30)")
       $("#scorePaddleLeft").css("color", "rgb(255, 30, 30)")
