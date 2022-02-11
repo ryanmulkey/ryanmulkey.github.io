@@ -9,7 +9,7 @@ body {
     border: 1px solid white;
     background-image: url("background.png");
     position: relative;
-    left: 17.5vw; 
+    margin: auto;  
   }
   
   #paddleLeft {
@@ -41,7 +41,7 @@ body {
   #scorePaddleLeft {
     left: 225px;
     top: 50px;
-    font-size: 6vw;
+    font-size: 4.5vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
@@ -51,34 +51,48 @@ body {
   #scorePaddleRight {
     right: 225px;
     top: 50px;
-    font-size: 6vw;
+    font-size: 4.5vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
     
   }
   #namePaddleLeft {
-    left: 5%;
+    left: 10px;
     top: 5%;
     font-size: 3vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
-    text-align: left; 
   }
   #namePaddleRight {
-    left: 90%;
+    right: 10px;
     top: 5%;
     font-size: 3vw;
     font-family: 'VT323', monospace;
     color: white;
     position: absolute;
-    text-align: right; 
   }
   #streak {
-    left: 225px;
-    top: 25vw;
-    color: red;
+    margin: 30% auto;
+    color: orangered;
+    position: absolute; 
+    font-size: 4vw;
+    font-family: 'VT323', monospace;
+    text-align: center;
+  }
+
+  #winPaddleLeft {
+    margin: 30% auto; 
+    color: blueviolet;
+    position: absolute; 
+    font-size: 4vw;
+    font-family: 'VT323', monospace;
+    text-align: center;
+
+  }#winPaddleRight {
+    margin: 30% auto;
+    color: blueviolet;
     position: absolute; 
     font-size: 4vw;
     font-family: 'VT323', monospace;

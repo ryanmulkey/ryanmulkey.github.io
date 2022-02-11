@@ -36,8 +36,8 @@ function runProgram(){
     return instance;
   }
 
-var paddleLeft = Factory("#paddleLeft", 10, 0, 0, 0);
-var paddleRight = Factory("#paddleRight", 727, 0, 0, 0);
+var paddleLeft = Factory("#paddleLeft", 10, 225, 0, 0);
+var paddleRight = Factory("#paddleRight", 727, 225, 0, 0);
 var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 6 - 3), (Math.round(Math.random()) * 6 - 3));
 
 var boardWidth = $('#board').width();	
@@ -62,6 +62,7 @@ $(document).on('keyup', handleKeyUp);
     doCollide(paddleRight, box);
     boxBounds();
     heat();
+    win();
   }
   
   function handleKeyDown(event) {
@@ -170,6 +171,17 @@ $(document).on('keyup', handleKeyUp);
     $('#namePaddleRight').text(namePaddleRight);
   }
 
+  function win () {
+    if (scoreLeft >= winState) {
+      $("#winPaddleLeft").append(namePaddleLeft + " wins!");
+      scoreLeft = 0;
+      reset();
+    } else if (scoreRight >= winState) {
+      $("#winPaddleRight").append(namePaddleRight + " wins!");
+      scoreRight = 0; 
+      reset();
+    }
+  }
   function heat() {
     if (boxPing === 0) {
       onFire(false);
@@ -241,17 +253,23 @@ $(document).on('keyup', handleKeyUp);
       $("#paddleRight").css("background-color", "rgb(255, 255, 255)")
       $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)")
       $("#scorePaddleRight").css("color", "rgb(255, 255, 255)")
+      $("#namePaddleLeft").css("color", "rgb(255, 255, 255)")
+      $("#namePaddleRight").css("color", "rgb(255, 255, 255)")
       $("#board").css("border", "1px solid white")
+      $("#board").css("background-image", "url(background.png)")
       $("#streak").hide()
       multiplier = 1; 
     } else if (bool == true) {
       $("#box").css("background-color", "rgb(255, 30, 30)")
       $("body").css("background-color", "rgb(30, 30, 30)")
-      $("#paddleLeft").css("background-color", "rgb(255, 30, 30)")
-      $("#paddleRight").css("background-color", "rgb(255, 30, 30)")
-      $("#scorePaddleLeft").css("color", "rgb(255, 30, 30)")
-      $("#scorePaddleRight").css("color", "rgb(255, 30, 30)")
+      $("#paddleLeft").css("background-color", "rgb(255, 170, 51)")
+      $("#paddleRight").css("background-color", "rgb(255, 170, 51)")
+      $("#scorePaddleLeft").css("color", "rgb(240, 128, 0)")
+      $("#scorePaddleRight").css("color", "rgb(240, 128, 0)")
+      $("#namePaddleLeft").css("color", "rgb(240, 128, 0)")
+      $("#namePaddleRight").css("color", "rgb(240, 128, 0)")
       $("#board").css("border", "1px solid red")
+      $("#board").css("background-image", "url(backgroundFire.png)")
       $("#streak").show()
       multiplier = 2; 
     }
