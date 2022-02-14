@@ -15,7 +15,7 @@ function runProgram(){
     "S": 87,    
   };
 
-  $("#playAgain").hide()
+  
   var scoreLeft = 0;
   var scoreRight = 0;
   var boxPing = 0; 
@@ -23,6 +23,13 @@ function runProgram(){
   var winState = prompt("How many points to win?")
   var namePaddleLeft = prompt("Player 1 Name")
   var namePaddleRight = prompt("Player 2 Name")
+
+  $("#playAgain").hide()
+  $("#winPaddleLeft").append(namePaddleLeft + " wins!");
+  $("#winPaddleLeft").hide(); 
+  $("#winPaddleRight").append(namePaddleRight + " wins!");
+  $("#winPaddleRight").hide();
+
   function Factory (id, x, y, speedX, speedY) {
   var instance = {};
   
@@ -174,15 +181,18 @@ $(document).on('keyup', handleKeyUp);
 
   function win () {
     if (scoreLeft >= winState) {
-      $("#winPaddleLeft").append(namePaddleLeft + " wins!");
-      $("#playAgain").show()
-      $("#playAgain").on("click", playAgain())
+      endGame();
+      $("#playAgain").show();
+      $("#winPaddleLeft").show();
+      $("#playAgain").on("click", playAgain);
     } else if (scoreRight >= winState) {
-      $("#winPaddleRight").append(namePaddleRight + " wins!");
-      $("#playAgain").show()
-      $("#playAgain").on("click", playAgain())
+      endGame();
+      $("#playAgain").show();
+      $("#winPaddleRight").show();
+      $("#playAgain").on("click", playAgain);
     }
   }
+
   function heat() {
     if (boxPing === 0) {
       onFire(false);
@@ -280,7 +290,9 @@ $(document).on('keyup', handleKeyUp);
     scoreRight = 0;
     $("#winPaddleLeft").hide();
     $("#winPaddleRight").hide();
-    $("#playAgain").hide();
+
+    runProgram();
+    
     reset(); 
   }
   function endGame() {

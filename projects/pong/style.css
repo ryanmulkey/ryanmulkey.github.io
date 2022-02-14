@@ -74,27 +74,40 @@ body {
     position: absolute;
   }
   #streak {
-    margin: auto auto;
+    left: 150px;
+    top: 300px;
     color: orangered;
     position: absolute; 
-    font-size: 4vw;
+    font-size: 64px;
     font-family: 'VT323', monospace;
     text-align: center;
   }
 
   #winPaddleLeft {
-    margin: auto auto; 
+    left: 250px;
+    top: 300px;
     color: grey;
     position: absolute; 
-    font-size: 4vw;
+    font-size: 80px;
     font-family: 'VT323', monospace;
     text-align: center;
 
   }#winPaddleRight {
-    margin: auto auto;
+    left: 250px;
+    top: 300px;
     color: grey;
     position: absolute; 
-    font-size: 4vw;
+    font-size: 80px;
+    font-family: 'VT323', monospace;
+    text-align: center;
+
+  }
+  #playAgain {
+    left: 270px;
+    top: 200px;
+    background-color: rgb(1, 71, 1);
+    position: absolute; 
+    font-size: 32px;
     font-family: 'VT323', monospace;
     text-align: center;
 
