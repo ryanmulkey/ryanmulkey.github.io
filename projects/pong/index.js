@@ -22,9 +22,9 @@ function runProgram(){
   var multiplier = 1; 
   var multRight = 1;
   var multLeft = 1; 
-  var winState = prompt("WEE WOO WEE WOO")
-  var namePaddleLeft = prompt("ITS BROKEN")
-  var namePaddleRight = prompt("IT'S NOT PLAYING LIKE IT SHOULD")
+  var winState = prompt("How many points to win?")
+  var namePaddleLeft = prompt("Player 1 Name")
+  var namePaddleRight = prompt("Player 2 Name")
 
   $("#playAgain").hide()
   $("#winPaddleLeft").append(namePaddleLeft + " wins!");
@@ -245,9 +245,9 @@ $(document).on('keyup', handleKeyUp);
 
   function stack () {
     if (boxPing > 8 && 5 < diff < -5) {
-      double(true);
+      //double(true);
     } else {
-      double(false); 
+      //double(false); 
     }
   } 
   ////////////////////////////////////////////////////////////////////////////////
@@ -391,7 +391,7 @@ $(document).on('keyup', handleKeyUp);
     reset(); 
   }
 
-  ("#infobox").append(box.speedX + " " +  box.speedY + " " + multiplier + " " + boxPing)
+  $("#infobox").append(box.speedX + " " +  box.speedY + " " + multiplier + " " + boxPing)
   function endGame() {
     clearInterval(interval);
 

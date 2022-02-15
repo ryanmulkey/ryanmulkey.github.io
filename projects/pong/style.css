@@ -140,7 +140,7 @@ body {
   }
 
   #infobox {
-    outline:rgb(255, 255, 255);
+    border:3px solid grey;
     color: black; 
   }
 
