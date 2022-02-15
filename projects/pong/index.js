@@ -25,6 +25,7 @@ function runProgram(){
   var winState = prompt("How many points to win?")
   var namePaddleLeft = prompt("Player 1 Name")
   var namePaddleRight = prompt("Player 2 Name")
+  onFire(false);
 
   $("#playAgain").hide()
   $("#winPaddleLeft").append(namePaddleLeft + " wins!");
@@ -76,10 +77,10 @@ $(document).on('keyup', handleKeyUp);
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
-    streak();
     comeback(); 
-    stack(); 
+    streak();
     win();
+    //stack(); 
   }
   
   function handleKeyDown(event) {
@@ -204,31 +205,32 @@ $(document).on('keyup', handleKeyUp);
 
   function streak() {
     if (boxPing === 0) {
-      onFire(false);
+      $("#box").css("background-color", "rgb(255, 255, 255)");
+      $("body").css("background-color", "rgb(255, 255, 255)");
     } else if (boxPing == 1) {
-      $("#box").css("background-color", "rgb(255, 230, 230)")
-      $("body").css("background-color", "rgb(230, 230, 230)")
+      $("#box").css("background-color", "rgb(255, 230, 230)");
+      $("body").css("background-color", "rgb(230, 230, 230)");
     } else if (boxPing == 2) {
-      $("#box").css("background-color", "rgb(255, 205, 205)")
-      $("body").css("background-color", "rgb(205, 205, 205)")
+      $("#box").css("background-color", "rgb(255, 205, 205)");
+      $("body").css("background-color", "rgb(205, 205, 205)");
     } else if (boxPing == 3) {
-      $("#box").css("background-color", "rgb(255, 180, 180)")
-      $("body").css("background-color", "rgb(180, 180, 180)")
+      $("#box").css("background-color", "rgb(255, 180, 180)");
+      $("body").css("background-color", "rgb(180, 180, 180)");
     } else if (boxPing == 4) {
-      $("#box").css("background-color", "rgb(255, 155, 155)")
-      $("body").css("background-color", "rgb(155, 155, 155)")
+      $("#box").css("background-color", "rgb(255, 155, 155)");
+      $("body").css("background-color", "rgb(155, 155, 155)");
     } else if (boxPing == 5) {
-      $("#box").css("background-color", "rgb(255, 130, 130)")
-      $("body").css("background-color", "rgb(130, 130, 130)")
+      $("#box").css("background-color", "rgb(255, 130, 130)");
+      $("body").css("background-color", "rgb(130, 130, 130)");
     } else if (boxPing == 6) {
-      $("#box").css("background-color", "rgb(255, 105, 105)")
-      $("body").css("background-color", "rgb(105, 105, 105)")
+      $("#box").css("background-color", "rgb(255, 105, 105)");
+      $("body").css("background-color", "rgb(105, 105, 105)");
     } else if (boxPing == 7) {
-      $("#box").css("background-color", "rgb(255, 80, 80)")
-      $("body").css("background-color", "rgb(80, 80, 80)")
+      $("#box").css("background-color", "rgb(255, 80, 80)");
+      $("body").css("background-color", "rgb(80, 80, 80)");
     } else if (boxPing == 8) {
-      $("#box").css("background-color", "rgb(255, 55, 55)")
-      $("body").css("background-color", "rgb(55, 55, 55)")
+      $("#box").css("background-color", "rgb(255, 55, 55)");
+      $("body").css("background-color", "rgb(55, 55, 55)");
     } else{
       onFire(true);
     } 
@@ -244,6 +246,7 @@ $(document).on('keyup', handleKeyUp);
   }
 
   function stack () {
+    var diff = scoreLeft - scoreRight
     if (boxPing > 8 && 5 < diff < -5) {
       //double(true);
     } else {
@@ -275,6 +278,7 @@ $(document).on('keyup', handleKeyUp);
     box.x = 350;
     box.y = 250;
     boxPing = 0; 
+    onFire(false);
       setTimeout(function(){
         $("#box").show()
           box.speedX = Math.round(Math.random()) * 6 - 3;
@@ -296,8 +300,6 @@ $(document).on('keyup', handleKeyUp);
       $("#board").css("background-image", "url(background.png)");
       $("#streak").hide();
       multiplier = 1; 
-      multLeft = 1; 
-      multRight = 1; 
     } else if (bool == true) {
       $("#box").css("background-color", "rgb(255, 30, 30)");
       $("body").css("background-color", "rgb(30, 30, 30)");
@@ -313,7 +315,8 @@ $(document).on('keyup', handleKeyUp);
       multiplier = 2; 
     }
   }
-  
+
+
   function revenge (bool) {
     if (bool == false) {
       $("#box").css("background-color", "rgb(255, 255, 255)");
@@ -348,7 +351,8 @@ $(document).on('keyup', handleKeyUp);
         }
     }
   }
- /* 
+
+  /*
   function double (bool) {
     if (bool == false) {
       $("#box").css("background-color", "rgb(255, 255, 255)")
@@ -363,6 +367,8 @@ $(document).on('keyup', handleKeyUp);
       $("#board").css("background-image", "url(background.png)")
       $("#stack").hide()
       multiplier = 1; 
+      multLeft = 1 ;
+      multRight = 1; 
     } else if (bool == true) {
       $("#box").css("background-color", "(131, 0, 139)")
       $("body").css("background-color", "rgb(0, 0, 0)")
@@ -373,13 +379,12 @@ $(document).on('keyup', handleKeyUp);
       $("#namePaddleLeft").css("color", "rgb(131,0,139)")
       $("#namePaddleRight").css("color", "rgb(131,0,139)")
       $("#board").css("border", "1px solid purple")
-      $("#board").css("background-image", "url(backgroundGreen.png)")
+      $("#board").css("background-image", "url(backgroundStack.png)")
       $("#stack").show()
       multiplier = 2; 
     }
   }
-*/
-
+*/ 
   function playAgain () {
     scoreLeft = 0;
     scoreRight = 0;
@@ -391,7 +396,6 @@ $(document).on('keyup', handleKeyUp);
     reset(); 
   }
 
-  $("#infobox").append(box.speedX + " " +  box.speedY + " " + multiplier + " " + boxPing)
   function endGame() {
     clearInterval(interval);
 
