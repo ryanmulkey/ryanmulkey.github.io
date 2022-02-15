@@ -22,9 +22,9 @@ function runProgram(){
   var multiplier = 1; 
   var multRight = 1;
   var multLeft = 1; 
-  var winState = prompt("How many points to win?")
-  var namePaddleLeft = prompt("Player 1 Name")
-  var namePaddleRight = prompt("Player 2 Name")
+  var winState = prompt("WEE WOO WEE WOO")
+  var namePaddleLeft = prompt("ITS BROKEN")
+  var namePaddleRight = prompt("IT'S NOT PLAYING LIKE IT SHOULD")
 
   $("#playAgain").hide()
   $("#winPaddleLeft").append(namePaddleLeft + " wins!");
