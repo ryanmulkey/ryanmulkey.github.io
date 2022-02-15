@@ -17,9 +17,11 @@ function runProgram(){
 
   
   var scoreLeft = 0;
-  var scoreRight = 0;
+  var scoreRight = 6;
   var boxPing = 0; 
   var multiplier = 1; 
+  var multRight = 1;
+  var multLeft = 1; 
   var winState = prompt("How many points to win?")
   var namePaddleLeft = prompt("Player 1 Name")
   var namePaddleRight = prompt("Player 2 Name")
@@ -29,6 +31,11 @@ function runProgram(){
   $("#winPaddleLeft").hide(); 
   $("#winPaddleRight").append(namePaddleRight + " wins!");
   $("#winPaddleRight").hide();
+  $("#drain").hide();
+  $("#stack").hide();
+  $("#comeback").hide();
+
+
 
   function Factory (id, x, y, speedX, speedY) {
   var instance = {};
@@ -69,7 +76,9 @@ $(document).on('keyup', handleKeyUp);
     doCollide(paddleLeft, box);
     doCollide(paddleRight, box);
     boxBounds();
-    heat();
+    streak();
+    comeback(); 
+    stack(); 
     win();
   }
   
@@ -165,10 +174,10 @@ $(document).on('keyup', handleKeyUp);
 
   function calcScore () {
     if (box.x > boardWidth - (1 + box.width)) {
-      scoreLeft = scoreLeft + multiplier;
+      scoreLeft = scoreLeft + (multiplier * multLeft);
     }
     if (box.x < 0 + box.width) {
-      scoreRight = scoreRight + multiplier;
+      scoreRight = scoreRight + (multiplier * multRight);
     }
   }
 
@@ -193,7 +202,7 @@ $(document).on('keyup', handleKeyUp);
     }
   }
 
-  function heat() {
+  function streak() {
     if (boxPing === 0) {
       onFire(false);
     } else if (boxPing == 1) {
@@ -224,6 +233,23 @@ $(document).on('keyup', handleKeyUp);
       onFire(true);
     } 
   }
+
+  function comeback () {
+    var diff = scoreLeft - scoreRight
+    if (diff > 5 || diff < -5) {
+        revenge(true);
+    } else {
+        revenge(false);
+    }
+  }
+
+  function stack () {
+    if (boxPing > 8 && 5 < diff < -5) {
+      double(true);
+    } else {
+      double(false); 
+    }
+  } 
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +284,73 @@ $(document).on('keyup', handleKeyUp);
 
   function onFire (bool) {
     if (bool == false) {
+      $("#box").css("background-color", "rgb(255, 255, 255)");
+      $("body").css("background-color", "rgb(255, 255, 255)");
+      $("#paddleLeft").css("background-color", "rgb(255, 255, 255)");
+      $("#paddleRight").css("background-color", "rgb(255, 255, 255)");
+      $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)");
+      $("#scorePaddleRight").css("color", "rgb(255, 255, 255)");
+      $("#namePaddleLeft").css("color", "rgb(255, 255, 255)");
+      $("#namePaddleRight").css("color", "rgb(255, 255, 255)");
+      $("#board").css("border", "1px solid white");
+      $("#board").css("background-image", "url(background.png)");
+      $("#streak").hide();
+      multiplier = 1; 
+      multLeft = 1; 
+      multRight = 1; 
+    } else if (bool == true) {
+      $("#box").css("background-color", "rgb(255, 30, 30)");
+      $("body").css("background-color", "rgb(30, 30, 30)");
+      $("#paddleLeft").css("background-color", "rgb(255, 170, 51)");
+      $("#paddleRight").css("background-color", "rgb(255, 170, 51)");
+      $("#scorePaddleLeft").css("color", "rgb(240, 128, 0)");
+      $("#scorePaddleRight").css("color", "rgb(240, 128, 0)");
+      $("#namePaddleLeft").css("color", "rgb(240, 128, 0)");
+      $("#namePaddleRight").css("color", "rgb(240, 128, 0)");
+      $("#board").css("border", "1px solid red");
+      $("#board").css("background-image", "url(backgroundFire.png)");
+      $("#streak").show();
+      multiplier = 2; 
+    }
+  }
+  
+  function revenge (bool) {
+    if (bool == false) {
+      $("#box").css("background-color", "rgb(255, 255, 255)");
+      $("body").css("background-color", "rgb(255, 255, 255)");
+      $("#paddleLeft").css("background-color", "rgb(255, 255, 255)");
+      $("#paddleRight").css("background-color", "rgb(255, 255, 255)");
+      $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)");
+      $("#scorePaddleRight").css("color", "rgb(255, 255, 255)");
+      $("#namePaddleLeft").css("color", "rgb(255, 255, 255)");
+      $("#namePaddleRight").css("color", "rgb(255, 255, 255)");
+      $("#board").css("border", "1px solid white");
+      $("#board").css("background-image", "url(background.png)");
+      $("#comeback").hide();
+      multRight = 1;
+      multLeft = 1;  
+    } else if (bool == true) {
+      $("#box").css("background-color", "rgb(30, 30, 255)");
+      $("body").css("background-color", "rgb(25, 25, 112)");
+      $("#board").css("border", "1px solid blue");
+      $("#board").css("background-image", "url(backgroundSave.png)");
+      $("#comeback").show();
+        if (scoreRight < scoreLeft) {
+          multRight = 2; 
+          $("#paddleRight").css("background-color", "rgb(51, 170, 255)");
+          $("#scorePaddleRight").css("color", "rgb(0, 128, 240)");
+          $("#namePaddleRight").css("color", "rgb(0, 128, 240)");
+        } else if (scoreLeft < scoreRight) {
+          multLeft = 2; 
+          $("#paddleLeft").css("background-color", "rgb(51, 170, 255)");
+          $("#scorePaddleLeft").css("color", "rgb(0, 128, 240)");
+          $("#namePaddleLeft").css("color", "rgb(0, 128, 240)");
+        }
+    }
+  }
+ /* 
+  function double (bool) {
+    if (bool == false) {
       $("#box").css("background-color", "rgb(255, 255, 255)")
       $("body").css("background-color", "rgb(255, 255, 255)")
       $("#paddleLeft").css("background-color", "rgb(255, 255, 255)")
@@ -268,23 +361,25 @@ $(document).on('keyup', handleKeyUp);
       $("#namePaddleRight").css("color", "rgb(255, 255, 255)")
       $("#board").css("border", "1px solid white")
       $("#board").css("background-image", "url(background.png)")
-      $("#streak").hide()
+      $("#stack").hide()
       multiplier = 1; 
     } else if (bool == true) {
-      $("#box").css("background-color", "rgb(255, 30, 30)")
-      $("body").css("background-color", "rgb(30, 30, 30)")
-      $("#paddleLeft").css("background-color", "rgb(255, 170, 51)")
-      $("#paddleRight").css("background-color", "rgb(255, 170, 51)")
-      $("#scorePaddleLeft").css("color", "rgb(240, 128, 0)")
-      $("#scorePaddleRight").css("color", "rgb(240, 128, 0)")
-      $("#namePaddleLeft").css("color", "rgb(240, 128, 0)")
-      $("#namePaddleRight").css("color", "rgb(240, 128, 0)")
-      $("#board").css("border", "1px solid red")
-      $("#board").css("background-image", "url(backgroundFire.png)")
-      $("#streak").show()
+      $("#box").css("background-color", "(131, 0, 139)")
+      $("body").css("background-color", "rgb(0, 0, 0)")
+      $("#paddleLeft").css("background-color", "rgb(208,29,155)")
+      $("#paddleRight").css("background-color", "rgb(208,29,155)")
+      $("#scorePaddleLeft").css("color", "rgb(131,0,139)")
+      $("#scorePaddleRight").css("color", "rgb(131,0,139)")
+      $("#namePaddleLeft").css("color", "rgb(131,0,139)")
+      $("#namePaddleRight").css("color", "rgb(131,0,139)")
+      $("#board").css("border", "1px solid purple")
+      $("#board").css("background-image", "url(backgroundGreen.png)")
+      $("#stack").show()
       multiplier = 2; 
     }
   }
+*/
+
   function playAgain () {
     scoreLeft = 0;
     scoreRight = 0;
@@ -295,6 +390,8 @@ $(document).on('keyup', handleKeyUp);
     
     reset(); 
   }
+
+  ("#infobox").append(box.speedX + " " +  box.speedY + " " + multiplier + " " + boxPing)
   function endGame() {
     clearInterval(interval);
 

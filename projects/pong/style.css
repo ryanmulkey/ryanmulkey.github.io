@@ -82,6 +82,33 @@ body {
     font-family: 'VT323', monospace;
     text-align: center;
   }
+  #comeback {
+    left: 150px;
+    top: 300px;
+    color: teal;
+    position: absolute; 
+    font-size: 64px;
+    font-family: 'VT323', monospace;
+    text-align: center;
+  }
+  #drain {
+    left: 150px;
+    top: 300px;
+    color: forestgreen;
+    position: absolute; 
+    font-size: 64px;
+    font-family: 'VT323', monospace;
+    text-align: center;
+  }
+  #stack {
+    left: 150px;
+    top: 300px;
+    color: purple;
+    position: absolute; 
+    font-size: 64px;
+    font-family: 'VT323', monospace;
+    text-align: center;
+  }
 
   #winPaddleLeft {
     left: 250px;
@@ -110,5 +137,11 @@ body {
     font-size: 32px;
     font-family: 'VT323', monospace;
     text-align: center;
-
   }
+
+  #infobox {
+    outline:rgb(255, 255, 255);
+    color: black; 
+  }
+
+  
