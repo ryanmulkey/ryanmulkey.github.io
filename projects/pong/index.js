@@ -16,10 +16,10 @@ function runProgram(){
   };
 
   
-  var scoreLeft = 7;
+  var scoreLeft = 0;
   var scoreRight = 0;
 
-  var boxPing = 10; 
+  var boxPing = 0; 
 
   var multiplier = 1; 
   var multRight = 1;
