@@ -16,22 +16,25 @@ function runProgram(){
   };
 
   
-  var scoreLeft = 0;
+  var scoreLeft = 7;
   var scoreRight = 0;
-  var boxPing = 0; 
+
+  var boxPing = 10; 
+
   var multiplier = 1; 
   var multRight = 1;
   var multLeft = 1; 
+
   var winState = prompt("How many points to win?")
   var namePaddleLeft = prompt("Player 1 Name")
   var namePaddleRight = prompt("Player 2 Name")
-  onFire(false);
 
   $("#playAgain").hide()
-  $("#winPaddleLeft").append(namePaddleLeft + " wins!");
+  $("#winPaddleLeft").text(namePaddleLeft + " wins!");
   $("#winPaddleLeft").hide(); 
-  $("#winPaddleRight").append(namePaddleRight + " wins!");
+  $("#winPaddleRight").text(namePaddleRight + " wins!");
   $("#winPaddleRight").hide();
+  $("#streak").hide();
   $("#drain").hide();
   $("#stack").hide();
   $("#comeback").hide();
@@ -79,8 +82,8 @@ $(document).on('keyup', handleKeyUp);
     boxBounds();
     comeback(); 
     streak();
+    stack(); 
     win();
-    //stack(); 
   }
   
   function handleKeyDown(event) {
@@ -247,10 +250,10 @@ $(document).on('keyup', handleKeyUp);
 
   function stack () {
     var diff = scoreLeft - scoreRight
-    if (boxPing > 8 && 5 < diff < -5) {
-      //double(true);
+    if (boxPing > 8 && diff > 5 || boxPing > 8 && diff < -5) {
+      double(true);
     } else {
-      //double(false); 
+      double(false); 
     }
   } 
   ////////////////////////////////////////////////////////////////////////////////
@@ -278,29 +281,32 @@ $(document).on('keyup', handleKeyUp);
     box.x = 350;
     box.y = 250;
     boxPing = 0; 
+    multiplier = 1; 
+    multLeft = 1;
+    multRight = 1; 
     onFire(false);
       setTimeout(function(){
         $("#box").show()
           box.speedX = Math.round(Math.random()) * 6 - 3;
           box.speedY = Math.round(Math.random()) * 6 - 3;
     }, 2000); 
+    $("#box").css("background-color", "rgb(255, 255, 255)");
+    $("body").css("background-color", "rgb(255, 255, 255)");
+    $("#paddleLeft").css("background-color", "rgb(255, 255, 255)");
+    $("#paddleRight").css("background-color", "rgb(255, 255, 255)");
+    $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)");
+    $("#scorePaddleRight").css("color", "rgb(255, 255, 255)");
+    $("#namePaddleLeft").css("color", "rgb(255, 255, 255)");
+    $("#namePaddleRight").css("color", "rgb(255, 255, 255)");
+    $("#board").css("border", "1px solid white");
+    $("#board").css("background-image", "url(background.png)");
+    $("#streak").hide();
+    $("#comeback").hide();
+    $("#stack").hide();
   } 
 
   function onFire (bool) {
-    if (bool == false) {
-      $("#box").css("background-color", "rgb(255, 255, 255)");
-      $("body").css("background-color", "rgb(255, 255, 255)");
-      $("#paddleLeft").css("background-color", "rgb(255, 255, 255)");
-      $("#paddleRight").css("background-color", "rgb(255, 255, 255)");
-      $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)");
-      $("#scorePaddleRight").css("color", "rgb(255, 255, 255)");
-      $("#namePaddleLeft").css("color", "rgb(255, 255, 255)");
-      $("#namePaddleRight").css("color", "rgb(255, 255, 255)");
-      $("#board").css("border", "1px solid white");
-      $("#board").css("background-image", "url(background.png)");
-      $("#streak").hide();
-      multiplier = 1; 
-    } else if (bool == true) {
+    if (bool == true) {
       $("#box").css("background-color", "rgb(255, 30, 30)");
       $("body").css("background-color", "rgb(30, 30, 30)");
       $("#paddleLeft").css("background-color", "rgb(255, 170, 51)");
@@ -313,26 +319,13 @@ $(document).on('keyup', handleKeyUp);
       $("#board").css("background-image", "url(backgroundFire.png)");
       $("#streak").show();
       multiplier = 2; 
-    }
+    } else if (bool == false) {
+      return; 
   }
-
+}
 
   function revenge (bool) {
-    if (bool == false) {
-      $("#box").css("background-color", "rgb(255, 255, 255)");
-      $("body").css("background-color", "rgb(255, 255, 255)");
-      $("#paddleLeft").css("background-color", "rgb(255, 255, 255)");
-      $("#paddleRight").css("background-color", "rgb(255, 255, 255)");
-      $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)");
-      $("#scorePaddleRight").css("color", "rgb(255, 255, 255)");
-      $("#namePaddleLeft").css("color", "rgb(255, 255, 255)");
-      $("#namePaddleRight").css("color", "rgb(255, 255, 255)");
-      $("#board").css("border", "1px solid white");
-      $("#board").css("background-image", "url(background.png)");
-      $("#comeback").hide();
-      multRight = 1;
-      multLeft = 1;  
-    } else if (bool == true) {
+    if (bool == true) {
       $("#box").css("background-color", "rgb(30, 30, 255)");
       $("body").css("background-color", "rgb(25, 25, 112)");
       $("#board").css("border", "1px solid blue");
@@ -349,42 +342,31 @@ $(document).on('keyup', handleKeyUp);
           $("#scorePaddleLeft").css("color", "rgb(0, 128, 240)");
           $("#namePaddleLeft").css("color", "rgb(0, 128, 240)");
         }
+    } else if (bool == false) {
+        return; 
     }
   }
 
-  /*
   function double (bool) {
-    if (bool == false) {
-      $("#box").css("background-color", "rgb(255, 255, 255)")
-      $("body").css("background-color", "rgb(255, 255, 255)")
-      $("#paddleLeft").css("background-color", "rgb(255, 255, 255)")
-      $("#paddleRight").css("background-color", "rgb(255, 255, 255)")
-      $("#scorePaddleLeft").css("color", "rgb(255, 255, 255)")
-      $("#scorePaddleRight").css("color", "rgb(255, 255, 255)")
-      $("#namePaddleLeft").css("color", "rgb(255, 255, 255)")
-      $("#namePaddleRight").css("color", "rgb(255, 255, 255)")
-      $("#board").css("border", "1px solid white")
-      $("#board").css("background-image", "url(background.png)")
-      $("#stack").hide()
-      multiplier = 1; 
-      multLeft = 1 ;
-      multRight = 1; 
-    } else if (bool == true) {
-      $("#box").css("background-color", "(131, 0, 139)")
-      $("body").css("background-color", "rgb(0, 0, 0)")
-      $("#paddleLeft").css("background-color", "rgb(208,29,155)")
-      $("#paddleRight").css("background-color", "rgb(208,29,155)")
-      $("#scorePaddleLeft").css("color", "rgb(131,0,139)")
-      $("#scorePaddleRight").css("color", "rgb(131,0,139)")
-      $("#namePaddleLeft").css("color", "rgb(131,0,139)")
-      $("#namePaddleRight").css("color", "rgb(131,0,139)")
-      $("#board").css("border", "1px solid purple")
-      $("#board").css("background-image", "url(backgroundStack.png)")
-      $("#stack").show()
+    if (bool == true) {
+      $("#box").css("background-color", "(131, 0, 139)");
+      $("body").css("background-color", "rgb(0, 0, 0)");
+      $("#paddleLeft").css("background-color", "rgb(208,29,155)");
+      $("#paddleRight").css("background-color", "rgb(208,29,155)");
+      $("#scorePaddleLeft").css("color", "rgb(131,0,139)");
+      $("#scorePaddleRight").css("color", "rgb(131,0,139)");
+      $("#namePaddleLeft").css("color", "rgb(131,0,139)");
+      $("#namePaddleRight").css("color", "rgb(131,0,139)");
+      $("#board").css("border", "1px solid purple");
+      $("#board").css("background-image", "url(backgroundStack.png)");
+      $("#stack").show();
+      $("#streak").hide();
+      $("#comeback").hide();
       multiplier = 2; 
+    } else if (bool == false) {
+      return; 
     }
   }
-*/ 
   function playAgain () {
     scoreLeft = 0;
     scoreRight = 0;
