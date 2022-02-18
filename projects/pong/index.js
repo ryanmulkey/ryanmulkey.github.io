@@ -15,21 +15,23 @@ function runProgram(){
     "S": 87,    
   };
 
-  
-  var scoreLeft = 0;
+  //score containers
+  var scoreLeft = 0; 
   var scoreRight = 0;
-
   var boxPing = 0; 
 
-  var multiplier = 1; 
+   //score multipliers 
+  var multiplier = 1;
   var multRight = 1;
   var multLeft = 1; 
 
-  var winState = prompt("How many points to win?")
+  //Gamestate prompts
+  var winState = prompt("How many points to win?") 
   var namePaddleLeft = prompt("Player 1 Name")
   var namePaddleRight = prompt("Player 2 Name")
 
-  $("#playAgain").hide()
+  //Hiding status elements
+  $("#playAgain").hide() 
   $("#winPaddleLeft").text(namePaddleLeft + " wins!");
   $("#winPaddleLeft").hide(); 
   $("#winPaddleRight").text(namePaddleRight + " wins!");
@@ -40,7 +42,7 @@ function runProgram(){
   $("#comeback").hide();
 
 
-
+//Factory
   function Factory (id, x, y, speedX, speedY) {
   var instance = {};
   
@@ -55,6 +57,7 @@ function runProgram(){
     return instance;
   }
 
+//Object declarations
 var paddleLeft = Factory("#paddleLeft", 10, 225, 0, 0);
 var paddleRight = Factory("#paddleRight", 727, 225, 0, 0);
 var box = Factory("#box", 350 , 250, (Math.round(Math.random()) * 6 - 3), (Math.round(Math.random()) * 6 - 3));
@@ -86,6 +89,7 @@ $(document).on('keyup', handleKeyUp);
     win();
   }
   
+  //keyDown (starts motion)
   function handleKeyDown(event) {
     if (event.which === KEY.S){
       paddleLeft.speedY = -4;
@@ -104,8 +108,9 @@ $(document).on('keyup', handleKeyUp);
       paddleRight.speedY = -4;
       paddleRight.speedX = 0;
 	}
-
   }
+
+  //keyUp (stops motion)
   function handleKeyUp(event) {
     if (event.which === KEY.W || event.which === KEY.S){
       paddleLeft.speedY = 0;
@@ -116,6 +121,7 @@ $(document).on('keyup', handleKeyUp);
 
   }
 
+  //creates object bounds
   function checkBoundaries(id){
 		if (id.y > boardHeight - id.height){ 
     	  id.y  = boardHeight - id.height;
@@ -132,6 +138,7 @@ $(document).on('keyup', handleKeyUp);
 
   }
   
+  //checks object collisions 
   function doCollide(obj1, obj2) {
     obj1.leftX = obj1.x;
     obj1.topY = obj1.y;
@@ -147,7 +154,7 @@ $(document).on('keyup', handleKeyUp);
       (obj1.leftX < obj2.rightX) &&
        (obj1.bottomY > obj2.topY) &&
        (obj1.topY < obj2.bottomY))
-    {
+    {//Bounce code
       if (obj2.speedX > 0) {
         obj2.speedX = -(0.35 + obj2.speedX);
         boxPing++; 
@@ -165,6 +172,7 @@ $(document).on('keyup', handleKeyUp);
     }
 		
   }
+  //specifies box reflect or reset
   function boxBounds () {
     if (box.x < 0 + box.width) {
       reset();
@@ -176,6 +184,7 @@ $(document).on('keyup', handleKeyUp);
     }
   }
 
+  //score handler
   function calcScore () {
     if (box.x > boardWidth - (1 + box.width)) {
       scoreLeft = scoreLeft + (multiplier * multLeft);
@@ -185,6 +194,7 @@ $(document).on('keyup', handleKeyUp);
     }
   }
 
+  //print score handler
   function drawPlayerInfo() {
     $('#scorePaddleLeft').text(scoreLeft);
     $('#scorePaddleRight').text(scoreRight);
@@ -192,6 +202,7 @@ $(document).on('keyup', handleKeyUp);
     $('#namePaddleRight').text(namePaddleRight);
   }
 
+  //win handler
   function win () {
     if (scoreLeft >= winState) {
       endGame();
@@ -206,6 +217,7 @@ $(document).on('keyup', handleKeyUp);
     }
   }
 
+  //boxPing ticker 
   function streak() {
     if (boxPing === 0) {
       $("#box").css("background-color", "rgb(255, 255, 255)");
@@ -235,12 +247,13 @@ $(document).on('keyup', handleKeyUp);
       $("#box").css("background-color", "rgb(255, 55, 55)");
       $("body").css("background-color", "rgb(55, 55, 55)");
     } else{
-      onFire(true);
+      onFire(true); //switches to onfire
     } 
   }
 
+  //comeback ticker
   function comeback () {
-    var diff = scoreLeft - scoreRight
+    var diff = scoreLeft - scoreRight;
     if (diff > 5 || diff < -5) {
         revenge(true);
     } else {
@@ -248,8 +261,9 @@ $(document).on('keyup', handleKeyUp);
     }
   }
 
+  //comeback and streak checker
   function stack () {
-    var diff = scoreLeft - scoreRight
+    var diff = scoreLeft - scoreRight;
     if (boxPing > 8 && diff > 5 || boxPing > 8 && diff < -5) {
       double(true);
     } else {
@@ -259,6 +273,8 @@ $(document).on('keyup', handleKeyUp);
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
+
+  //object movement handler
   function repositionAndRedrawGameItems() {
     paddleLeft.y += paddleLeft.speedY;
     $("#paddleLeft").css("left", paddleLeft.x);
@@ -274,6 +290,7 @@ $(document).on('keyup', handleKeyUp);
     $("#box").css("top", box.y);
   }
   
+  //reset handler
   function reset() {
     $("#box").hide()
     box.speedX = 0;
@@ -305,6 +322,7 @@ $(document).on('keyup', handleKeyUp);
     $("#stack").hide();
   } 
 
+  //streak state
   function onFire (bool) {
     if (bool == true) {
       $("#box").css("background-color", "rgb(255, 30, 30)");
@@ -321,9 +339,10 @@ $(document).on('keyup', handleKeyUp);
       multiplier = 2; 
     } else if (bool == false) {
       return; 
+    }
   }
-}
 
+  //comeback state
   function revenge (bool) {
     if (bool == true) {
       $("#box").css("background-color", "rgb(30, 30, 255)");
@@ -347,6 +366,7 @@ $(document).on('keyup', handleKeyUp);
     }
   }
 
+  //stack state
   function double (bool) {
     if (bool == true) {
       $("#box").css("background-color", "(131, 0, 139)");
@@ -367,6 +387,8 @@ $(document).on('keyup', handleKeyUp);
       return; 
     }
   }
+
+  //end state
   function playAgain () {
     scoreLeft = 0;
     scoreRight = 0;
