@@ -12,6 +12,7 @@ function runProgram(){
   // Constant Variables
   var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 100;
+
   var KEY = {
     "ENTER": 13,
     "LEFT": 37,
@@ -40,11 +41,13 @@ function runProgram(){
       
       return instance;
     }
+
   var snake = Factory("#snake", 0, 0, 0, 0);
   
   var apple = Factory("#apple", (Math.floor(Math.random() * 20)) * 40, (Math.floor(Math.random() * 20)) * 40, 0, 0);
   
-  
+  var score = 0;
+  var snakeBody = [snake]; 
   
   var boardWidth = $('#board').width();	
   var boardHeight = $('#board').height();
@@ -108,9 +111,10 @@ function runProgram(){
   }
 
   function eatApple () {
-    if (snake.x == apple.x && snake.y == apple) {
-      console.log("test");
-      $("#apple").hide(); 
+    if (snake.x == apple.x && snake.y == apple.y) {
+      bodyIncrease(); 
+      respawnApple(); 
+      score++ 
     }
   }   
 
@@ -127,11 +131,16 @@ function runProgram(){
     $("#apple").css("top", apple.y);
   }
   
-  function spawnApple () {
-    var apple = Factory("#apple", Math.random() * boardWidth, Math.random() * boardHeight, 0, 0);
-
+  function respawnApple () {
+    //$("#apple").hide(); 
+    apple.x = (Math.floor(Math.random() * 20)) * 40;
+    apple.y = (Math.floor(Math.random() * 20)) * 40; 
+    //$("#apple").show(); 
   }
 
+  function bodyIncrease () {
+    
+  }
   function endGame() {
     // stop the interval timer
     clearInterval(interval);
