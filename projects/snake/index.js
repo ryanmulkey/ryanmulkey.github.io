@@ -11,7 +11,7 @@ function runProgram(){
 
   // Constant Variables
   var FRAME_RATE = 10;
-  var FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
+  var FRAMES_PER_SECOND_INTERVAL = 100;
   var KEY = {
     "ENTER": 13,
     "LEFT": 37,
@@ -42,7 +42,9 @@ function runProgram(){
     }
   var snake = Factory("#snake", 0, 0, 0, 0);
   
-  var apple = Factory("#apple", Math.floor(Math.random() * 800), Math.floor(Math.random() * 800));
+  var apple = Factory("#apple", (Math.floor(Math.random() * 20)) * 40, (Math.floor(Math.random() * 20)) * 40, 0, 0);
+  
+  
   
   var boardWidth = $('#board').width();	
   var boardHeight = $('#board').height();
@@ -66,7 +68,6 @@ function runProgram(){
     repositionAndRedrawGameItem();
     checkBoundaries();
     eatApple(); 
-    createBoard(); 
   }
   
   /* 
@@ -107,21 +108,12 @@ function runProgram(){
   }
 
   function eatApple () {
-    var $snake = $("#snake");
-    var $apple = $("#apple")
-    if (doCollide($snake, $apple) == false) {
+    if (snake.x == apple.x && snake.y == apple) {
       console.log("test");
       $("#apple").hide(); 
     }
   }   
 
-  function createBoard() {
-    popup.style.display = "none";
-    for (let i = 0; i < 100; i++) {
-      let div = document.createElement("div");
-      grid.appendChild(div);
-    }
-  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -140,14 +132,6 @@ function runProgram(){
 
   }
 
-  function doCollide(a, b) {
-    return !(
-        ((a.y + a.height) < (b.y)) ||
-        (a.y > (b.y + b.height)) ||
-        ((a.x + a.width) < b.x) ||
-        (a.x > (b.x + b.width))
-    );
-}
   function endGame() {
     // stop the interval timer
     clearInterval(interval);
