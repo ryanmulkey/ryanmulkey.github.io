@@ -42,12 +42,12 @@ function runProgram(){
       return instance;
     }
 
-  var snake = Factory("#snake", 0, 0, 0, 0);
+  var snakeHead = Factory("#snake", 0, 0, 0, 0);
   
   var apple = Factory("#apple", (Math.floor(Math.random() * 20)) * 40, (Math.floor(Math.random() * 20)) * 40, 0, 0);
   
   var score = 0;
-  var snakeBody = [snake]; 
+  var snakeBody = [snakeHead]; 
   
   var boardWidth = $('#board').width();	
   var boardHeight = $('#board').height();
@@ -78,43 +78,45 @@ function runProgram(){
   */
   function handleKeyDown(event) {
     if (event.which === KEY.LEFT || event.which === KEY.A){
-  	  snake.speedX = -20;
-      snake.speedY = 0;
+  	  snakeHead.speedX = -20;
+      snakeHead.speedY = 0;
   	}
   	if (event.which === KEY.RIGHT || event.which === KEY.D){
-  	  snake.speedX = +20;
-      snake.speedY = 0;
+  	  snakeHead.speedX = +20;
+      snakeHead.speedY = 0;
 	  }
     if (event.which === KEY.UP || event.which === KEY.W){
-      snake.speedY = -20;
-      snake.speedX = 0;
+      snakeHead.speedY = -20;
+      snakeHead.speedX = 0;
     }
     if (event.which === KEY.DOWN || event.which === KEY.S){
-      snake.speedY = +20;
-      snake.speedX = 0;
+      snakeHead.speedY = +20;
+      snakeHead.speedX = 0;
 	  }
   }
 
   function checkBoundaries(){
-    if (snake.x > boardWidth - snakeWidth){ 
-    	  snake.x = boardWidth - snakeWidth;
+    if (snakeHead.x > boardWidth - snakeWidth){ 
+      snakeHead.x = boardWidth - snakeWidth;
 		}
-		if (snake.x < 0){ 
-    	  snake.x = 0;
+		if (snakeHead.x < 0){ 
+      snakeHead.x = 0;
 		}
-		if (snake.y > boardHeight - snakeHeight){ 
-    	  snake.y  = boardHeight - snakeHeight;
+		if (snakeHead.y > boardHeight - snakeHeight){ 
+      snakeHead.y  = boardHeight - snakeHeight;
 		}
-		if (snake.y < 0){ 
-    	  snake.y  = 0;
+		if (snakeHead.y < 0){ 
+      snakeHead.y  = 0;
 		}
   }
 
   function eatApple () {
-    if (snake.x == apple.x && snake.y == apple.y) {
+    if (snakeHead.x == apple.x && snakeHead.y == apple.y) {
       bodyIncrease(); 
       respawnApple(); 
       score++ 
+      console.log(score);
+
     }
   }   
 
@@ -122,15 +124,35 @@ function runProgram(){
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
   function repositionAndRedrawGameItem() {
-    snake.x += snake.speedX;
-    snake.y += snake.speedY;
-    $("#snake").css("left", snake.x);
-    $("#snake").css("top", snake.y);
+    snakeHead.x += snakeHead.speedX;
+    snakeHead.y += snakeHead.speedY;
+    $("#snake").css("left", snakeHead.x);
+    $("#snake").css("top", snakeHead.y);
     
     $("#apple").css("left", apple.x);
     $("#apple").css("top", apple.y);
   }
   
+  function bodyIncrease() {
+      var newID = "snake" + snakeBody.length;
+
+      $("<div>")
+          .addClass("snake")
+          .attr('id', newID)
+          .appendTo("#board")
+      
+      var tail = snakeBody[snakeBody.length - 1];    
+      var newBodyPiece = Factory(tail.x + 2, tail.y, 0, 0, "#" + newID);
+      
+      drawObject(newBodyPiece);    
+      snakeSegments.push(newBodyPiece);
+  }
+
+  function drawObject(object) {
+    $(object.id).css("left", object.x);
+    $(object.id).css("top", object.y);
+  }
+
   function respawnApple () {
     //$("#apple").hide(); 
     apple.x = (Math.floor(Math.random() * 20)) * 40;

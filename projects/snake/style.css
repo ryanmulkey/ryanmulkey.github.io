@@ -10,11 +10,11 @@ body {
     background-color: black;
     position: relative;
     left: 30%;
-    background-image: url("checker.png");
+     background-image: url("checker.png");
 
   }
   
-  #snake {
+  .snake , #snake {
     background-color: green;
     width: 20px;
     height: 20px;
