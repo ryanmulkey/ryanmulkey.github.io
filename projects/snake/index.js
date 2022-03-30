@@ -71,6 +71,7 @@ function runProgram(){
     repositionAndRedrawGameItem();
     checkBoundaries();
     eatApple(); 
+    repositionSnake();
   }
   
   /* 
@@ -98,6 +99,7 @@ function runProgram(){
   function checkBoundaries(){
     if (snakeHead.x > boardWidth - snakeWidth){ 
       snakeHead.x = boardWidth - snakeWidth;
+
 		}
 		if (snakeHead.x < 0){ 
       snakeHead.x = 0;
@@ -116,10 +118,17 @@ function runProgram(){
       respawnApple(); 
       score++ 
       console.log(score);
-
     }
   }   
 
+  function repositionSnake(){
+    for (var i = snakeBody.length - 1; i >= 1; i--){
+       snakeBody[i].x = snakeBody[i - 1].x;
+       snakeBody[i].y = snakeBody[i - 1].y;
+       drawObject(snakeBody[i]);
+    }
+    
+  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -133,8 +142,8 @@ function runProgram(){
     $("#apple").css("top", apple.y);
   }
   
-  function bodyIncrease() {
-      var newID = "snake" + snakeBody.length;
+  function bodyIncrease () {
+    var newID = "snake" + snakeBody.length;
 
       $("<div>")
           .addClass("snake")
@@ -142,10 +151,10 @@ function runProgram(){
           .appendTo("#board")
       
       var tail = snakeBody[snakeBody.length - 1];    
-      var newBodyPiece = Factory(tail.x + 2, tail.y, 0, 0, "#" + newID);
+      var newBodyPiece = Factory("#" + newID, tail.x + 2, tail.y, 0, 0);
       
       drawObject(newBodyPiece);    
-      snakeSegments.push(newBodyPiece);
+      snakeBody.push(newBodyPiece);
   }
 
   function drawObject(object) {
@@ -160,9 +169,6 @@ function runProgram(){
     //$("#apple").show(); 
   }
 
-  function bodyIncrease () {
-    
-  }
   function endGame() {
     // stop the interval timer
     clearInterval(interval);
