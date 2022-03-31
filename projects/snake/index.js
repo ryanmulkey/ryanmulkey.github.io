@@ -47,6 +47,7 @@ function runProgram(){
   var apple = Factory("#apple", (Math.floor(Math.random() * 20)) * 40, (Math.floor(Math.random() * 20)) * 40, 0, 0);
   
   var score = 0;
+  var prevScore = 0;
   var snakeBody = [snakeHead]; 
   
   var boardWidth = $('#board').width();	
@@ -54,6 +55,8 @@ function runProgram(){
 
   var snakeWidth = $('#snake').width();	
   var snakeHeight = $('#snake').height();
+
+
 
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -74,6 +77,7 @@ function runProgram(){
     snakeCheck();
     appleCheck();  
     repositionSnake();
+    drawScore(); 
   }
   
   /* 
@@ -176,6 +180,12 @@ function runProgram(){
     $(object.id).css("top", object.y);
   }
 
+  function drawScore() {
+    $('#score').text("Current Session Score: " + score);
+    $('#prevScore').text("Previous Session Score: " + prevScore);
+
+  }
+
   function respawnApple () {
     apple.x = (Math.floor(Math.random() * 20)) * 40;
     apple.y = (Math.floor(Math.random() * 20)) * 40; 
@@ -184,6 +194,10 @@ function runProgram(){
   function reset () {
     snakeHead.x = 0;
     snakeHead.y = 0;
+    snakeHead.speedX = 0;
+    snakeHead.speedY = 0;
+
+    prevScore = score; 
     score = 0;
 
     $(".snake").remove();
