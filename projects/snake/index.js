@@ -71,6 +71,8 @@ function runProgram(){
     repositionAndRedrawGameItem();
     checkBoundaries();
     eatApple(); 
+    snakeCheck();
+    appleCheck();  
     repositionSnake();
   }
   
@@ -98,17 +100,16 @@ function runProgram(){
 
   function checkBoundaries(){
     if (snakeHead.x > boardWidth - snakeWidth){ 
-      snakeHead.x = boardWidth - snakeWidth;
-
+      reset(); 
 		}
 		if (snakeHead.x < 0){ 
-      snakeHead.x = 0;
+      reset(); 
 		}
 		if (snakeHead.y > boardHeight - snakeHeight){ 
-      snakeHead.y  = boardHeight - snakeHeight;
+      reset();
 		}
 		if (snakeHead.y < 0){ 
-      snakeHead.y  = 0;
+      reset();
 		}
   }
 
@@ -129,6 +130,19 @@ function runProgram(){
     }
     
   }
+
+  function snakeCheck () {
+    if (collideCheck(snakeHead) == true) {
+      reset(); 
+    }
+  }
+
+  function appleCheck () {
+    if (collideCheck(apple) == true) {
+      respawnApple(); 
+    }
+  }
+  
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -163,10 +177,25 @@ function runProgram(){
   }
 
   function respawnApple () {
-    //$("#apple").hide(); 
     apple.x = (Math.floor(Math.random() * 20)) * 40;
     apple.y = (Math.floor(Math.random() * 20)) * 40; 
-    //$("#apple").show(); 
+  }
+
+  function reset () {
+    snakeHead.x = 0;
+    snakeHead.y = 0;
+    score = 0;
+
+    $(".snake").remove();
+    snakeBody.length = 1;
+  }
+
+  function collideCheck(object){
+    for (var i = 1; i < snakeBody.length; i++) {
+      if (object.x == snakeBody[i].x && object.y == snakeBody[i].y){
+        return true; 
+      }      
+    }
   }
 
   function endGame() {
