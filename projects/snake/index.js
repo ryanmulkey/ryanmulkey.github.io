@@ -13,6 +13,11 @@ function runProgram(){
   var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 100;
 
+  var canLeft = false;
+  var canRight = true;
+  var canUp = true;
+  var canDown = true;
+
   var KEY = {
     "ENTER": 13,
     "LEFT": 37,
@@ -21,10 +26,10 @@ function runProgram(){
     "DOWN": 40,
     "SPACE": 32,
     
-    "A": 68,
-    "W": 83,
-    "S": 87,
-    "D": 65,
+    "A": 65,
+    "W": 87,
+    "S": 83,
+    "D": 68,
     
   };
   // Game Item Objects
@@ -78,6 +83,7 @@ function runProgram(){
     appleCheck();  
     repositionSnake();
     drawScore(); 
+    selfCheck();
   }
   
   /* 
@@ -85,20 +91,28 @@ function runProgram(){
   */
   function handleKeyDown(event) {
     if (event.which === KEY.LEFT || event.which === KEY.A){
+      if (snakeHead.speedX == 0 && canLeft) {
   	  snakeHead.speedX = -20;
       snakeHead.speedY = 0;
+      }
   	}
   	if (event.which === KEY.RIGHT || event.which === KEY.D){
+      if (snakeHead.speedX == 0 && canRight) {
   	  snakeHead.speedX = +20;
       snakeHead.speedY = 0;
+      }
 	  }
     if (event.which === KEY.UP || event.which === KEY.W){
+      if (snakeHead.speedY == 0 && canUp) {
       snakeHead.speedY = -20;
       snakeHead.speedX = 0;
+      }
     }
     if (event.which === KEY.DOWN || event.which === KEY.S){
+      if (snakeHead.speedY == 0 && canDown) {
       snakeHead.speedY = +20;
       snakeHead.speedX = 0;
+      }
 	  }
   }
 
@@ -147,6 +161,13 @@ function runProgram(){
     }
   }
   
+  
+  function selfCheck() {
+    snakeHead.x > snakeHead.prevX ? canLeft = false : canLeft = true;
+    snakeHead.x < snakeHead.prevX ? canRight = false : canRight = true;
+    snakeHead.y > snakeHead.prevY ? canUp = false : canUp = true;
+    snakeHead.y < snakeHead.prevY ? canDown = false : canDown = true;
+  }
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
