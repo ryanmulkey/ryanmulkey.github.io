@@ -13,11 +13,13 @@ function runProgram(){
   var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 100;
 
+  //determines if you can go in a specific direction
   var canLeft = false;
   var canRight = true;
-  var canUp = true;
+  var canUp = false;
   var canDown = true;
 
+  //keycode object
   var KEY = {
     "ENTER": 13,
     "LEFT": 37,
@@ -32,6 +34,7 @@ function runProgram(){
     "D": 68,
     
   };
+
   // Game Item Objects
   function Factory (id, x, y, speedX, speedY) {
     var instance = {};
@@ -47,21 +50,22 @@ function runProgram(){
       return instance;
     }
 
+  //Factory objects declaration
   var snakeHead = Factory("#snake", 0, 0, 0, 0);
-  
   var apple = Factory("#apple", (Math.floor(Math.random() * 20)) * 40, (Math.floor(Math.random() * 20)) * 40, 0, 0);
   
+  //score ticker
   var score = 0;
   var prevScore = 0;
+
+  //snake div
   var snakeBody = [snakeHead]; 
   
+  //div widths
   var boardWidth = $('#board').width();	
   var boardHeight = $('#board').height();
-
   var snakeWidth = $('#snake').width();	
   var snakeHeight = $('#snake').height();
-
-
 
   // one-time setup
   var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -86,9 +90,7 @@ function runProgram(){
     selfCheck();
   }
   
-  /* 
-  Called in response to events.
-  */
+  //keyboard events
   function handleKeyDown(event) {
     if (event.which === KEY.LEFT || event.which === KEY.A){
       if (snakeHead.speedX == 0 && canLeft) {
@@ -116,6 +118,7 @@ function runProgram(){
 	  }
   }
 
+  //boundary check for snake
   function checkBoundaries(){
     if (snakeHead.x > boardWidth - snakeWidth){ 
       reset(); 
@@ -131,6 +134,7 @@ function runProgram(){
 		}
   }
 
+  //detects apple collision
   function eatApple () {
     if (snakeHead.x == apple.x && snakeHead.y == apple.y) {
       bodyIncrease(); 
@@ -140,6 +144,7 @@ function runProgram(){
     }
   }   
 
+  //handles snake body motion
   function repositionSnake(){
     for (var i = snakeBody.length - 1; i >= 1; i--){
        snakeBody[i].x = snakeBody[i - 1].x;
@@ -149,19 +154,22 @@ function runProgram(){
     
   }
 
+  //checks snake collision with body
   function snakeCheck () {
     if (collideCheck(snakeHead) == true) {
       reset(); 
     }
   }
 
+  //checks snake collision with apple
   function appleCheck () {
     if (collideCheck(apple) == true) {
       respawnApple(); 
     }
   }
   
-  
+  //permenantly borrowed from https://christinescheller.github.io/ASD/snake/index.html
+  //prevents doubling back, QoL
   function selfCheck() {
     snakeHead.x > snakeHead.prevX ? canLeft = false : canLeft = true;
     snakeHead.x < snakeHead.prevX ? canRight = false : canRight = true;
@@ -181,6 +189,7 @@ function runProgram(){
     $("#apple").css("top", apple.y);
   }
   
+  //increases snake body
   function bodyIncrease () {
     var newID = "snake" + snakeBody.length;
 
@@ -196,22 +205,26 @@ function runProgram(){
       snakeBody.push(newBodyPiece);
   }
 
+  //object draw helper
   function drawObject(object) {
     $(object.id).css("left", object.x);
     $(object.id).css("top", object.y);
   }
 
+  //draws score
   function drawScore() {
     $('#score').text("Current Session Score: " + score);
     $('#prevScore').text("Previous Session Score: " + prevScore);
 
   }
 
+  //respawns apple in random position
   function respawnApple () {
     apple.x = (Math.floor(Math.random() * 20)) * 40;
     apple.y = (Math.floor(Math.random() * 20)) * 40; 
   }
 
+  //resets snake pos, vel, and score on death
   function reset () {
     snakeHead.x = 0;
     snakeHead.y = 0;
@@ -225,6 +238,7 @@ function runProgram(){
     snakeBody.length = 1;
   }
 
+  //helper check for collision
   function collideCheck(object){
     for (var i = 1; i < snakeBody.length; i++) {
       if (object.x == snakeBody[i].x && object.y == snakeBody[i].y){
