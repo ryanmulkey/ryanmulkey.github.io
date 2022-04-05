@@ -12,6 +12,7 @@ function runProgram(){
   // Constant Variables
   var FRAME_RATE = 10;
   var FRAMES_PER_SECOND_INTERVAL = 100;
+  $("#playAgain").hide();
 
   //determines if you can go in a specific direction
   var canLeft = false;
@@ -213,29 +214,27 @@ function runProgram(){
 
   //draws score
   function drawScore() {
-    $('#score').text("Current Session Score: " + score);
-    $('#prevScore').text("Previous Session Score: " + prevScore);
-
+    $('#score').text("Score: " + score);
   }
 
   //respawns apple in random position
   function respawnApple () {
+    $("#apple").hide();
     apple.x = (Math.floor(Math.random() * 20)) * 40;
     apple.y = (Math.floor(Math.random() * 20)) * 40; 
+    $("#apple").show();
   }
 
   //resets snake pos, vel, and score on death
   function reset () {
-    snakeHead.x = 0;
-    snakeHead.y = 0;
-    snakeHead.speedX = 0;
-    snakeHead.speedY = 0;
-
-    prevScore = score; 
-    score = 0;
-
+    $("#snakeHead").hide();
+    $("#playAgain").show();
+    endGame();
     $(".snake").remove();
     snakeBody.length = 1;
+    $("#playAgain").on("click", runProgram);
+
+    
   }
 
   //helper check for collision
