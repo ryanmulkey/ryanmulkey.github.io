@@ -1,6 +1,7 @@
 
 body {
   background-color: darkgreen;
+  cursor: none; 
 }
 
 #board {
@@ -9,8 +10,8 @@ body {
   border: 1px solid white;
   background-color: black;
   position: absolute;
-  left: 30%
-}
+  left: 30%;
+  }
 
 #gameItem {
   background-color: black;

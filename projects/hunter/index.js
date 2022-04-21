@@ -137,8 +137,8 @@ var gameItem2Height = $('#gameItem2').height();
   function repositionAndRedrawGameItems() {
     gameItem.x += mouseX;
     gameItem.y += mouseY;
-    $("#gameItem").css("left", gameItem.x);
-    $("#gameItem").css("top", gameItem.y);
+    $("#gameItem").css("left", mouseX - 380);
+    $("#gameItem").css("top", mouseY - 20);
     gameItem2.x += gameItem2.speedX;
     gameItem2.y += gameItem2.speedY;
     $("#gameItem2").css("left", gameItem2.x);
