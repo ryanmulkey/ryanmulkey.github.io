@@ -1,0 +1,56 @@
+
+body {
+  background-color: darkgreen;
+}
+
+#board {
+  width: 440px;
+  height: 440px;
+  border: 1px solid white;
+  background-color: black;
+  position: absolute;
+  left: 30%
+}
+
+#gameItem {
+  background-color: black;
+  border-style: dotted;
+  border-radius: 100%;
+  border-color: red;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+/*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
+/*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+}
+
+#gameItem2 {
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+/*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
+/*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+}
+
+div {
+  width: 220px;
+  height: 170px;
+  margin: 10px 50px 10px 10px;
+  background: yellow;
+  border: 2px groove;
+  float: right;
+}
+p {
+  margin: 0;
+  margin-left: 10px;
+  color: red;
+  width: 220px;
+  height: 120px;
+  padding-top: 70px;
+  float: left;
+  font-size: 14px;
+}
+span {
+  display: block;
+}
