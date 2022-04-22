@@ -1,7 +1,6 @@
 
 body {
   background-color: darkgreen;
-  cursor: none; 
 }
 
 #board {
@@ -18,6 +17,7 @@ body {
   border-style: dotted;
   border-radius: 100%;
   border-color: red;
+  opacity: 0; 
   width: 10px;
   height: 10px;
   position: absolute;

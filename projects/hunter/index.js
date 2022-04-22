@@ -11,10 +11,11 @@ function runProgram(){
   let mouseY;
   
   $( "div" ).mousemove(function( event ) {
-    var clientCoords = "( " + event.clientX + ", " + event.clientY + " )";
-    $( "span" ).last().text( "( event.clientX, event.clientY ) : " + clientCoords );
     mouseX = event.clientX;
     mouseY = event.clientY; 
+    var clientCoords = "( " + event.clientX + ", " + event.clientY + " )";
+    $( "span" ).last().text( "( event.clientX, event.clientY ) : " + clientCoords );
+    
   });
 
 
@@ -56,6 +57,12 @@ var gameItem2 = {};
 
 var boardWidth = $('#board').width();	
 var boardHeight = $('#board').height();
+
+var windowWidth = $(window).width();
+var windowHeight = $(window).height();
+
+var docWidth = $(document).width();
+var docHeight = $(document).height();
 
 var gameItemWidth = $('#gameItem').width();	
 var gameItemHeight = $('#gameItem').height();
@@ -137,8 +144,8 @@ var gameItem2Height = $('#gameItem2').height();
   function repositionAndRedrawGameItems() {
     gameItem.x += mouseX;
     gameItem.y += mouseY;
-    $("#gameItem").css("left", mouseX - 380);
-    $("#gameItem").css("top", mouseY - 20);
+    $("#gameItem").css("left", mouseX);
+    $("#gameItem").css("top", mouseY);
     gameItem2.x += gameItem2.speedX;
     gameItem2.y += gameItem2.speedY;
     $("#gameItem2").css("left", gameItem2.x);
