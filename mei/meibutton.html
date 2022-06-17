@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Letter</title>
+    <title>Now you can press my buttons from far away</title>
 
     <style>
         body { 
@@ -15,6 +15,52 @@
             padding: 10px;
             line-height: 200%;
         }
+
+        .btn-two {
+        color: #FFF;
+        transition: all 0.5s;
+        position: relative; 
+        }
+        .btn-two span {
+        z-index: 2; 
+         display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%; 
+        }
+        .btn-two::before {
+        content: '';
+        position: absolute;
+                top: 0;
+        left: 0;
+         width: 50%;
+         height: 50%;
+         z-index: 1;
+         transition: all 0.5s;
+        border: 1px solid rgba(255,255,255,0.2);
+         background-color: rgba(255,255,255,0.1);
+}
+.btn-two::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  z-index: 1;
+  transition: all 0.5s;
+  border: 1px solid rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.1);
+}
+.btn-two:hover::before {
+  transform: rotate(-45deg);
+  background-color: rgba(255,255,255,0);
+}
+.btn-two:hover::after {
+  transform: rotate(45deg);
+  background-color: rgba(255,255,255,0);
+}
+
 
     </style>
 </head>
@@ -30,5 +76,14 @@
     <br>
     <a href="meiagenda.html"> And here is it in text </a>
     <br>
+    My ideas for this were too lofty I apologize I hope the rest of the mei site is pleasing to you. Look here is a button for your clicking pleasure
+    <br>
+    <div class="box-2">
+        <div class="btn btn-two">
+          <span>X means I'm yours</span>
+        </div>
+      </div>
+      
+
 </body>
 </html>
