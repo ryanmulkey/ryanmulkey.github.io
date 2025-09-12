@@ -1,31 +1,19 @@
-
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-    <head>
-        <link rel="shortcut icon" href="yae.png"/>
-       <title>Hill, Lamonte, Mulkey, Tomlin Resumes</title>
-            <style>
-                body {
-                    background: lightgray;
-                    color: rgb(75, 0, 0);
-                    padding: 10px;
-                    font-family: arial;
-                    background-color: darkslateblue;
-                }
-                /* main container area beneath menu */
-                main {
-                    background: lightgray;
-                    display: flex;
-                    border: 2px solid black;
-                    border-radius: 15px;
-                }
-            </style>
-    </head>
-    
-    <body>
-      <img src="TrilbyHill_Resume.pdf" alt="Trilby Hill Resume">
-      <img src="RileyLamonte_Resume.pdf" alt="Riley Lamonte Resume">
-      <img src="RyanMulkey_Resume.pdf" alt="Ryan Mulkey Resume">
-      <img src="ElisaTomlin_Resume.pdf" alt="Elisa Tomlin Resume">
-    </body>
+<head>
+    <title>PDF Display</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        .pdf-container {
+            width: 100vw; /* Viewport width */
+            height: 100vh; /* Viewport height */
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="RyanMulkey_Resume.pdf" class="pdf-container"></iframe>
+    <!-- Alternatively, use <embed> -->
+    <!-- <embed src="path/to/your/document.pdf" type="application/pdf" class="pdf-container"> -->
+</body>
 </html>
