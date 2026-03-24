@@ -50,8 +50,8 @@
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 56px;
-      align-items: center;
-      padding: 76px 0 56px;
+      align-items: start;
+      padding: 28px 0 56px;
     }
 
     .eyebrow {
@@ -109,7 +109,7 @@
 
     .headshot-frame {
       width: 100%;
-      max-width: 320px;
+      max-width: 420px;
       aspect-ratio: 4 / 5;
       border: 1px solid #cbd5e1;
       background: #ffffff;
@@ -125,18 +125,21 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 18px;
+      padding: 0;
       color: #64748b;
       font-size: 14px;
       line-height: 1.7;
       background: linear-gradient(to bottom, #fafaf9, #f8fafc);
+      overflow: hidden;
     }
+
     .headshot-img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
     }
+
     .tools {
       display: flex;
       flex-wrap: wrap;
@@ -160,9 +163,7 @@
     }
 
     .section-head {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 28px;
+      display: block;
       margin-bottom: 24px;
     }
 
@@ -171,14 +172,15 @@
       text-transform: uppercase;
       letter-spacing: 0.18em;
       color: var(--accent);
-      padding-top: 4px;
+      padding-top: 0;
+      margin-bottom: 8px;
     }
 
     .section-title {
       font-family: Georgia, "Times New Roman", serif;
       font-size: 34px;
       font-weight: 500;
-      margin: 0;
+      margin: 0 0 12px;
     }
 
     .section-subtitle {
@@ -294,16 +296,10 @@
 
     <section class="hero" id="about">
       <div>
-        <div class="eyebrow">About Me</div>
-        <h1>Graduate Mechanical Engineering Student</h1>
+        <div class="eyebrow">Mechanical Engineering Portfolio</div>
+        <h1>Sample Header</h1>
         <p>
-          I am a senior mechanical engineering student at Louisiana Tech University, 
-          and am enrolled in a Master's degree in mechanical engineering. <br> <br>
-          Currently, I serve as President of Louisiana Tech’s Pi Tau Sigma chapter. 
-          Previously, I held the role of President for both the Louisiana Tech American Society of Mechanical Engineers (ASME) student chapter 
-          and the Louisiana Tech Orthodox Christian Fellowship (OCF), where I helped foster both technical engagement and community development. <br> <br>
-          In 2021, I was honored to be a co-recipient of the Congressional App Challenge Award, 
-          recognizing innovation in software development at the national level.
+          Sample text
         </p>
         <div class="button-row">
           <button class="btn">View Projects</button>
@@ -314,7 +310,9 @@
       <div class="headshot-panel">
         <div class="headshot-frame">
           <div class="headshot-placeholder">
-            <img src="headshot.jpg" alt="Professional headshot" class="headshot-img">
+            Professional headshot placeholder<br><br>
+            Replace this box with a square or portrait image such as<br>
+            &lt;img src="headshot.jpg" alt="Professional headshot"&gt;
           </div>
         </div>
       </div>
@@ -370,6 +368,9 @@
         <div class="section-label">Background</div>
         <div>
           <h2 class="section-title">Methods and credentials</h2>
+          <div class="section-subtitle">
+            A concise overview of the analytical methods, software tools, and supporting materials used across the portfolio.
+          </div>
         </div>
       </div>
 
@@ -384,18 +385,16 @@
 
         <div class="list-block">
           <div class="list-title">Resume and Links</div>
-          <div>Resume PDF</div>
-          <div>LinkedIn</div>
-          <div>GitHub</div>
-          <div>Email</div>
+          <div><a href="resume.pdf" target="_blank">Resume PDF</a></div>
+          <div><a href="https://www.linkedin.com/in/ryanmulkey17/" target="_blank">LinkedIn</a></div>
+          <div><a href="mailto:ryanmulkey17@gmail.com">ryanmulkey17@gmail.com</a></div>
         </div>
       </div>
     </section>
 
     <footer class="footer" id="contact">
-      <div>Email</div>
-      <div>LinkedIn</div>
-      <div>GitHub</div>
+      <div><a href="mailto:ryanmulkey17@gmail.com">ryanmulkey17@gmail.com</a></div>
+      <div><a href="https://www.linkedin.com/in/ryanmulkey17/" target="_blank">LinkedIn</a></div>
     </footer>
   </div>
 </body>
