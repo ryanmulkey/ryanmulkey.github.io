@@ -135,10 +135,12 @@
       display: flex;
       gap: 14px;
       overflow-x: auto;
-      scroll-behavior: smooth;
       padding: 4px 2px 8px;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      scroll-snap-type: x proximity;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     .carousel-track::-webkit-scrollbar {
@@ -154,6 +156,7 @@
       cursor: pointer;
       transition: 0.2s ease;
       flex: 0 0 auto;
+      scroll-snap-align: center;
     }
 
     .project-chip:hover {
@@ -349,7 +352,7 @@
       <div class="eyebrow">Project Archive</div>
       <h1 class="page-title">Selected engineering projects</h1>
       <div class="page-subtitle">
-        Browse projects using the carousel below. Selecting a project updates the detail panel with the objective, outcomes, technical details, and a visual area for images, renders, plots, or figures.
+        Updated now
       </div>
     </header>
 
@@ -502,7 +505,13 @@
     const scrollRightBtn = document.getElementById('scrollRight');
 
     let selectedIndex = 0;
-    let isAdjustingScroll = false;
+    let singleSetWidth = 0;
+    let carouselReady = false;
+    let wrapLock = false;
+
+    function buildLoopedProjects() {
+      return [...projects, ...projects, ...projects];
+    }
 
     function updateDetail(project) {
       detailTitle.textContent = project.title;
@@ -514,28 +523,31 @@
       detailImage.alt = project.imageAlt;
 
       detailTechnical.innerHTML = '';
-      project.technical.forEach(item => {
+      project.technical.forEach((item) => {
         const li = document.createElement('li');
         li.textContent = item;
         detailTechnical.appendChild(li);
       });
     }
 
-    function buildLoopedProjects() {
-      return [...projects, ...projects, ...projects];
+    function updateActiveChips() {
+      const chips = carouselTrack.querySelectorAll('.project-chip');
+      chips.forEach((chip) => {
+        chip.classList.toggle('active', Number(chip.dataset.realIndex) === selectedIndex);
+      });
     }
 
     function renderCarousel() {
       const loopProjects = buildLoopedProjects();
-      carouselTrack.innerHTML = '';
+      const fragment = document.createDocumentFragment();
 
-      loopProjects.forEach((project, index) => {
-        const realIndex = index % projects.length;
+      loopProjects.forEach((project, loopIndex) => {
+        const realIndex = loopIndex % projects.length;
         const chip = document.createElement('button');
-        chip.className = 'project-chip' + (realIndex === selectedIndex ? ' active' : '');
+        chip.className = 'project-chip';
         chip.type = 'button';
-        chip.dataset.realIndex = realIndex;
-        chip.dataset.loopIndex = index;
+        chip.dataset.realIndex = String(realIndex);
+        chip.dataset.loopIndex = String(loopIndex);
 
         chip.innerHTML = `
           <div class="chip-label">Project ${realIndex + 1}</div>
@@ -544,14 +556,15 @@
         `;
 
         chip.addEventListener('click', () => {
-          selectedIndex = realIndex;
-          updateDetail(projects[realIndex]);
-          renderCarousel();
-          centerSelectedChip(false);
+          selectProject(realIndex, true);
         });
 
-        carouselTrack.appendChild(chip);
+        fragment.appendChild(chip);
       });
+
+      carouselTrack.innerHTML = '';
+      carouselTrack.appendChild(fragment);
+      updateActiveChips();
     }
 
     function getSingleSetWidth() {
@@ -560,69 +573,104 @@
       return chips[projects.length].offsetLeft - chips[0].offsetLeft;
     }
 
-    function setInitialLoopPosition() {
-      const chips = carouselTrack.querySelectorAll('.project-chip');
-      if (!chips.length) return;
-
-      const middleIndex = projects.length + selectedIndex;
-      const targetChip = chips[middleIndex];
-      if (!targetChip) return;
-
-      carouselTrack.scrollLeft = targetChip.offsetLeft - ((carouselTrack.clientWidth - targetChip.clientWidth) / 2);
+    function setScrollInstant(left) {
+      const previousBehavior = carouselTrack.style.scrollBehavior;
+      carouselTrack.style.scrollBehavior = 'auto';
+      carouselTrack.scrollLeft = left;
+      carouselTrack.getBoundingClientRect();
+      carouselTrack.style.scrollBehavior = previousBehavior;
     }
 
-    function centerSelectedChip(smooth = true) {
+    function getMiddleCopyChip(realIndex) {
       const chips = carouselTrack.querySelectorAll('.project-chip');
-      if (!chips.length) return;
+      return chips[projects.length + realIndex] || null;
+    }
 
-      const middleIndex = projects.length + selectedIndex;
-      const targetChip = chips[middleIndex];
-      if (!targetChip) return;
+    function positionSelectedInMiddle(smooth = false) {
+      const chip = getMiddleCopyChip(selectedIndex);
+      if (!chip) return;
 
-      const targetLeft = targetChip.offsetLeft - ((carouselTrack.clientWidth - targetChip.clientWidth) / 2);
-      carouselTrack.scrollTo({
-        left: targetLeft,
-        behavior: smooth ? 'smooth' : 'auto'
-      });
+      const targetLeft = chip.offsetLeft - ((carouselTrack.clientWidth - chip.clientWidth) / 2);
+
+      if (smooth) {
+        carouselTrack.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      } else {
+        setScrollInstant(targetLeft);
+      }
     }
 
     function maintainInfiniteScroll() {
-      if (isAdjustingScroll) return;
+      if (!carouselReady || wrapLock || !singleSetWidth) return;
 
-      const singleSetWidth = getSingleSetWidth();
-      if (!singleSetWidth) return;
-
+      const currentLeft = carouselTrack.scrollLeft;
       const leftBoundary = singleSetWidth * 0.5;
-      const rightBoundary = singleSetWidth * 2.5;
+      const rightBoundary = singleSetWidth * 1.5;
 
-      if (carouselTrack.scrollLeft < leftBoundary) {
-        isAdjustingScroll = true;
-        carouselTrack.scrollLeft += singleSetWidth;
+      if (currentLeft < leftBoundary) {
+        wrapLock = true;
+        setScrollInstant(currentLeft + singleSetWidth);
         requestAnimationFrame(() => {
-          isAdjustingScroll = false;
+          wrapLock = false;
         });
-      } else if (carouselTrack.scrollLeft > rightBoundary) {
-        isAdjustingScroll = true;
-        carouselTrack.scrollLeft -= singleSetWidth;
+      } else if (currentLeft > rightBoundary) {
+        wrapLock = true;
+        setScrollInstant(currentLeft - singleSetWidth);
         requestAnimationFrame(() => {
-          isAdjustingScroll = false;
+          wrapLock = false;
         });
       }
     }
 
+    function getScrollStep() {
+      const firstChip = carouselTrack.querySelector('.project-chip');
+      if (!firstChip) return 260;
+      const styles = window.getComputedStyle(carouselTrack);
+      const gap = parseFloat(styles.columnGap || styles.gap || 0);
+      return firstChip.getBoundingClientRect().width + gap;
+    }
+
+    function selectProject(index, center = true) {
+      selectedIndex = index;
+      updateDetail(projects[selectedIndex]);
+      updateActiveChips();
+      if (center) {
+        positionSelectedInMiddle(true);
+      }
+    }
+
+    function initializeCarousel() {
+      renderCarousel();
+      updateDetail(projects[selectedIndex]);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          singleSetWidth = getSingleSetWidth();
+          positionSelectedInMiddle(false);
+          carouselReady = true;
+        });
+      });
+    }
+
     scrollLeftBtn.addEventListener('click', () => {
-      carouselTrack.scrollBy({ left: -260, behavior: 'smooth' });
+      carouselTrack.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
     });
 
     scrollRightBtn.addEventListener('click', () => {
-      carouselTrack.scrollBy({ left: 260, behavior: 'smooth' });
+      carouselTrack.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
     });
 
     carouselTrack.addEventListener('scroll', maintainInfiniteScroll, { passive: true });
 
-    updateDetail(projects[selectedIndex]);
-    renderCarousel();
-    setInitialLoopPosition();
+    window.addEventListener('resize', () => {
+      carouselReady = false;
+      requestAnimationFrame(() => {
+        singleSetWidth = getSingleSetWidth();
+        positionSelectedInMiddle(false);
+        carouselReady = true;
+      });
+    });
+
+    initializeCarousel();
   </script>
 </body>
 </html>
