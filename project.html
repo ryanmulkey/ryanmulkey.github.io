@@ -111,52 +111,43 @@
       color: var(--muted);
     }
 
-    .carousel-wrap {
+    .carousel {
       position: relative;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 12px;
-      align-items: center;
+      padding: 6px 54px;
+      user-select: none;
     }
 
-    .carousel-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 1px solid var(--accent);
-      background: white;
-      color: var(--accent);
-      font-size: 18px;
-      cursor: pointer;
-      flex: 0 0 auto;
+    .carousel-window {
+      overflow: hidden;
+      width: 100%;
+      cursor: grab;
+    }
+
+    .carousel-window.dragging {
+      cursor: grabbing;
     }
 
     .carousel-track {
       display: flex;
-      gap: 14px;
-      overflow-x: auto;
-      padding: 4px 2px 8px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      scroll-snap-type: x proximity;
-      overscroll-behavior-x: contain;
-      -webkit-overflow-scrolling: touch;
+      will-change: transform;
+      touch-action: pan-y;
     }
 
-    .carousel-track::-webkit-scrollbar {
-      display: none;
+    .carousel-item {
+      flex: 0 0 calc(100% / 3);
+      padding: 0 8px;
     }
 
     .project-chip {
-      min-width: 220px;
-      max-width: 220px;
+      width: 100%;
+      min-height: 168px;
       background: white;
       border: 1px solid var(--line);
       padding: 14px;
       cursor: pointer;
       transition: 0.2s ease;
-      flex: 0 0 auto;
-      scroll-snap-align: center;
+      text-align: left;
+      color: inherit;
     }
 
     .project-chip:hover {
@@ -191,6 +182,34 @@
       line-height: 1.65;
       color: var(--text-soft);
       margin: 0;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: white;
+      color: var(--accent);
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 2;
+      transition: 0.2s ease;
+    }
+
+    .carousel-btn:hover {
+      background: var(--accent-soft);
+    }
+
+    .carousel-btn.prev {
+      left: 0;
+    }
+
+    .carousel-btn.next {
+      right: 0;
     }
 
     .project-detail {
@@ -318,21 +337,15 @@
       .detail-layout { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       .container { padding: 0 16px; }
       .brand { font-size: 24px; }
       .page-title { font-size: 32px; }
       .detail-title { font-size: 28px; }
-      .project-chip {
-        min-width: 180px;
-        max-width: 180px;
-      }
-      .carousel-wrap {
-        grid-template-columns: 1fr;
-      }
-      .carousel-btn {
-        display: none;
-      }
+      .carousel { padding: 6px 44px; }
+      .carousel-item { padding: 0 6px; }
+      .chip-title { font-size: 20px; }
+      .project-chip { min-height: 154px; }
     }
   </style>
 </head>
@@ -350,21 +363,26 @@
 
     <header class="page-header">
       <div class="eyebrow">Project Archive</div>
-      <h1 class="page-title">Engineering Portfolio</h1>
+      <h1 class="page-title">Selected engineering projects</h1>
       <div class="page-subtitle">
-        
+        Browse projects using the carousel below. Selecting a project updates the detail panel with the objective, outcomes, technical details, and a visual area for images, renders, plots, or figures.
       </div>
     </header>
 
     <section class="carousel-section">
       <div class="carousel-header">
         <div class="carousel-title">Project list</div>
+        <div class="carousel-note">Add more project objects in the script to extend the carousel continuously.</div>
       </div>
 
-      <div class="carousel-wrap">
-        <button class="carousel-btn" id="scrollLeft" aria-label="Scroll left">&#8249;</button>
-        <div class="carousel-track" id="carouselTrack"></div>
-        <button class="carousel-btn" id="scrollRight" aria-label="Scroll right">&#8250;</button>
+      <div class="carousel" id="carousel">
+        <button class="carousel-btn prev" aria-label="Previous project">&#10094;</button>
+
+        <div class="carousel-window">
+          <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+
+        <button class="carousel-btn next" aria-label="Next project">&#10095;</button>
       </div>
     </section>
 
@@ -394,7 +412,7 @@
 
         <div class="visual-panel">
           <div class="visual-title">Visuals</div>
-          <div class="visual-image" id="visualImageWrap">
+          <div class="visual-image">
             <img id="detailImage" src="images/sample-project-1.jpg" alt="Project visual placeholder" />
           </div>
           <div class="visual-caption" id="detailCaption"></div>
@@ -411,7 +429,7 @@
   <script>
     const projects = [
       {
-        title: "Sample Project 1",
+        title: "I'm fixed now",
         chipText: "Placeholder summary for the first engineering case study.",
         summary: "This sample project page demonstrates how a selected carousel entry expands into a structured case-study layout matching the style of the main site.",
         objectives: "Define the engineering problem, frame the design target, and establish the core performance objectives for the study.",
@@ -492,24 +510,54 @@
       }
     ];
 
-    const carouselTrack = document.getElementById('carouselTrack');
-    const detailTitle = document.getElementById('detailTitle');
-    const detailSummary = document.getElementById('detailSummary');
-    const detailObjectives = document.getElementById('detailObjectives');
-    const detailOutcomes = document.getElementById('detailOutcomes');
-    const detailTechnical = document.getElementById('detailTechnical');
-    const detailImage = document.getElementById('detailImage');
-    const detailCaption = document.getElementById('detailCaption');
-    const scrollLeftBtn = document.getElementById('scrollLeft');
-    const scrollRightBtn = document.getElementById('scrollRight');
+    const carousel = document.getElementById("carousel");
+    const windowEl = carousel.querySelector(".carousel-window");
+    const track = carousel.querySelector(".carousel-track");
+    const prevBtn = carousel.querySelector(".prev");
+    const nextBtn = carousel.querySelector(".next");
 
-    let selectedIndex = 0;
-    let singleSetWidth = 0;
-    let carouselReady = false;
-    let wrapLock = false;
+    const detailTitle = document.getElementById("detailTitle");
+    const detailSummary = document.getElementById("detailSummary");
+    const detailObjectives = document.getElementById("detailObjectives");
+    const detailOutcomes = document.getElementById("detailOutcomes");
+    const detailTechnical = document.getElementById("detailTechnical");
+    const detailImage = document.getElementById("detailImage");
+    const detailCaption = document.getElementById("detailCaption");
 
-    function buildLoopedProjects() {
-      return [...projects, ...projects, ...projects];
+    const transitionTime = 450;
+
+    let visibleCount = getVisibleCount();
+    let selectedRealIndex = 0;
+    let currentIndex = 0;
+    let isAnimating = false;
+    let isDragging = false;
+    let dragStartX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+
+    function getVisibleCount() {
+      return window.innerWidth <= 700 ? 1 : 3;
+    }
+
+    function normalizeIndex(index, length) {
+      return ((index % length) + length) % length;
+    }
+
+    function renderOriginalItems() {
+      track.innerHTML = "";
+
+      projects.forEach((project, index) => {
+        const item = document.createElement("div");
+        item.className = "carousel-item";
+        item.innerHTML = `
+          <button class="project-chip" type="button" data-real-index="${index}">
+            <div class="chip-label">Project ${index + 1}</div>
+            <h3 class="chip-title">${project.title}</h3>
+            <p class="chip-text">${project.chipText}</p>
+          </button>
+        `;
+        track.appendChild(item);
+      });
     }
 
     function updateDetail(project) {
@@ -521,155 +569,271 @@
       detailImage.src = project.image;
       detailImage.alt = project.imageAlt;
 
-      detailTechnical.innerHTML = '';
+      detailTechnical.innerHTML = "";
       project.technical.forEach((item) => {
-        const li = document.createElement('li');
+        const li = document.createElement("li");
         li.textContent = item;
         detailTechnical.appendChild(li);
       });
     }
 
-    function updateActiveChips() {
-      const chips = carouselTrack.querySelectorAll('.project-chip');
-      chips.forEach((chip) => {
-        chip.classList.toggle('active', Number(chip.dataset.realIndex) === selectedIndex);
+    function updateActiveItems() {
+      track.querySelectorAll(".project-chip").forEach((chip) => {
+        chip.classList.toggle("active", Number(chip.dataset.realIndex) === selectedRealIndex);
       });
     }
 
-    function renderCarousel() {
-      const loopProjects = buildLoopedProjects();
-      const fragment = document.createDocumentFragment();
+    function getOriginalItems() {
+      return Array.from(track.querySelectorAll(".carousel-item:not(.clone)"));
+    }
 
-      loopProjects.forEach((project, loopIndex) => {
-        const realIndex = loopIndex % projects.length;
-        const chip = document.createElement('button');
-        chip.className = 'project-chip';
-        chip.type = 'button';
-        chip.dataset.realIndex = String(realIndex);
-        chip.dataset.loopIndex = String(loopIndex);
+    function getAllItems() {
+      return Array.from(track.querySelectorAll(".carousel-item"));
+    }
 
-        chip.innerHTML = `
-          <div class="chip-label">Project ${realIndex + 1}</div>
-          <h3 class="chip-title">${project.title}</h3>
-          <p class="chip-text">${project.chipText}</p>
-        `;
+    function getOriginalCount() {
+      return projects.length;
+    }
 
-        chip.addEventListener('click', () => {
-          selectProject(realIndex, true);
-        });
+    function getSlideWidth() {
+      return windowEl.clientWidth / visibleCount;
+    }
 
-        fragment.appendChild(chip);
+    function getTranslateForIndex(index) {
+      return -(index * getSlideWidth());
+    }
+
+    function setTrackPosition(px, withTransition = false) {
+      track.style.transition = withTransition
+        ? `transform ${transitionTime}ms ease`
+        : "none";
+      track.style.transform = `translateX(${px}px)`;
+      currentTranslate = px;
+    }
+
+    function setSlideWidths() {
+      const slideWidth = getSlideWidth();
+      getAllItems().forEach((item) => {
+        item.style.flex = `0 0 ${slideWidth}px`;
+      });
+    }
+
+    function jumpToIndex(index) {
+      setTrackPosition(getTranslateForIndex(index), false);
+    }
+
+    function moveToIndex(index) {
+      setTrackPosition(getTranslateForIndex(index), true);
+    }
+
+    function getBaseIndex(realIndex) {
+      return visibleCount + realIndex - Math.floor(visibleCount / 2);
+    }
+
+    function getSelectedIndexFromCurrentIndex() {
+      return normalizeIndex(
+        currentIndex + Math.floor(visibleCount / 2) - visibleCount,
+        getOriginalCount()
+      );
+    }
+
+    function syncSelectionFromCurrentIndex() {
+      selectedRealIndex = getSelectedIndexFromCurrentIndex();
+      updateDetail(projects[selectedRealIndex]);
+      updateActiveItems();
+    }
+
+    function setupCarousel() {
+      visibleCount = getVisibleCount();
+      track.querySelectorAll(".clone").forEach((clone) => clone.remove());
+
+      const originals = getOriginalItems();
+
+      if (originals.length <= visibleCount) {
+        currentIndex = 0;
+        setSlideWidths();
+        jumpToIndex(0);
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        selectedRealIndex = 0;
+        updateDetail(projects[selectedRealIndex]);
+        updateActiveItems();
+        return;
+      }
+
+      prevBtn.style.display = "";
+      nextBtn.style.display = "";
+
+      const headClones = originals.slice(0, visibleCount).map((item) => {
+        const clone = item.cloneNode(true);
+        clone.classList.add("clone");
+        return clone;
       });
 
-      carouselTrack.innerHTML = '';
-      carouselTrack.appendChild(fragment);
-      updateActiveChips();
+      const tailClones = originals.slice(-visibleCount).map((item) => {
+        const clone = item.cloneNode(true);
+        clone.classList.add("clone");
+        return clone;
+      });
+
+      tailClones.forEach((clone) => track.prepend(clone));
+      headClones.forEach((clone) => track.append(clone));
+
+      currentIndex = getBaseIndex(selectedRealIndex);
+      setSlideWidths();
+      jumpToIndex(currentIndex);
+      updateActiveItems();
     }
 
-    function getSingleSetWidth() {
-      const chips = carouselTrack.querySelectorAll('.project-chip');
-      if (chips.length < projects.length + 1) return 0;
-      return chips[projects.length].offsetLeft - chips[0].offsetLeft;
+    function nextSlide() {
+      if (isAnimating || isDragging || getOriginalCount() <= visibleCount) return;
+      isAnimating = true;
+      currentIndex += 1;
+      selectedRealIndex = normalizeIndex(selectedRealIndex + 1, getOriginalCount());
+      updateDetail(projects[selectedRealIndex]);
+      updateActiveItems();
+      moveToIndex(currentIndex);
     }
 
-    function setScrollInstant(left) {
-      const previousBehavior = carouselTrack.style.scrollBehavior;
-      carouselTrack.style.scrollBehavior = 'auto';
-      carouselTrack.scrollLeft = left;
-      carouselTrack.getBoundingClientRect();
-      carouselTrack.style.scrollBehavior = previousBehavior;
+    function prevSlide() {
+      if (isAnimating || isDragging || getOriginalCount() <= visibleCount) return;
+      isAnimating = true;
+      currentIndex -= 1;
+      selectedRealIndex = normalizeIndex(selectedRealIndex - 1, getOriginalCount());
+      updateDetail(projects[selectedRealIndex]);
+      updateActiveItems();
+      moveToIndex(currentIndex);
     }
 
-    function getMiddleCopyChip(realIndex) {
-      const chips = carouselTrack.querySelectorAll('.project-chip');
-      return chips[projects.length + realIndex] || null;
+    track.addEventListener("transitionend", () => {
+      const originalCount = getOriginalCount();
+
+      if (originalCount <= visibleCount) {
+        isAnimating = false;
+        return;
+      }
+
+      if (currentIndex >= originalCount + visibleCount) {
+        currentIndex = getBaseIndex(selectedRealIndex);
+        jumpToIndex(currentIndex);
+      }
+
+      if (currentIndex < visibleCount) {
+        currentIndex = getBaseIndex(selectedRealIndex);
+        jumpToIndex(currentIndex);
+      }
+
+      syncSelectionFromCurrentIndex();
+      isAnimating = false;
+    });
+
+    prevBtn.addEventListener("click", prevSlide);
+    nextBtn.addEventListener("click", nextSlide);
+
+    track.addEventListener("click", (event) => {
+      const chip = event.target.closest(".project-chip");
+      if (!chip || isDragging || isAnimating) return;
+
+      const realIndex = Number(chip.dataset.realIndex);
+      if (Number.isNaN(realIndex)) return;
+
+      selectedRealIndex = realIndex;
+      updateDetail(projects[selectedRealIndex]);
+      updateActiveItems();
+
+      const targetIndex = getBaseIndex(realIndex);
+      if (targetIndex === currentIndex) return;
+
+      currentIndex = targetIndex;
+      isAnimating = true;
+      moveToIndex(currentIndex);
+    });
+
+    function getPointerX(event) {
+      if (event.type.startsWith("touch")) {
+        return event.touches[0]?.clientX ?? event.changedTouches[0]?.clientX ?? 0;
+      }
+      return event.clientX;
     }
 
-    function positionSelectedInMiddle(smooth = false) {
-      const chip = getMiddleCopyChip(selectedIndex);
-      if (!chip) return;
+    function dragStart(event) {
+      if (isAnimating || getOriginalCount() <= visibleCount) return;
 
-      const targetLeft = chip.offsetLeft - ((carouselTrack.clientWidth - chip.clientWidth) / 2);
+      isDragging = true;
+      dragStartX = getPointerX(event);
+      prevTranslate = getTranslateForIndex(currentIndex);
+      currentTranslate = prevTranslate;
 
-      if (smooth) {
-        carouselTrack.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      windowEl.classList.add("dragging");
+      track.style.transition = "none";
+    }
+
+    function dragMove(event) {
+      if (!isDragging) return;
+
+      const currentX = getPointerX(event);
+      const deltaX = currentX - dragStartX;
+      currentTranslate = prevTranslate + deltaX;
+      track.style.transform = `translateX(${currentTranslate}px)`;
+    }
+
+    function dragEnd() {
+      if (!isDragging) return;
+
+      isDragging = false;
+      windowEl.classList.remove("dragging");
+
+      const movedBy = currentTranslate - prevTranslate;
+      const threshold = Math.min(getSlideWidth() * 0.2, 80);
+
+      if (movedBy < -threshold) {
+        currentIndex += 1;
+        selectedRealIndex = normalizeIndex(selectedRealIndex + 1, getOriginalCount());
+        updateDetail(projects[selectedRealIndex]);
+        updateActiveItems();
+        isAnimating = true;
+        moveToIndex(currentIndex);
+      } else if (movedBy > threshold) {
+        currentIndex -= 1;
+        selectedRealIndex = normalizeIndex(selectedRealIndex - 1, getOriginalCount());
+        updateDetail(projects[selectedRealIndex]);
+        updateActiveItems();
+        isAnimating = true;
+        moveToIndex(currentIndex);
       } else {
-        setScrollInstant(targetLeft);
+        isAnimating = true;
+        moveToIndex(currentIndex);
       }
     }
 
-    function maintainInfiniteScroll() {
-      if (!carouselReady || wrapLock || !singleSetWidth) return;
+    windowEl.addEventListener("mousedown", dragStart);
+    window.addEventListener("mousemove", dragMove);
+    window.addEventListener("mouseup", dragEnd);
+    windowEl.addEventListener("mouseleave", () => {
+      if (isDragging) dragEnd();
+    });
 
-      const maxScrollLeft = carouselTrack.scrollWidth - carouselTrack.clientWidth;
-      const threshold = 4;
-      const currentLeft = carouselTrack.scrollLeft;
+    windowEl.addEventListener("touchstart", dragStart, { passive: true });
+    windowEl.addEventListener("touchmove", dragMove, { passive: true });
+    windowEl.addEventListener("touchend", dragEnd);
+    windowEl.addEventListener("touchcancel", dragEnd);
 
-      if (currentLeft <= threshold) {
-        wrapLock = true;
-        setScrollInstant(currentLeft + singleSetWidth);
-        requestAnimationFrame(() => {
-          wrapLock = false;
-        });
-      } else if (currentLeft >= maxScrollLeft - threshold) {
-        wrapLock = true;
-        setScrollInstant(currentLeft - singleSetWidth);
-        requestAnimationFrame(() => {
-          wrapLock = false;
-        });
+    window.addEventListener("resize", () => {
+      const previousVisibleCount = visibleCount;
+      visibleCount = getVisibleCount();
+
+      if (visibleCount !== previousVisibleCount) {
+        setupCarousel();
+      } else {
+        setSlideWidths();
+        currentIndex = getBaseIndex(selectedRealIndex);
+        jumpToIndex(currentIndex);
       }
-    }
-
-    function getScrollStep() {
-      const firstChip = carouselTrack.querySelector('.project-chip');
-      if (!firstChip) return 260;
-      const styles = window.getComputedStyle(carouselTrack);
-      const gap = parseFloat(styles.columnGap || styles.gap || 0);
-      return firstChip.getBoundingClientRect().width + gap;
-    }
-
-    function selectProject(index, center = true) {
-      selectedIndex = index;
-      updateDetail(projects[selectedIndex]);
-      updateActiveChips();
-      if (center) {
-        positionSelectedInMiddle(true);
-      }
-    }
-
-    function initializeCarousel() {
-      renderCarousel();
-      updateDetail(projects[selectedIndex]);
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          singleSetWidth = getSingleSetWidth();
-          positionSelectedInMiddle(false);
-          carouselReady = true;
-        });
-      });
-    }
-
-    scrollLeftBtn.addEventListener('click', () => {
-      carouselTrack.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
     });
 
-    scrollRightBtn.addEventListener('click', () => {
-      carouselTrack.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
-    });
-
-    carouselTrack.addEventListener('scroll', maintainInfiniteScroll, { passive: true });
-
-    window.addEventListener('resize', () => {
-      carouselReady = false;
-      requestAnimationFrame(() => {
-        singleSetWidth = getSingleSetWidth();
-        positionSelectedInMiddle(false);
-        carouselReady = true;
-      });
-    });
-
-    initializeCarousel();
+    renderOriginalItems();
+    updateDetail(projects[selectedRealIndex]);
+    setupCarousel();
   </script>
 </body>
 </html>
