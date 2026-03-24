@@ -207,9 +207,17 @@
 
     .project-image {
       height: 170px;
-      background: linear-gradient(to bottom right, var(--accent-soft), #f1f5f9);
       border: 1px solid #cbd5e1;
       margin-bottom: 16px;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, var(--accent-soft), #f1f5f9);
+    }
+
+    .project-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .project-card h3 {
@@ -336,21 +344,27 @@
 
       <div class="projects">
         <article class="project-card">
-          <div class="project-image"></div>
+          <div class="project-image">
+            <img src="HXERThumbnail" class="project-thumb">
+          </div>
           <h3>Design of Heat Exchanger</h3>
           <p>Design and optimization of a double-pipe indutrial heat exchanger system validated through analytical calculation.
           Completed with a team of 3 other engineers.</p>
         </article>
 
         <article class="project-card">
-          <div class="project-image"></div>
+          <div class="project-image">
+            <img src="FixtureThumbnail" class="project-thumb">
+          </div>
           <h3>Large Part Fixturing System</h3>
           <p>Designed and built a vacuum table to fix large metal parts during CNC routing.
           Sponsored project completed with a team of 3 other engineers over the course of a year.</p>
         </article>
 
         <article class="project-card">
-          <div class="project-image"></div>
+          <div class="project-image">
+            <img src="NozzleThumbnail" class="project-thumb">
+          </div>
           <h3> Estimation of FDM Nozzle Exit Temperature</h3>
           <p>Analytically developed an predictive mathematical model of exit temperature using Nusselt-Number closure.</p>
         </article>
