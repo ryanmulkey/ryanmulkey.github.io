@@ -1,0 +1,309 @@
+import React, { useMemo, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Github, Linkedin, ArrowRight, Atom, BookOpen, Cpu } from "lucide-react";
+
+const projects = [
+  {
+    title: "Satellite Avionics Thermal Plate",
+    blurb: "Conduction-dominated thermal model for orbital electronics packaging.",
+    tags: ["SolidWorks", "Thermal", "FEA"],
+  },
+  {
+    title: "Battery Pack Thermal Study",
+    blurb: "Transient heating and interface-resistance analysis for compact battery modules.",
+    tags: ["Simulation", "Design", "Validation"],
+  },
+  {
+    title: "Heat Sink Optimization",
+    blurb: "Parametric geometry study balancing mass, contact resistance, and temperature rise.",
+    tags: ["CAD", "Optimization", "Thermal"],
+  },
+];
+
+function NavBar({ dark = false }: { dark?: boolean }) {
+  return (
+    <div className={`w-full flex items-center justify-between py-5 ${dark ? "text-white/90" : "text-slate-800"}`}>
+      <div className="text-lg font-semibold tracking-wide">Ryan Mulkey</div>
+      <div className="hidden md:flex gap-6 text-sm">
+        <a href="#" className="hover:opacity-70">About</a>
+        <a href="#" className="hover:opacity-70">Projects</a>
+        <a href="#" className="hover:opacity-70">Resume</a>
+        <a href="#" className="hover:opacity-70">Contact</a>
+      </div>
+    </div>
+  );
+}
+
+function ProjectGrid({ futuristic = false, academic = false }: { futuristic?: boolean; academic?: boolean }) {
+  return (
+    <div className="grid md:grid-cols-3 gap-5">
+      {projects.map((project) => (
+        <Card
+          key={project.title}
+          className={
+            futuristic
+              ? "rounded-3xl border-white/10 bg-white/5 backdrop-blur shadow-2xl"
+              : academic
+              ? "rounded-none border-slate-300 shadow-none"
+              : "rounded-3xl border-slate-200 shadow-sm"
+          }
+        >
+          <CardContent className="p-5">
+            <div
+              className={
+                futuristic
+                  ? "h-36 rounded-2xl bg-gradient-to-br from-slate-700 via-slate-900 to-slate-800 border border-cyan-400/20 mb-4"
+                  : academic
+                  ? "h-28 border border-slate-300 bg-slate-100 mb-4"
+                  : "h-36 rounded-2xl bg-slate-100 mb-4"
+              }
+            />
+            <h3 className={`font-semibold ${academic ? "text-lg" : "text-base"}`}>{project.title}</h3>
+            <p className={`mt-2 text-sm ${futuristic ? "text-white/70" : "text-slate-600"}`}>{project.blurb}</p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {project.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className={
+                    futuristic
+                      ? "bg-cyan-400/10 text-cyan-200 border border-cyan-300/20"
+                      : academic
+                      ? "rounded-sm bg-slate-100 text-slate-700"
+                      : "bg-slate-100 text-slate-700"
+                  }
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function MinimalMockup() {
+  return (
+    <div className="min-h-screen bg-white text-slate-900">
+      <div className="max-w-6xl mx-auto px-6">
+        <NavBar />
+
+        <section className="py-20 md:py-28 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <div className="text-sm uppercase tracking-[0.25em] text-slate-500">Mechanical Engineering Portfolio</div>
+            <h1 className="mt-4 text-5xl md:text-6xl font-semibold tracking-tight leading-tight">
+              Thermal analysis, CAD, and engineering design.
+            </h1>
+            <p className="mt-6 text-lg text-slate-600 max-w-xl leading-8">
+              A focused portfolio of simulation-driven engineering projects with concise technical storytelling,
+              clean visuals, and measurable results.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button className="rounded-2xl">View Projects</Button>
+              <Button variant="outline" className="rounded-2xl">Download Resume</Button>
+            </div>
+          </div>
+          <div className="h-[380px] rounded-[2rem] bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 text-sm">
+            Hero image / CAD render / thermal plot
+          </div>
+        </section>
+
+        <section className="pb-8">
+          <div className="flex flex-wrap gap-3 text-sm text-slate-600">
+            {['SolidWorks', 'Thermal FEA', 'Heat Transfer', 'CAD', 'MATLAB', 'Python'].map((item) => (
+              <span key={item} className="px-4 py-2 rounded-full bg-slate-100 border border-slate-200">{item}</span>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-14">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-semibold">Featured Projects</h2>
+              <p className="text-slate-600 mt-2">Selected work in thermal modeling, design, and simulation.</p>
+            </div>
+            <a href="#" className="text-sm text-slate-700 inline-flex items-center gap-2">See all <ArrowRight className="w-4 h-4" /></a>
+          </div>
+          <ProjectGrid />
+        </section>
+
+        <footer className="py-14 border-t border-slate-200 flex flex-wrap gap-4 text-slate-600 text-sm">
+          <div className="inline-flex items-center gap-2"><Mail className="w-4 h-4" /> Email</div>
+          <div className="inline-flex items-center gap-2"><Linkedin className="w-4 h-4" /> LinkedIn</div>
+          <div className="inline-flex items-center gap-2"><Github className="w-4 h-4" /> GitHub</div>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+function FuturisticMockup() {
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#142235,_#060b14_55%)] text-white overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6 relative">
+        <div className="absolute inset-0 pointer-events-none opacity-30">
+          <div className="absolute top-28 left-10 w-72 h-72 rounded-full bg-cyan-400/20 blur-3xl" />
+          <div className="absolute top-80 right-10 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl" />
+        </div>
+
+        <div className="relative z-10">
+          <NavBar dark />
+
+          <section className="py-20 md:py-28 grid md:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-cyan-100 text-sm">
+                <Atom className="w-4 h-4" /> Simulation-Driven Engineering
+              </div>
+              <h1 className="mt-6 text-5xl md:text-7xl font-semibold tracking-tight leading-[1.02]">
+                Advanced thermal and mechanical project portfolio.
+              </h1>
+              <p className="mt-6 text-lg text-white/70 max-w-xl leading-8">
+                Technical case studies in orbital thermal control, electronic packaging, and analysis-backed design.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button className="rounded-2xl">Launch Projects</Button>
+                <Button variant="outline" className="rounded-2xl bg-transparent border-white/20 text-white hover:bg-white/10">View Resume</Button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4 mt-10 max-w-xl">
+                {[
+                  ["12+", "Projects"],
+                  ["3", "Focus Areas"],
+                  ["6", "Core Tools"],
+                ].map(([num, label]) => (
+                  <div key={label} className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
+                    <div className="text-2xl font-semibold">{num}</div>
+                    <div className="text-sm text-white/60 mt-1">{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="h-[420px] rounded-[2rem] border border-cyan-300/20 bg-white/5 backdrop-blur flex items-center justify-center text-white/50 text-sm">
+              Full-screen render / contour map / mesh visualization
+            </div>
+          </section>
+
+          <section className="py-10">
+            <div className="grid md:grid-cols-3 gap-4 mb-8">
+              {[
+                { icon: Cpu, title: "Thermal Systems", text: "Conduction-dominated studies and electronics cooling." },
+                { icon: Atom, title: "Simulation", text: "FEA-backed design decisions and model refinement." },
+                { icon: ArrowRight, title: "Case Studies", text: "Structured technical storytelling with metrics." },
+              ].map((item) => (
+                <Card key={item.title} className="rounded-3xl border-white/10 bg-white/5 backdrop-blur shadow-2xl">
+                  <CardContent className="p-5">
+                    <item.icon className="w-5 h-5 text-cyan-200" />
+                    <h3 className="mt-4 font-semibold">{item.title}</h3>
+                    <p className="mt-2 text-sm text-white/70 leading-6">{item.text}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <ProjectGrid futuristic />
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AcademicMockup() {
+  return (
+    <div className="min-h-screen bg-[#faf9f5] text-slate-900">
+      <div className="max-w-5xl mx-auto px-6">
+        <header className="py-10 border-b border-slate-300">
+          <div className="text-3xl font-serif">Ryan Mulkey</div>
+          <div className="mt-2 text-sm uppercase tracking-[0.18em] text-slate-600">
+            Mechanical Engineering | Thermal Analysis | Finite Element Modeling
+          </div>
+        </header>
+
+        <section className="py-14 grid md:grid-cols-[1.2fr_0.8fr] gap-10 items-start border-b border-slate-300">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-serif leading-tight">Research-oriented engineering portfolio and technical project archive.</h1>
+            <p className="mt-6 text-[17px] leading-8 text-slate-700 max-w-2xl">
+              This portfolio presents selected engineering studies with an emphasis on modeling assumptions,
+              methodological rigor, result interpretation, and design implications.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button className="rounded-md"><BookOpen className="w-4 h-4 mr-2" /> Read Projects</Button>
+              <Button variant="outline" className="rounded-md">Curriculum Vitae</Button>
+            </div>
+          </div>
+          <div className="border border-slate-300 bg-white p-5 text-sm text-slate-700 leading-7">
+            <div className="font-semibold mb-3">Research Interests</div>
+            <div>Heat transfer in engineered systems</div>
+            <div>Thermal management of electronics</div>
+            <div>Finite element modeling</div>
+            <div>Simulation-informed design</div>
+          </div>
+        </section>
+
+        <section className="py-12 border-b border-slate-300">
+          <div className="grid md:grid-cols-[0.25fr_0.75fr] gap-6">
+            <div className="text-sm uppercase tracking-[0.18em] text-slate-500 pt-1">Selected Projects</div>
+            <div className="space-y-6">
+              {projects.map((project, idx) => (
+                <div key={project.title} className="pb-6 border-b border-slate-200 last:border-b-0 last:pb-0">
+                  <div className="text-sm text-slate-500">Study {String(idx + 1).padStart(2, '0')}</div>
+                  <h3 className="text-2xl font-serif mt-1">{project.title}</h3>
+                  <p className="mt-3 text-slate-700 leading-7">{project.blurb}</p>
+                  <div className="mt-4 text-sm text-slate-600">Abstract · Methods · Assumptions · Results · Limitations</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-12 grid md:grid-cols-2 gap-8 border-b border-slate-300">
+          <div>
+            <div className="text-sm uppercase tracking-[0.18em] text-slate-500 mb-4">Methods and Tools</div>
+            <div className="space-y-2 text-slate-700">
+              <div>Finite Element Analysis</div>
+              <div>Thermal Resistance Modeling</div>
+              <div>Parametric CAD</div>
+              <div>MATLAB and Python Post-Processing</div>
+            </div>
+          </div>
+          <div>
+            <div className="text-sm uppercase tracking-[0.18em] text-slate-500 mb-4">Contact</div>
+            <div className="space-y-2 text-slate-700">
+              <div>Email</div>
+              <div>LinkedIn</div>
+              <div>GitHub</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+export default function EngineeringPortfolioHomepageMockups() {
+  const [style, setStyle] = useState<"minimal" | "futuristic" | "academic">("minimal");
+
+  const view = useMemo(() => {
+    if (style === "futuristic") return <FuturisticMockup />;
+    if (style === "academic") return <AcademicMockup />;
+    return <MinimalMockup />;
+  }, [style]);
+
+  return (
+    <div className="min-h-screen bg-slate-200">
+      <div className="sticky top-0 z-50 border-b border-slate-300 bg-white/90 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3">
+          <div className="text-sm font-medium text-slate-700 mr-2">Homepage mockups</div>
+          <Button variant={style === "minimal" ? "default" : "outline"} className="rounded-2xl" onClick={() => setStyle("minimal")}>Minimal</Button>
+          <Button variant={style === "futuristic" ? "default" : "outline"} className="rounded-2xl" onClick={() => setStyle("futuristic")}>Futuristic</Button>
+          <Button variant={style === "academic" ? "default" : "outline"} className="rounded-2xl" onClick={() => setStyle("academic")}>Academic</Button>
+        </div>
+      </div>
+      {view}
+    </div>
+  );
+}
