@@ -1,305 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering Portfolio Mockups</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
+    body { background: #dfe4ea; color: #0f172a; }
+    a { color: inherit; text-decoration: none; }
 
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #cbd5e1;
+    }
 
-const projects = [
-  {
-    title: "Satellite Avionics Thermal Plate",
-    blurb: "Conduction-dominated thermal model for orbital electronics packaging.",
-    tags: ["SolidWorks", "Thermal", "FEA"],
-  },
-  {
-    title: "Battery Pack Thermal Study",
-    blurb: "Transient heating and interface-resistance analysis for compact battery modules.",
-    tags: ["Simulation", "Design", "Validation"],
-  },
-  {
-    title: "Heat Sink Optimization",
-    blurb: "Parametric geometry study balancing mass, contact resistance, and temperature rise.",
-    tags: ["CAD", "Optimization", "Thermal"],
-  },
-];
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
 
-function NavBar({ dark = false }: { dark?: boolean }) {
-  return (
-    <div className={`w-full flex items-center justify-between py-5 ${dark ? "text-white/90" : "text-slate-800"}`}>
-      <div className="text-lg font-semibold tracking-wide">Ryan Mulkey</div>
-      <div className="hidden md:flex gap-6 text-sm">
-        <a href="#" className="hover:opacity-70">About</a>
-        <a href="#" className="hover:opacity-70">Projects</a>
-        <a href="#" className="hover:opacity-70">Resume</a>
-        <a href="#" className="hover:opacity-70">Contact</a>
+    .label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+      margin-right: 8px;
+    }
+
+    .tab-btn {
+      border: 1px solid #cbd5e1;
+      background: white;
+      color: #0f172a;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn:hover { background: #f8fafc; }
+    .tab-btn.active {
+      background: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+
+    .mockup {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .mockup.active { display: block; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+      gap: 16px;
+    }
+
+    .brand { font-size: 20px; font-weight: 700; letter-spacing: 0.02em; }
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      padding: 72px 0 56px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      opacity: 0.7;
+    }
+
+    .hero-title {
+      font-size: 58px;
+      line-height: 1.05;
+      margin: 18px 0 0;
+      font-weight: 700;
+    }
+
+    .hero-text {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-top: 22px;
+      max-width: 680px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      border: 1px solid #0f172a;
+      background: #0f172a;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 18px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: inherit;
+    }
+
+    .hero-visual {
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 18px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+    }
+
+    .section {
+      padding: 48px 0 60px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .section-title { font-size: 30px; font-weight: 700; margin: 0; }
+    .section-subtitle { margin-top: 8px; font-size: 16px; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      padding: 20px;
+    }
+
+    .card-media {
+      height: 150px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .card-text {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+
+    .footer {
+      padding: 24px 0 40px;
+      font-size: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    /* Minimal */
+    #minimal {
+      background: #ffffff;
+      color: #0f172a;
+    }
+    #minimal .hero-visual {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 32px;
+      color: #64748b;
+    }
+    #minimal .pill {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+    #minimal .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 28px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+    #minimal .card-media {
+      background: #f1f5f9;
+      border-radius: 20px;
+    }
+    #minimal .card-text, #minimal .section-subtitle, #minimal .footer { color: #475569; }
+    #minimal .tag {
+      background: #f1f5f9;
+      color: #334155;
+      border-radius: 999px;
+    }
+    #minimal .footer {
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* Futuristic */
+    #futuristic {
+      color: #ffffff;
+      background: radial-gradient(circle at top, #142235 0%, #060b14 58%);
+      position: relative;
+      overflow: hidden;
+    }
+    #futuristic::before,
+    #futuristic::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(70px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    #futuristic::before {
+      width: 260px; height: 260px; background: #22d3ee; top: 120px; left: 70px;
+    }
+    #futuristic::after {
+      width: 300px; height: 300px; background: #2563eb; top: 380px; right: 80px;
+    }
+    #futuristic .container, #futuristic .nav, #futuristic .section, #futuristic .hero-grid { position: relative; z-index: 2; }
+    #futuristic .hero-title { font-size: 68px; }
+    #futuristic .hero-text, #futuristic .section-subtitle, #futuristic .card-text, #futuristic .footer { color: rgba(255,255,255,0.72); }
+    #futuristic .nav { color: rgba(255,255,255,0.92); }
+    #futuristic .btn {
+      background: white;
+      border-color: white;
+      color: #0f172a;
+    }
+    #futuristic .btn.secondary {
+      background: transparent;
+      color: white;
+      border-color: rgba(255,255,255,0.22);
+    }
+    #futuristic .hero-visual {
+      border-radius: 32px;
+      border: 1px solid rgba(34,211,238,0.25);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(14px);
+      color: rgba(255,255,255,0.55);
+    }
+    #futuristic .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+      max-width: 540px;
+    }
+    #futuristic .metric {
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+    }
+    #futuristic .metric-num { font-size: 28px; font-weight: 700; }
+    #futuristic .metric-label { margin-top: 6px; font-size: 13px; color: rgba(255,255,255,0.65); }
+    #futuristic .card {
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    #futuristic .card-media {
+      border-radius: 20px;
+      background: linear-gradient(135deg, #334155 0%, #020617 100%);
+      border: 1px solid rgba(34,211,238,0.18);
+    }
+    #futuristic .tag {
+      border-radius: 999px;
+      color: #c7f9ff;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(165,243,252,0.18);
+    }
+
+    /* Academic */
+    #academic {
+      background: #faf9f5;
+      color: #0f172a;
+    }
+    #academic .container { max-width: 1050px; }
+    #academic .header-block {
+      padding: 40px 0 18px;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    #academic .name-serif,
+    #academic .hero-title,
+    #academic .paper-title {
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    #academic .name-serif { font-size: 42px; }
+    #academic .subhead {
+      margin-top: 8px;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #475569;
+    }
+    #academic .academic-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: start;
+      padding: 56px 0;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    #academic .hero-title {
+      font-size: 54px;
+      line-height: 1.12;
+      margin: 0;
+      font-weight: 500;
+    }
+    #academic .hero-text {
+      color: #334155;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    #academic .btn {
+      border-radius: 6px;
+    }
+    #academic .btn.secondary {
+      border-color: #64748b;
+      color: #0f172a;
+    }
+    #academic .interest-box {
+      border: 1px solid #cbd5e1;
+      background: white;
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: #334155;
+    }
+    #academic .section-row {
+      display: grid;
+      grid-template-columns: 0.26fr 0.74fr;
+      gap: 28px;
+      padding: 42px 0;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    #academic .section-label {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #64748b;
+      padding-top: 4px;
+    }
+    #academic .paper-list {
+      display: grid;
+      gap: 24px;
+    }
+    #academic .paper-item {
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    #academic .paper-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    #academic .study-num {
+      color: #64748b;
+      font-size: 13px;
+    }
+    #academic .paper-title {
+      font-size: 32px;
+      margin: 6px 0 0;
+      font-weight: 500;
+    }
+    #academic .paper-text {
+      margin-top: 12px;
+      color: #334155;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+    #academic .meta-line {
+      margin-top: 12px;
+      color: #64748b;
+      font-size: 14px;
+    }
+    #academic .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    #academic .list-title {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    #academic .list-block div {
+      line-height: 2;
+      color: #334155;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      #academic .academic-grid,
+      #academic .section-row,
+      #academic .two-col,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title,
+      #futuristic .hero-title,
+      #academic .hero-title {
+        font-size: 42px;
+      }
+
+      #futuristic .metric-row {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .hero-grid { padding-top: 48px; }
+      .hero-title,
+      #futuristic .hero-title,
+      #academic .hero-title { font-size: 34px; }
+      #futuristic .metric-row { grid-template-columns: 1fr; }
+      .nav-links { gap: 14px; font-size: 13px; }
+      .section-title { font-size: 24px; }
+      #academic .paper-title { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="label">Homepage mockups</div>
+      <button class="tab-btn active" data-target="minimal">Minimal</button>
+      <button class="tab-btn" data-target="futuristic">Futuristic</button>
+      <button class="tab-btn" data-target="academic">Academic</button>
+    </div>
+  </div>
+
+  <section id="minimal" class="mockup active">
+    <div class="container">
+      <div class="nav">
+        <div class="brand">Ryan Mulkey</div>
+        <div class="nav-links">
+          <a href="#">About</a>
+          <a href="#">Projects</a>
+          <a href="#">Resume</a>
+          <a href="#">Contact</a>
+        </div>
       </div>
-    </div>
-  );
-}
 
-function ProjectGrid({ futuristic = false, academic = false }: { futuristic?: boolean; academic?: boolean }) {
-  return (
-    <div className="grid md:grid-cols-3 gap-5">
-      {projects.map((project) => (
-        <Card
-          key={project.title}
-          className={
-            futuristic
-              ? "rounded-3xl border-white/10 bg-white/5 backdrop-blur shadow-2xl"
-              : academic
-              ? "rounded-none border-slate-300 shadow-none"
-              : "rounded-3xl border-slate-200 shadow-sm"
-          }
-        >
-          <CardContent className="p-5">
-            <div
-              className={
-                futuristic
-                  ? "h-36 rounded-2xl bg-gradient-to-br from-slate-700 via-slate-900 to-slate-800 border border-cyan-400/20 mb-4"
-                  : academic
-                  ? "h-28 border border-slate-300 bg-slate-100 mb-4"
-                  : "h-36 rounded-2xl bg-slate-100 mb-4"
-              }
-            />
-            <h3 className={`font-semibold ${academic ? "text-lg" : "text-base"}`}>{project.title}</h3>
-            <p className={`mt-2 text-sm ${futuristic ? "text-white/70" : "text-slate-600"}`}>{project.blurb}</p>
-            <div className="flex flex-wrap gap-2 mt-4">
-              {project.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className={
-                    futuristic
-                      ? "bg-cyan-400/10 text-cyan-200 border border-cyan-300/20"
-                      : academic
-                      ? "rounded-sm bg-slate-100 text-slate-700"
-                      : "bg-slate-100 text-slate-700"
-                  }
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-}
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Mechanical Engineering Portfolio</div>
+          <h1 class="hero-title">Thermal analysis, CAD, and engineering design.</h1>
+          <div class="hero-text">
+            A focused portfolio of simulation-driven engineering projects with concise technical storytelling,
+            clean visuals, and measurable results.
+          </div>
+          <div class="btn-row">
+            <button class="btn">View Projects</button>
+            <button class="btn secondary">Download Resume</button>
+          </div>
+        </div>
+        <div class="hero-visual">Hero image / CAD render / thermal plot</div>
+      </div>
 
-function MinimalMockup() {
-  return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <div className="max-w-6xl mx-auto px-6">
-        <NavBar />
+      <div class="pill-row">
+        <div class="pill">SolidWorks</div>
+        <div class="pill">Thermal FEA</div>
+        <div class="pill">Heat Transfer</div>
+        <div class="pill">CAD</div>
+        <div class="pill">MATLAB</div>
+        <div class="pill">Python</div>
+      </div>
 
-        <section className="py-20 md:py-28 grid md:grid-cols-2 gap-10 items-center">
+      <div class="section">
+        <div class="section-head">
           <div>
-            <div className="text-sm uppercase tracking-[0.25em] text-slate-500">Mechanical Engineering Portfolio</div>
-            <h1 className="mt-4 text-5xl md:text-6xl font-semibold tracking-tight leading-tight">
-              Thermal analysis, CAD, and engineering design.
-            </h1>
-            <p className="mt-6 text-lg text-slate-600 max-w-xl leading-8">
-              A focused portfolio of simulation-driven engineering projects with concise technical storytelling,
-              clean visuals, and measurable results.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button className="rounded-2xl">View Projects</Button>
-              <Button variant="outline" className="rounded-2xl">Download Resume</Button>
-            </div>
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="section-subtitle">Selected work in thermal modeling, design, and simulation.</div>
           </div>
-          <div className="h-[380px] rounded-[2rem] bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 text-sm">
-            Hero image / CAD render / thermal plot
-          </div>
-        </section>
-
-        <section className="pb-8">
-          <div className="flex flex-wrap gap-3 text-sm text-slate-600">
-            {['SolidWorks', 'Thermal FEA', 'Heat Transfer', 'CAD', 'MATLAB', 'Python'].map((item) => (
-              <span key={item} className="px-4 py-2 rounded-full bg-slate-100 border border-slate-200">{item}</span>
-            ))}
-          </div>
-        </section>
-
-        <section className="py-14">
-          <div className="flex items-end justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-semibold">Featured Projects</h2>
-              <p className="text-slate-600 mt-2">Selected work in thermal modeling, design, and simulation.</p>
-            </div>
-            <a href="#" className="text-sm text-slate-700 inline-flex items-center gap-2">See all <ArrowRight className="w-4 h-4" /></a>
-          </div>
-          <ProjectGrid />
-        </section>
-
-        <footer className="py-14 border-t border-slate-200 flex flex-wrap gap-4 text-slate-600 text-sm">
-          <div className="inline-flex items-center gap-2"><Mail className="w-4 h-4" /> Email</div>
-          <div className="inline-flex items-center gap-2"><Linkedin className="w-4 h-4" /> LinkedIn</div>
-          <div className="inline-flex items-center gap-2"><Github className="w-4 h-4" /> GitHub</div>
-        </footer>
-      </div>
-    </div>
-  );
-}
-
-function FuturisticMockup() {
-  return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#142235,_#060b14_55%)] text-white overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 relative">
-        <div className="absolute inset-0 pointer-events-none opacity-30">
-          <div className="absolute top-28 left-10 w-72 h-72 rounded-full bg-cyan-400/20 blur-3xl" />
-          <div className="absolute top-80 right-10 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl" />
+          <div class="section-subtitle">See all projects →</div>
         </div>
 
-        <div className="relative z-10">
-          <NavBar dark />
-
-          <section className="py-20 md:py-28 grid md:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-cyan-100 text-sm">
-                <Atom className="w-4 h-4" /> Simulation-Driven Engineering
-              </div>
-              <h1 className="mt-6 text-5xl md:text-7xl font-semibold tracking-tight leading-[1.02]">
-                Advanced thermal and mechanical project portfolio.
-              </h1>
-              <p className="mt-6 text-lg text-white/70 max-w-xl leading-8">
-                Technical case studies in orbital thermal control, electronic packaging, and analysis-backed design.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button className="rounded-2xl">Launch Projects</Button>
-                <Button variant="outline" className="rounded-2xl bg-transparent border-white/20 text-white hover:bg-white/10">View Resume</Button>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4 mt-10 max-w-xl">
-                {[
-                  ["12+", "Projects"],
-                  ["3", "Focus Areas"],
-                  ["6", "Core Tools"],
-                ].map(([num, label]) => (
-                  <div key={label} className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
-                    <div className="text-2xl font-semibold">{num}</div>
-                    <div className="text-sm text-white/60 mt-1">{label}</div>
-                  </div>
-                ))}
-              </div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-media"></div>
+            <h3 class="card-title">Satellite Avionics Thermal Plate</h3>
+            <div class="card-text">Conduction-dominated thermal model for orbital electronics packaging.</div>
+            <div class="tags">
+              <div class="tag">SolidWorks</div>
+              <div class="tag">Thermal</div>
+              <div class="tag">FEA</div>
             </div>
-
-            <div className="h-[420px] rounded-[2rem] border border-cyan-300/20 bg-white/5 backdrop-blur flex items-center justify-center text-white/50 text-sm">
-              Full-screen render / contour map / mesh visualization
+          </div>
+          <div class="card">
+            <div class="card-media"></div>
+            <h3 class="card-title">Battery Pack Thermal Study</h3>
+            <div class="card-text">Transient heating and interface-resistance analysis for compact battery modules.</div>
+            <div class="tags">
+              <div class="tag">Simulation</div>
+              <div class="tag">Design</div>
+              <div class="tag">Validation</div>
             </div>
-          </section>
-
-          <section className="py-10">
-            <div className="grid md:grid-cols-3 gap-4 mb-8">
-              {[
-                { icon: Cpu, title: "Thermal Systems", text: "Conduction-dominated studies and electronics cooling." },
-                { icon: Atom, title: "Simulation", text: "FEA-backed design decisions and model refinement." },
-                { icon: ArrowRight, title: "Case Studies", text: "Structured technical storytelling with metrics." },
-              ].map((item) => (
-                <Card key={item.title} className="rounded-3xl border-white/10 bg-white/5 backdrop-blur shadow-2xl">
-                  <CardContent className="p-5">
-                    <item.icon className="w-5 h-5 text-cyan-200" />
-                    <h3 className="mt-4 font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-sm text-white/70 leading-6">{item.text}</p>
-                  </CardContent>
-                </Card>
-              ))}
+          </div>
+          <div class="card">
+            <div class="card-media"></div>
+            <h3 class="card-title">Heat Sink Optimization</h3>
+            <div class="card-text">Parametric geometry study balancing mass, contact resistance, and temperature rise.</div>
+            <div class="tags">
+              <div class="tag">CAD</div>
+              <div class="tag">Optimization</div>
+              <div class="tag">Thermal</div>
             </div>
-            <ProjectGrid futuristic />
-          </section>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>Email</div>
+        <div>LinkedIn</div>
+        <div>GitHub</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="futuristic" class="mockup">
+    <div class="container">
+      <div class="nav">
+        <div class="brand">Ryan Mulkey</div>
+        <div class="nav-links">
+          <a href="#">About</a>
+          <a href="#">Projects</a>
+          <a href="#">Resume</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Simulation-Driven Engineering</div>
+          <h1 class="hero-title">Advanced thermal and mechanical project portfolio.</h1>
+          <div class="hero-text">
+            Technical case studies in orbital thermal control, electronic packaging, and analysis-backed design.
+          </div>
+          <div class="btn-row">
+            <button class="btn">Launch Projects</button>
+            <button class="btn secondary">View Resume</button>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric">
+              <div class="metric-num">12+</div>
+              <div class="metric-label">Projects</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num">3</div>
+              <div class="metric-label">Focus Areas</div>
+            </div>
+            <div class="metric">
+              <div class="metric-num">6</div>
+              <div class="metric-label">Core Tools</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">Full-screen render / contour map / mesh visualization</div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Featured Case Studies</h2>
+            <div class="section-subtitle">High-visibility projects in thermal systems and design simulation.</div>
+          </div>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="card-media"></div>
+            <h3 class="card-title">Satellite Avionics Thermal Plate</h3>
+            <div class="card-text">Conduction-dominated thermal model for orbital electronics packaging.</div>
+            <div class="tags">
+              <div class="tag">SolidWorks</div>
+              <div class="tag">Thermal</div>
+              <div class="tag">FEA</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-media"></div>
+            <h3 class="card-title">Battery Pack Thermal Study</h3>
+            <div class="card-text">Transient heating and interface-resistance analysis for compact battery modules.</div>
+            <div class="tags">
+              <div class="tag">Simulation</div>
+              <div class="tag">Design</div>
+              <div class="tag">Validation</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-media"></div>
+            <h3 class="card-title">Heat Sink Optimization</h3>
+            <div class="card-text">Parametric geometry study balancing mass, contact resistance, and temperature rise.</div>
+            <div class="tags">
+              <div class="tag">CAD</div>
+              <div class="tag">Optimization</div>
+              <div class="tag">Thermal</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>Email</div>
+        <div>LinkedIn</div>
+        <div>GitHub</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="academic" class="mockup">
+    <div class="container">
+      <div class="header-block">
+        <div class="name-serif">Ryan Mulkey</div>
+        <div class="subhead">Mechanical Engineering | Thermal Analysis | Finite Element Modeling</div>
+      </div>
+
+      <div class="academic-grid">
+        <div>
+          <h1 class="hero-title">Research-oriented engineering portfolio and technical project archive.</h1>
+          <div class="hero-text">
+            This portfolio presents selected engineering studies with an emphasis on modeling assumptions,
+            methodological rigor, result interpretation, and design implications.
+          </div>
+          <div class="btn-row">
+            <button class="btn">Read Projects</button>
+            <button class="btn secondary">Curriculum Vitae</button>
+          </div>
+        </div>
+
+        <div class="interest-box">
+          <strong>Research Interests</strong><br>
+          Heat transfer in engineered systems<br>
+          Thermal management of electronics<br>
+          Finite element modeling<br>
+          Simulation-informed design
+        </div>
+      </div>
+
+      <div class="section-row">
+        <div class="section-label">Selected Projects</div>
+        <div class="paper-list">
+          <div class="paper-item">
+            <div class="study-num">Study 01</div>
+            <div class="paper-title">Satellite Avionics Thermal Plate</div>
+            <div class="paper-text">Conduction-dominated thermal model for orbital electronics packaging.</div>
+            <div class="meta-line">Abstract · Methods · Assumptions · Results · Limitations</div>
+          </div>
+          <div class="paper-item">
+            <div class="study-num">Study 02</div>
+            <div class="paper-title">Battery Pack Thermal Study</div>
+            <div class="paper-text">Transient heating and interface-resistance analysis for compact battery modules.</div>
+            <div class="meta-line">Abstract · Methods · Assumptions · Results · Limitations</div>
+          </div>
+          <div class="paper-item">
+            <div class="study-num">Study 03</div>
+            <div class="paper-title">Heat Sink Optimization</div>
+            <div class="paper-text">Parametric geometry study balancing mass, contact resistance, and temperature rise.</div>
+            <div class="meta-line">Abstract · Methods · Assumptions · Results · Limitations</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-row">
+        <div class="section-label">Methods and Tools</div>
+        <div class="two-col">
+          <div class="list-block">
+            <div class="list-title">Methods</div>
+            <div>Finite Element Analysis</div>
+            <div>Thermal Resistance Modeling</div>
+            <div>Parametric CAD</div>
+            <div>Post-processing and validation</div>
+          </div>
+          <div class="list-block">
+            <div class="list-title">Contact</div>
+            <div>Email</div>
+            <div>LinkedIn</div>
+            <div>GitHub</div>
+          </div>
         </div>
       </div>
     </div>
-  );
-}
+  </section>
 
-function AcademicMockup() {
-  return (
-    <div className="min-h-screen bg-[#faf9f5] text-slate-900">
-      <div className="max-w-5xl mx-auto px-6">
-        <header className="py-10 border-b border-slate-300">
-          <div className="text-3xl font-serif">Ryan Mulkey</div>
-          <div className="mt-2 text-sm uppercase tracking-[0.18em] text-slate-600">
-            Mechanical Engineering | Thermal Analysis | Finite Element Modeling
-          </div>
-        </header>
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const mockups = document.querySelectorAll('.mockup');
 
-        <section className="py-14 grid md:grid-cols-[1.2fr_0.8fr] gap-10 items-start border-b border-slate-300">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-serif leading-tight">Research-oriented engineering portfolio and technical project archive.</h1>
-            <p className="mt-6 text-[17px] leading-8 text-slate-700 max-w-2xl">
-              This portfolio presents selected engineering studies with an emphasis on modeling assumptions,
-              methodological rigor, result interpretation, and design implications.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button className="rounded-md"><BookOpen className="w-4 h-4 mr-2" /> Read Projects</Button>
-              <Button variant="outline" className="rounded-md">Curriculum Vitae</Button>
-            </div>
-          </div>
-          <div className="border border-slate-300 bg-white p-5 text-sm text-slate-700 leading-7">
-            <div className="font-semibold mb-3">Research Interests</div>
-            <div>Heat transfer in engineered systems</div>
-            <div>Thermal management of electronics</div>
-            <div>Finite element modeling</div>
-            <div>Simulation-informed design</div>
-          </div>
-        </section>
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.getAttribute('data-target');
 
-        <section className="py-12 border-b border-slate-300">
-          <div className="grid md:grid-cols-[0.25fr_0.75fr] gap-6">
-            <div className="text-sm uppercase tracking-[0.18em] text-slate-500 pt-1">Selected Projects</div>
-            <div className="space-y-6">
-              {projects.map((project, idx) => (
-                <div key={project.title} className="pb-6 border-b border-slate-200 last:border-b-0 last:pb-0">
-                  <div className="text-sm text-slate-500">Study {String(idx + 1).padStart(2, '0')}</div>
-                  <h3 className="text-2xl font-serif mt-1">{project.title}</h3>
-                  <p className="mt-3 text-slate-700 leading-7">{project.blurb}</p>
-                  <div className="mt-4 text-sm text-slate-600">Abstract · Methods · Assumptions · Results · Limitations</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        buttons.forEach(btn => btn.classList.remove('active'));
+        mockups.forEach(section => section.classList.remove('active'));
 
-        <section className="py-12 grid md:grid-cols-2 gap-8 border-b border-slate-300">
-          <div>
-            <div className="text-sm uppercase tracking-[0.18em] text-slate-500 mb-4">Methods and Tools</div>
-            <div className="space-y-2 text-slate-700">
-              <div>Finite Element Analysis</div>
-              <div>Thermal Resistance Modeling</div>
-              <div>Parametric CAD</div>
-              <div>MATLAB and Python Post-Processing</div>
-            </div>
-          </div>
-          <div>
-            <div className="text-sm uppercase tracking-[0.18em] text-slate-500 mb-4">Contact</div>
-            <div className="space-y-2 text-slate-700">
-              <div>Email</div>
-              <div>LinkedIn</div>
-              <div>GitHub</div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-}
-
-export default function EngineeringPortfolioHomepageMockups() {
-  const [style, setStyle] = useState<"minimal" | "futuristic" | "academic">("minimal");
-
-  const view = useMemo(() => {
-    if (style === "futuristic") return <FuturisticMockup />;
-    if (style === "academic") return <AcademicMockup />;
-    return <MinimalMockup />;
-  }, [style]);
-
-  return (
-    <div className="min-h-screen bg-slate-200">
-      <div className="sticky top-0 z-50 border-b border-slate-300 bg-white/90 backdrop-blur">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3">
-          <div className="text-sm font-medium text-slate-700 mr-2">Homepage mockups</div>
-          <Button variant={style === "minimal" ? "default" : "outline"} className="rounded-2xl" onClick={() => setStyle("minimal")}>Minimal</Button>
-          <Button variant={style === "futuristic" ? "default" : "outline"} className="rounded-2xl" onClick={() => setStyle("futuristic")}>Futuristic</Button>
-          <Button variant={style === "academic" ? "default" : "outline"} className="rounded-2xl" onClick={() => setStyle("academic")}>Academic</Button>
-        </div>
-      </div>
-      {view}
-    </div>
-  );
-}
+        button.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
