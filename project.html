@@ -429,7 +429,7 @@
   <script>
     const projects = [
       {
-        title: "I'm fixed now",
+        title: "Wooooooooork",
         chipText: "Placeholder summary for the first engineering case study.",
         summary: "This sample project page demonstrates how a selected carousel entry expands into a structured case-study layout matching the style of the main site.",
         objectives: "Define the engineering problem, frame the design target, and establish the core performance objectives for the study.",
@@ -531,6 +531,7 @@
     let currentIndex = 0;
     let isAnimating = false;
     let isDragging = false;
+    let hasDragged = false;
     let dragStartX = 0;
     let currentTranslate = 0;
     let prevTranslate = 0;
@@ -732,7 +733,7 @@
 
     track.addEventListener("click", (event) => {
       const chip = event.target.closest(".project-chip");
-      if (!chip || isDragging || isAnimating) return;
+      if (!chip || isDragging || isAnimating || hasDragged) return;
 
       const realIndex = Number(chip.dataset.realIndex);
       if (Number.isNaN(realIndex)) return;
@@ -760,11 +761,11 @@
       if (isAnimating || getOriginalCount() <= visibleCount) return;
 
       isDragging = true;
+      hasDragged = false;
       dragStartX = getPointerX(event);
       prevTranslate = getTranslateForIndex(currentIndex);
       currentTranslate = prevTranslate;
 
-      windowEl.classList.add("dragging");
       track.style.transition = "none";
     }
 
@@ -773,6 +774,12 @@
 
       const currentX = getPointerX(event);
       const deltaX = currentX - dragStartX;
+
+      if (Math.abs(deltaX) > 6) {
+        hasDragged = true;
+        windowEl.classList.add("dragging");
+      }
+
       currentTranslate = prevTranslate + deltaX;
       track.style.transform = `translateX(${currentTranslate}px)`;
     }
@@ -782,6 +789,13 @@
 
       isDragging = false;
       windowEl.classList.remove("dragging");
+
+      if (!hasDragged) {
+        track.style.transition = "none";
+        track.style.transform = `translateX(${prevTranslate}px)`;
+        currentTranslate = prevTranslate;
+        return;
+      }
 
       const movedBy = currentTranslate - prevTranslate;
       const threshold = Math.min(getSlideWidth() * 0.2, 80);
