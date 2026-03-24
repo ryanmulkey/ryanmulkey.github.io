@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Ryan Mulkey</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f5ef;
+      color: #0f172a;
+      --accent: #163a63;
+      --accent-soft: #e8eff8;
+      --line: #d6d3d1;
+      --text-soft: #334155;
+      --muted: #64748b;
+      --card: #ffffff;
+      --obj-bg: #ddd9a3;
+      --outcome-bg: #c8dbb1;
+      --tech-bg: #e5b2b8;
+      --visual-bg: #cfe1f1;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .page-header {
+      padding: 30px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .page-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 52px;
+      font-weight: 500;
+      line-height: 1.08;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      margin-top: 14px;
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text-soft);
+      max-width: 760px;
+    }
+
+    .carousel-section {
+      padding: 24px 0 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .carousel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .carousel-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+
+    .carousel-note {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .carousel-wrap {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .carousel-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: white;
+      color: var(--accent);
+      font-size: 18px;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 4px 2px 8px;
+      scrollbar-width: thin;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .carousel-track::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+    }
+
+    .project-chip {
+      min-width: 220px;
+      max-width: 220px;
+      background: white;
+      border: 1px solid var(--line);
+      padding: 14px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      flex: 0 0 auto;
+    }
+
+    .project-chip:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .project-chip.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .chip-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .chip-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 1.2;
+      margin: 0 0 8px;
+      font-weight: 500;
+    }
+
+    .chip-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-soft);
+      margin: 0;
+    }
+
+    .project-detail {
+      padding: 30px 0 56px;
+    }
+
+    .detail-heading {
+      margin-bottom: 18px;
+    }
+
+    .detail-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 40px;
+      line-height: 1.15;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .detail-summary {
+      margin-top: 12px;
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--text-soft);
+      max-width: 860px;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .detail-left {
+      display: grid;
+      gap: 18px;
+    }
+
+    .info-box {
+      padding: 20px 18px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      min-height: 108px;
+    }
+
+    .info-box h3 {
+      margin: 0 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .info-box p, .info-box ul {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #1e293b;
+    }
+
+    .info-box ul {
+      padding-left: 18px;
+    }
+
+    .objectives { background: var(--obj-bg); }
+    .outcomes { background: var(--outcome-bg); }
+    .technical { background: var(--tech-bg); }
+
+    .visual-panel {
+      background: var(--visual-bg);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .visual-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      margin: 0 0 12px;
+      font-weight: 500;
+    }
+
+    .visual-image {
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 4 / 3;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      overflow: hidden;
+      background: rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .visual-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .visual-caption {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #334155;
+    }
+
+    .footer {
+      padding: 28px 0 44px;
+      font-size: 14px;
+      color: #475569;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 920px) {
+      .page-title { font-size: 40px; }
+      .detail-title { font-size: 32px; }
+      .detail-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .brand { font-size: 24px; }
+      .page-title { font-size: 32px; }
+      .detail-title { font-size: 28px; }
+      .project-chip {
+        min-width: 180px;
+        max-width: 180px;
+      }
+      .carousel-wrap {
+        grid-template-columns: 1fr;
+      }
+      .carousel-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="brand">Ryan Mulkey</div>
+      <div class="nav-links">
+        <a href="home.html#about">About</a>
+        <a href="home.html#projects">Projects</a>
+        <a href="resume.pdf" target="_blank">Resume</a>
+        <a href="mailto:ryanmulkey17@gmail.com">Contact</a>
+      </div>
+    </nav>
+
+    <header class="page-header">
+      <div class="eyebrow">Project Archive</div>
+      <h1 class="page-title">Selected engineering projects</h1>
+      <div class="page-subtitle">
+        Browse projects using the carousel below. Selecting a project updates the detail panel with the objective, outcomes, technical details, and a visual area for images, renders, plots, or figures.
+      </div>
+    </header>
+
+    <section class="carousel-section">
+      <div class="carousel-header">
+        <div class="carousel-title">Project list</div>
+        <div class="carousel-note">Add more project objects in the script to extend the carousel continuously.</div>
+      </div>
+
+      <div class="carousel-wrap">
+        <button class="carousel-btn" id="scrollLeft" aria-label="Scroll left">&#8249;</button>
+        <div class="carousel-track" id="carouselTrack"></div>
+        <button class="carousel-btn" id="scrollRight" aria-label="Scroll right">&#8250;</button>
+      </div>
+    </section>
+
+    <section class="project-detail">
+      <div class="detail-heading">
+        <h2 class="detail-title" id="detailTitle">Sample Project 1</h2>
+        <div class="detail-summary" id="detailSummary"></div>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-left">
+          <div class="info-box objectives">
+            <h3>Objectives</h3>
+            <p id="detailObjectives"></p>
+          </div>
+
+          <div class="info-box outcomes">
+            <h3>Outcomes & Contributions</h3>
+            <p id="detailOutcomes"></p>
+          </div>
+
+          <div class="info-box technical">
+            <h3>Technical Details & Skills</h3>
+            <ul id="detailTechnical"></ul>
+          </div>
+        </div>
+
+        <div class="visual-panel">
+          <div class="visual-title">Visuals</div>
+          <div class="visual-image" id="visualImageWrap">
+            <img id="detailImage" src="images/sample-project-1.jpg" alt="Project visual placeholder" />
+          </div>
+          <div class="visual-caption" id="detailCaption"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div><a href="mailto:ryanmulkey17@gmail.com">ryanmulkey17@gmail.com</a></div>
+      <div><a href="https://www.linkedin.com/in/ryanmulkey17/" target="_blank">LinkedIn</a></div>
+    </footer>
+  </div>
+
+  <script>
+    const projects = [
+      {
+        title: "Sample Project 1",
+        chipText: "Placeholder summary for the first engineering case study.",
+        summary: "This sample project page demonstrates how a selected carousel entry expands into a structured case-study layout matching the style of the main site.",
+        objectives: "Define the engineering problem, frame the design target, and establish the core performance objectives for the study.",
+        outcomes: "Summarize the final result, what improved, what was learned, and what contribution the project made to your understanding or design process.",
+        technical: [
+          "SolidWorks modeling and assembly setup",
+          "Thermal or structural simulation workflow",
+          "Boundary conditions and assumptions",
+          "Post-processing, interpretation, and reporting"
+        ],
+        image: "images/sample-project-1.jpg",
+        imageAlt: "Sample project 1 visual",
+        caption: "Replace with a CAD render, analysis plot, test setup photo, or final design image."
+      },
+      {
+        title: "Sample Project 2",
+        chipText: "Placeholder summary for the second engineering case study.",
+        summary: "Use this card for a project emphasizing design iteration, modeling assumptions, and technical communication.",
+        objectives: "Establish a target design requirement, compare concepts, and justify the direction selected for deeper analysis.",
+        outcomes: "Present the final recommendation, notable tradeoffs, and the major decisions supported by your calculations or modeling.",
+        technical: [
+          "Parametric CAD development",
+          "Design comparison and iteration",
+          "Engineering judgment and trade studies",
+          "Technical documentation"
+        ],
+        image: "images/sample-project-2.jpg",
+        imageAlt: "Sample project 2 visual",
+        caption: "A second placeholder image slot for a different project."
+      },
+      {
+        title: "Sample Project 3",
+        chipText: "Placeholder summary for the third engineering case study.",
+        summary: "This template also works for projects that focus on prototyping, testing, or verification rather than only simulation.",
+        objectives: "Outline the test question, target performance range, and the engineering context in which the prototype or analysis was performed.",
+        outcomes: "Describe the measured or predicted results and explain how they informed the next design decision.",
+        technical: [
+          "Prototype planning or experiment design",
+          "Data collection and reduction",
+          "Validation against expected behavior",
+          "Result interpretation"
+        ],
+        image: "images/sample-project-3.jpg",
+        imageAlt: "Sample project 3 visual",
+        caption: "Use this for a prototype photo, bench setup, or performance chart."
+      },
+      {
+        title: "Sample Project 4",
+        chipText: "Placeholder summary for the fourth engineering case study.",
+        summary: "A fourth sample entry shows how the carousel can scale without changing the page structure.",
+        objectives: "Frame the project around performance constraints, engineering requirements, and analytical scope.",
+        outcomes: "Report the solution quality, key limitation, and any practical conclusion that follows from the work.",
+        technical: [
+          "Requirement definition",
+          "Model simplification strategy",
+          "Engineering analysis workflow",
+          "Professional presentation of results"
+        ],
+        image: "images/sample-project-4.jpg",
+        imageAlt: "Sample project 4 visual",
+        caption: "Another placeholder slot for a project visual."
+      },
+      {
+        title: "Sample Project 5",
+        chipText: "Placeholder summary for the fifth engineering case study.",
+        summary: "The fifth entry confirms the carousel behavior with multiple projects and provides a scalable pattern for continued additions.",
+        objectives: "Identify the final sample problem, define what success looks like, and explain why the project matters.",
+        outcomes: "Summarize the result, contribution, and the strongest takeaway you would want a recruiter or reviewer to notice.",
+        technical: [
+          "Case-study storytelling",
+          "Organized technical summaries",
+          "Visual communication of engineering work",
+          "Web presentation structure"
+        ],
+        image: "images/sample-project-5.jpg",
+        imageAlt: "Sample project 5 visual",
+        caption: "A final placeholder for a render, figure, or project photograph."
+      }
+    ];
+
+    const carouselTrack = document.getElementById('carouselTrack');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailSummary = document.getElementById('detailSummary');
+    const detailObjectives = document.getElementById('detailObjectives');
+    const detailOutcomes = document.getElementById('detailOutcomes');
+    const detailTechnical = document.getElementById('detailTechnical');
+    const detailImage = document.getElementById('detailImage');
+    const detailCaption = document.getElementById('detailCaption');
+
+    let selectedIndex = 0;
+
+    function renderCarousel() {
+      carouselTrack.innerHTML = '';
+
+      projects.forEach((project, index) => {
+        const chip = document.createElement('button');
+        chip.className = 'project-chip' + (index === selectedIndex ? ' active' : '');
+        chip.type = 'button';
+        chip.innerHTML = `
+          <div class="chip-label">Project ${index + 1}</div>
+          <h3 class="chip-title">${project.title}</h3>
+          <p class="chip-text">${project.chipText}</p>
+        `;
+
+        chip.addEventListener('click', () => {
+          selectedIndex = index;
+          updateDetail(project);
+          renderCarousel();
+          chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+
+        carouselTrack.appendChild(chip);
+      });
+    }
+
+    function updateDetail(project) {
+      detailTitle.textContent = project.title;
+      detailSummary.textContent = project.summary;
+      detailObjectives.textContent = project.objectives;
+      detailOutcomes.textContent = project.outcomes;
+      detailCaption.textContent = project.caption;
+      detailImage.src = project.image;
+      detailImage.alt = project.imageAlt;
+
+      detailTechnical.innerHTML = '';
+      project.technical.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        detailTechnical.appendChild(li);
+      });
+    }
+
+    document.getElementById('scrollLeft').addEventListener('click', () => {
+      carouselTrack.scrollBy({ left: -260, behavior: 'smooth' });
+    });
+
+    document.getElementById('scrollRight').addEventListener('click', () => {
+      carouselTrack.scrollBy({ left: 260, behavior: 'smooth' });
+    });
+
+    updateDetail(projects[selectedIndex]);
+    renderCarousel();
+  </script>
+</body>
+</html>
