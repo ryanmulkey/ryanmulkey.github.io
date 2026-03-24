@@ -502,44 +502,7 @@
     const scrollRightBtn = document.getElementById('scrollRight');
 
     let selectedIndex = 0;
-    let loopInitialized = false;
     let isAdjustingScroll = false;
-
-    function renderCarousel() {
-      carouselTrack.innerHTML = '';
-
-      const loopProjects = [...projects, ...projects];
-
-      loopProjects.forEach((project, index) => {
-        const realIndex = index % projects.length;
-        const chip = document.createElement('button');
-        chip.className = 'project-chip' + (realIndex === selectedIndex ? ' active' : '');
-        chip.type = 'button';
-        chip.dataset.realIndex = realIndex;
-
-        chip.innerHTML = `
-          <div class="chip-label">Project ${realIndex + 1}</div>
-          <h3 class="chip-title">${project.title}</h3>
-          <p class="chip-text">${project.chipText}</p>
-        `;
-
-        chip.addEventListener('click', () => {
-          selectedIndex = realIndex;
-          updateDetail(projects[realIndex]);
-          renderCarousel();
-          centerSelectedChip(false);
-        });
-
-        carouselTrack.appendChild(chip);
-      });
-
-      if (!loopInitialized) {
-        setInitialLoopPosition();
-        loopInitialized = true;
-      } else {
-        centerSelectedChip(true);
-      }
-    }
 
     function updateDetail(project) {
       detailTitle.textContent = project.title;
@@ -558,13 +521,54 @@
       });
     }
 
+    function buildLoopedProjects() {
+      return [...projects, ...projects, ...projects];
+    }
+
+    function renderCarousel() {
+      const loopProjects = buildLoopedProjects();
+      carouselTrack.innerHTML = '';
+
+      loopProjects.forEach((project, index) => {
+        const realIndex = index % projects.length;
+        const chip = document.createElement('button');
+        chip.className = 'project-chip' + (realIndex === selectedIndex ? ' active' : '');
+        chip.type = 'button';
+        chip.dataset.realIndex = realIndex;
+        chip.dataset.loopIndex = index;
+
+        chip.innerHTML = `
+          <div class="chip-label">Project ${realIndex + 1}</div>
+          <h3 class="chip-title">${project.title}</h3>
+          <p class="chip-text">${project.chipText}</p>
+        `;
+
+        chip.addEventListener('click', () => {
+          selectedIndex = realIndex;
+          updateDetail(projects[realIndex]);
+          renderCarousel();
+          centerSelectedChip(false);
+        });
+
+        carouselTrack.appendChild(chip);
+      });
+    }
+
+    function getSingleSetWidth() {
+      const chips = carouselTrack.querySelectorAll('.project-chip');
+      if (chips.length < projects.length + 1) return 0;
+      return chips[projects.length].offsetLeft - chips[0].offsetLeft;
+    }
+
     function setInitialLoopPosition() {
       const chips = carouselTrack.querySelectorAll('.project-chip');
       if (!chips.length) return;
 
-      const half = Math.floor(chips.length / 2);
-      const targetChip = chips[half];
-      carouselTrack.scrollLeft = targetChip.offsetLeft - (carouselTrack.clientWidth / 2) + (targetChip.clientWidth / 2);
+      const middleIndex = projects.length + selectedIndex;
+      const targetChip = chips[middleIndex];
+      if (!targetChip) return;
+
+      carouselTrack.scrollLeft = targetChip.offsetLeft - ((carouselTrack.clientWidth - targetChip.clientWidth) / 2);
     }
 
     function centerSelectedChip(smooth = true) {
@@ -572,29 +576,32 @@
       if (!chips.length) return;
 
       const middleIndex = projects.length + selectedIndex;
-      const targetChip = chips[middleIndex] || chips[selectedIndex];
+      const targetChip = chips[middleIndex];
       if (!targetChip) return;
 
-      targetChip.scrollIntoView({
-        behavior: smooth ? 'smooth' : 'auto',
-        inline: 'center',
-        block: 'nearest'
+      const targetLeft = targetChip.offsetLeft - ((carouselTrack.clientWidth - targetChip.clientWidth) / 2);
+      carouselTrack.scrollTo({
+        left: targetLeft,
+        behavior: smooth ? 'smooth' : 'auto'
       });
     }
 
     function maintainInfiniteScroll() {
       if (isAdjustingScroll) return;
 
-      const singleSetWidth = carouselTrack.scrollWidth / 2;
+      const singleSetWidth = getSingleSetWidth();
       if (!singleSetWidth) return;
 
-      if (carouselTrack.scrollLeft < singleSetWidth * 0.25) {
+      const leftBoundary = singleSetWidth * 0.5;
+      const rightBoundary = singleSetWidth * 2.5;
+
+      if (carouselTrack.scrollLeft < leftBoundary) {
         isAdjustingScroll = true;
         carouselTrack.scrollLeft += singleSetWidth;
         requestAnimationFrame(() => {
           isAdjustingScroll = false;
         });
-      } else if (carouselTrack.scrollLeft > singleSetWidth * 1.25) {
+      } else if (carouselTrack.scrollLeft > rightBoundary) {
         isAdjustingScroll = true;
         carouselTrack.scrollLeft -= singleSetWidth;
         requestAnimationFrame(() => {
@@ -615,6 +622,7 @@
 
     updateDetail(projects[selectedIndex]);
     renderCarousel();
+    setInitialLoopPosition();
   </script>
 </body>
 </html>
