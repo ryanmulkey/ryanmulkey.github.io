@@ -602,19 +602,19 @@
     function maintainInfiniteScroll() {
       if (!carouselReady || wrapLock || !singleSetWidth) return;
 
-      const currentLeft = carouselTrack.scrollLeft;
-      const leftBoundary = singleSetWidth * 0.5;
-      const rightBoundary = singleSetWidth * 1.5;
+      const viewportCenter = carouselTrack.scrollLeft + (carouselTrack.clientWidth / 2);
+      const middleStart = singleSetWidth;
+      const middleEnd = singleSetWidth * 2;
 
-      if (currentLeft < leftBoundary) {
+      if (viewportCenter < middleStart) {
         wrapLock = true;
-        setScrollInstant(currentLeft + singleSetWidth);
+        setScrollInstant(carouselTrack.scrollLeft + singleSetWidth);
         requestAnimationFrame(() => {
           wrapLock = false;
         });
-      } else if (currentLeft > rightBoundary) {
+      } else if (viewportCenter > middleEnd) {
         wrapLock = true;
-        setScrollInstant(currentLeft - singleSetWidth);
+        setScrollInstant(carouselTrack.scrollLeft - singleSetWidth);
         requestAnimationFrame(() => {
           wrapLock = false;
         });
