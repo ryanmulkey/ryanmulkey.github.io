@@ -137,16 +137,12 @@
       overflow-x: auto;
       scroll-behavior: smooth;
       padding: 4px 2px 8px;
-      scrollbar-width: thin;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
     .carousel-track::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .carousel-track::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 999px;
+      display: none;
     }
 
     .project-chip {
@@ -342,9 +338,9 @@
     <nav class="nav">
       <div class="brand">Ryan Mulkey</div>
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="project.html">Projects</a>
-        <a href="RyanMulkey_Resume.pdf" target="_blank">Resume</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="resume.pdf" target="_blank">Resume</a>
         <a href="mailto:ryanmulkey17@gmail.com">Contact</a>
       </div>
     </nav>
@@ -353,12 +349,14 @@
       <div class="eyebrow">Project Archive</div>
       <h1 class="page-title">Selected engineering projects</h1>
       <div class="page-subtitle">
+        Browse projects using the carousel below. Selecting a project updates the detail panel with the objective, outcomes, technical details, and a visual area for images, renders, plots, or figures.
       </div>
     </header>
 
     <section class="carousel-section">
       <div class="carousel-header">
         <div class="carousel-title">Project list</div>
+        <div class="carousel-note">Add more project objects in the script to extend the carousel continuously.</div>
       </div>
 
       <div class="carousel-wrap">
@@ -370,7 +368,7 @@
 
     <section class="project-detail">
       <div class="detail-heading">
-        <h2 class="detail-title" id="detailTitle">Where is this???</h2>
+        <h2 class="detail-title" id="detailTitle">Sample Project 1</h2>
         <div class="detail-summary" id="detailSummary"></div>
       </div>
 
@@ -411,7 +409,7 @@
   <script>
     const projects = [
       {
-        title: "MEEN451 Design Project - Design of Fluid Distribution System",
+        title: "Sample Project 1",
         chipText: "Placeholder summary for the first engineering case study.",
         summary: "This sample project page demonstrates how a selected carousel entry expands into a structured case-study layout matching the style of the main site.",
         objectives: "Define the engineering problem, frame the design target, and establish the core performance objectives for the study.",
@@ -500,31 +498,47 @@
     const detailTechnical = document.getElementById('detailTechnical');
     const detailImage = document.getElementById('detailImage');
     const detailCaption = document.getElementById('detailCaption');
+    const scrollLeftBtn = document.getElementById('scrollLeft');
+    const scrollRightBtn = document.getElementById('scrollRight');
 
     let selectedIndex = 0;
+    let loopInitialized = false;
+    let isAdjustingScroll = false;
 
     function renderCarousel() {
       carouselTrack.innerHTML = '';
 
-      projects.forEach((project, index) => {
+      const loopProjects = [...projects, ...projects];
+
+      loopProjects.forEach((project, index) => {
+        const realIndex = index % projects.length;
         const chip = document.createElement('button');
-        chip.className = 'project-chip' + (index === selectedIndex ? ' active' : '');
+        chip.className = 'project-chip' + (realIndex === selectedIndex ? ' active' : '');
         chip.type = 'button';
+        chip.dataset.realIndex = realIndex;
+
         chip.innerHTML = `
-          <div class="chip-label">Project ${index + 1}</div>
+          <div class="chip-label">Project ${realIndex + 1}</div>
           <h3 class="chip-title">${project.title}</h3>
           <p class="chip-text">${project.chipText}</p>
         `;
 
         chip.addEventListener('click', () => {
-          selectedIndex = index;
-          updateDetail(project);
+          selectedIndex = realIndex;
+          updateDetail(projects[realIndex]);
           renderCarousel();
-          chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          centerSelectedChip(false);
         });
 
         carouselTrack.appendChild(chip);
       });
+
+      if (!loopInitialized) {
+        setInitialLoopPosition();
+        loopInitialized = true;
+      } else {
+        centerSelectedChip(true);
+      }
     }
 
     function updateDetail(project) {
@@ -544,13 +558,60 @@
       });
     }
 
-    document.getElementById('scrollLeft').addEventListener('click', () => {
+    function setInitialLoopPosition() {
+      const chips = carouselTrack.querySelectorAll('.project-chip');
+      if (!chips.length) return;
+
+      const half = Math.floor(chips.length / 2);
+      const targetChip = chips[half];
+      carouselTrack.scrollLeft = targetChip.offsetLeft - (carouselTrack.clientWidth / 2) + (targetChip.clientWidth / 2);
+    }
+
+    function centerSelectedChip(smooth = true) {
+      const chips = carouselTrack.querySelectorAll('.project-chip');
+      if (!chips.length) return;
+
+      const middleIndex = projects.length + selectedIndex;
+      const targetChip = chips[middleIndex] || chips[selectedIndex];
+      if (!targetChip) return;
+
+      targetChip.scrollIntoView({
+        behavior: smooth ? 'smooth' : 'auto',
+        inline: 'center',
+        block: 'nearest'
+      });
+    }
+
+    function maintainInfiniteScroll() {
+      if (isAdjustingScroll) return;
+
+      const singleSetWidth = carouselTrack.scrollWidth / 2;
+      if (!singleSetWidth) return;
+
+      if (carouselTrack.scrollLeft < singleSetWidth * 0.25) {
+        isAdjustingScroll = true;
+        carouselTrack.scrollLeft += singleSetWidth;
+        requestAnimationFrame(() => {
+          isAdjustingScroll = false;
+        });
+      } else if (carouselTrack.scrollLeft > singleSetWidth * 1.25) {
+        isAdjustingScroll = true;
+        carouselTrack.scrollLeft -= singleSetWidth;
+        requestAnimationFrame(() => {
+          isAdjustingScroll = false;
+        });
+      }
+    }
+
+    scrollLeftBtn.addEventListener('click', () => {
       carouselTrack.scrollBy({ left: -260, behavior: 'smooth' });
     });
 
-    document.getElementById('scrollRight').addEventListener('click', () => {
+    scrollRightBtn.addEventListener('click', () => {
       carouselTrack.scrollBy({ left: 260, behavior: 'smooth' });
     });
+
+    carouselTrack.addEventListener('scroll', maintainInfiniteScroll, { passive: true });
 
     updateDetail(projects[selectedIndex]);
     renderCarousel();
