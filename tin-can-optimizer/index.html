@@ -28,18 +28,18 @@ body{margin:0;color:var(--ink);font:15px "Courier New",Courier,monospace;backgro
 .header-window{margin-bottom:16px}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;background:var(--panel)}
 h1{margin:0;font-size:clamp(1.7rem,4.5vw,3.2rem);line-height:.95;letter-spacing:-.055em;text-transform:uppercase}.subtitle{margin-top:7px;color:var(--muted);font-size:.78rem}
 .theme-btn,.reset-btn{font:800 .78rem "Courier New",Courier,monospace;text-transform:uppercase;cursor:pointer;color:var(--ink);background:var(--win);border-top:3px solid var(--hi);border-left:3px solid var(--hi);border-right:3px solid var(--lo);border-bottom:3px solid var(--lo);padding:9px 12px}
-.layout{display:grid;grid-template-columns:350px minmax(0,1fr);gap:16px}.pane{padding:18px;background:var(--panel);min-height:600px}
+.layout{display:grid;grid-template-columns:350px minmax(0,1fr);gap:16px;align-items:stretch}.layout>.window{display:flex;flex-direction:column}.pane{padding:18px;background:var(--panel);min-height:600px;flex:1}
 .group{border:2px groove var(--hi);padding:18px 14px 14px;position:relative;margin-bottom:18px}.group-title{position:absolute;top:-9px;left:10px;background:var(--panel);padding:0 6px;font-size:.78rem;font-weight:900;text-transform:uppercase;color:var(--muted)}
 .field{margin-bottom:15px}label{display:block;margin:0 0 6px;font-size:.78rem;font-weight:900;text-transform:uppercase}.input-wrap{position:relative}input{width:100%;padding:10px 42px 10px 10px;background:var(--field);color:var(--ink);border-top:3px solid var(--lo);border-left:3px solid var(--lo);border-right:3px solid var(--hi);border-bottom:3px solid var(--hi);font:900 1rem "Courier New",Courier,monospace;outline:none}input:focus{box-shadow:0 0 0 2px var(--red)}.unit{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--muted);font-weight:900}
 .reset-btn{width:100%;background:#f8e7cf}.error{display:none;margin-top:10px;color:var(--bad);font-weight:900;font-size:.78rem}
 .score-panel{background:var(--field);border-top:3px solid var(--lo);border-left:3px solid var(--lo);border-right:3px solid var(--hi);border-bottom:3px solid var(--hi);padding:16px}.score-label{font-size:.72rem;color:var(--muted);font-weight:900;text-transform:uppercase}.score{font-size:3.15rem;line-height:.95;font-weight:900;letter-spacing:-.07em;margin-top:5px}
 .stats{display:grid;gap:8px;margin-top:13px}.stat{display:flex;justify-content:space-between;background:var(--win);border:1px solid var(--mid);padding:9px 10px;font-size:.77rem;text-transform:uppercase}.stat span{color:var(--muted)}
-.chart-pane{padding:14px;background:var(--panel);min-height:600px}.toolbar{display:flex;gap:6px;padding-bottom:10px;border-bottom:2px solid var(--mid);margin-bottom:8px}.tool{width:28px;height:27px;background:var(--win);border-top:2px solid var(--hi);border-left:2px solid var(--hi);border-right:2px solid var(--lo);border-bottom:2px solid var(--lo);display:grid;place-items:center;font-weight:900;color:var(--title)}
+.chart-pane{padding:14px;background:var(--panel);min-height:600px;flex:1}.toolbar{display:flex;gap:6px;padding-bottom:10px;border-bottom:2px solid var(--mid);margin-bottom:8px}.tool{width:28px;height:27px;background:var(--win);border-top:2px solid var(--hi);border-left:2px solid var(--hi);border-right:2px solid var(--lo);border-bottom:2px solid var(--lo);display:grid;place-items:center;font-weight:900;color:var(--title)}
 .legend{display:flex;gap:8px 14px;padding:8px 4px 2px;font-size:.72rem;text-transform:uppercase}.key{display:flex;align-items:center;gap:6px}.dot{width:11px;height:11px;border:1px solid var(--ink)}
 .plot{width:100%;aspect-ratio:1/1;max-height:570px;margin:auto;display:block}.axis-label{fill:var(--tick);font-size:13px;font-weight:900;text-transform:uppercase}#plot-frame{fill:var(--plot);stroke:var(--ink)}#vx,#hy{stroke:var(--guide)}#measured{fill:var(--red);stroke:var(--ink)}
 .statusbar{display:grid;grid-template-columns:1fr auto;gap:6px;padding:4px 6px;margin-top:8px}.statuscell{border-top:2px solid var(--lo);border-left:2px solid var(--lo);border-right:2px solid var(--hi);border-bottom:2px solid var(--hi);padding:4px 7px;font-size:.68rem;color:var(--muted)}
-.teto-widget{position:fixed;right:18px;bottom:16px;width:210px;z-index:10}.teto-widget .titlebar{font-size:.7rem;min-height:28px}.teto-screen{background:#273972;border-top:3px solid var(--lo);border-left:3px solid var(--lo);border-right:3px solid var(--hi);border-bottom:3px solid var(--hi);margin:6px;padding:7px;display:flex;flex-direction:column;gap:7px}.teto-bubble{position:relative;background:var(--field);color:var(--ink);border-top:3px solid var(--hi);border-left:3px solid var(--hi);border-right:3px solid var(--lo);border-bottom:3px solid var(--lo);padding:8px 10px;font-size:.72rem;font-weight:900;line-height:1.35;text-transform:uppercase}.teto-gif{display:block;width:132px;height:auto;align-self:center;image-rendering:pixelated}.teto-note{text-align:center;font-size:.62rem;color:#fff0f4;font-weight:900;text-transform:uppercase}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.pane,.chart-pane{min-height:auto}.teto-widget{width:160px;right:8px;bottom:8px}.teto-gif{width:100px}}
+.teto-widget{position:fixed;right:18px;bottom:16px;width:210px;z-index:10}.teto-widget .titlebar{font-size:.7rem;min-height:28px}.teto-screen{background:#273972;border-top:3px solid var(--lo);border-left:3px solid var(--lo);border-right:3px solid var(--hi);border-bottom:3px solid var(--hi);margin:6px;padding:7px;display:flex;flex-direction:column;gap:7px}.teto-bubble{position:relative;background:var(--field);color:var(--ink);border-top:3px solid var(--hi);border-left:3px solid var(--hi);border-right:3px solid var(--lo);border-bottom:3px solid var(--lo);padding:8px 10px;font-size:.72rem;font-weight:900;line-height:1.35}.teto-gif{display:block;width:132px;height:105px;object-fit:cover;object-position:center bottom;align-self:center;image-rendering:pixelated}.teto-note{text-align:center;font-size:.62rem;color:#fff0f4;font-weight:900;text-transform:uppercase}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.pane,.chart-pane{min-height:auto}.teto-widget{width:160px;right:8px;bottom:8px}.teto-gif{width:100px;height:80px}}
 @media(max-width:560px){.desktop{width:min(100% - 12px,1160px);padding-top:8px}.header-inner{padding:12px;align-items:flex-start}h1{font-size:1.45rem}.theme-btn{padding:7px 8px;font-size:.67rem}.teto-widget{display:none}.titlebar{font-size:.78rem}}
 </style>
 </head>
@@ -56,13 +56,13 @@ h1{margin:0;font-size:clamp(1.7rem,4.5vw,3.2rem);line-height:.95;letter-spacing:
       <div class="titlebar"><span>MEASUREMENTS.DAT</span><span class="title-buttons"><span class="win-btn">_</span><span class="win-btn">×</span></span></div>
       <div class="pane">
         <div class="group"><span class="group-title">Cylinder Dimensions</span>
-          <div class="field"><label for="l">Length</label><div class="input-wrap"><input id="l" type="number" min=".001" step=".01" value="6.00"><span class="unit">in</span></div></div>
-          <div class="field"><label for="g">Girth</label><div class="input-wrap"><input id="g" type="number" min=".001" step=".01" value="5.20"><span class="unit">in</span></div></div>
-          <button id="reset" class="reset-btn" type="button">Reset Defaults</button><div id="err" class="error">ENTER POSITIVE VALUES FOR BOTH MEASUREMENTS.</div>
+          <div class="field"><label for="l">Length</label><div class="input-wrap"><input id="l" type="number" min=".001" step=".01" value="" placeholder=""><span class="unit">in</span></div></div>
+          <div class="field"><label for="g">Girth</label><div class="input-wrap"><input id="g" type="number" min=".001" step=".01" value="" placeholder=""><span class="unit">in</span></div></div>
+          <button id="reset" class="reset-btn" type="button">Reset</button><div id="err" class="error">ENTER POSITIVE VALUES FOR BOTH MEASUREMENTS.</div>
         </div>
         <div class="group"><span class="group-title">Result</span>
-          <div class="score-panel"><div class="score-label">Justin Unit</div><div id="score" class="score">1.0000</div></div>
-          <div class="stats"><div class="stat"><span>Length deviation</span><strong id="ld">+0.00%</strong></div><div class="stat"><span>Girth deviation</span><strong id="gd">+0.00%</strong></div></div>
+          <div class="score-panel"><div class="score-label">Justin Unit</div><div id="score" class="score">—</div></div>
+          <div class="stats"><div class="stat"><span>Length deviation</span><strong id="ld">—</strong></div><div class="stat"><span>Girth deviation</span><strong id="gd">—</strong></div></div>
         </div>
       </div>
     </section>
@@ -81,7 +81,7 @@ h1{margin:0;font-size:clamp(1.7rem,4.5vw,3.2rem);line-height:.95;letter-spacing:
           <text x="20" y="285" text-anchor="middle" class="axis-label" transform="rotate(-90 20 285)">Normalized length</text>
           <circle id="measured" r="8" stroke-width="2"/>
         </svg>
-        <div class="statusbar"><div class="statuscell">READY // GIRTH WEIGHT = 1.5×</div><div id="statusbarScore" class="statuscell">JU 1.0000</div></div>
+        <div class="statusbar"><div class="statuscell">READY // GIRTH WEIGHT = 1.5×</div><div id="statusbarScore" class="statuscell">JU —</div></div>
       </div>
     </section>
   </main>
@@ -90,7 +90,7 @@ h1{margin:0;font-size:clamp(1.7rem,4.5vw,3.2rem);line-height:.95;letter-spacing:
 <aside class="window teto-widget" aria-label="Kasane Teto rating assistant">
   <div class="titlebar"><span>TETO.DLL</span><span class="win-btn">×</span></div>
   <div class="teto-screen">
-    <div id="tetoBubble" class="teto-bubble">TETO SAYS: GOOD!</div>
+    <div id="tetoBubble" class="teto-bubble">TETO SAYS: Enter measurements.</div>
     <img src="teto-dance.gif" alt="Kasane Teto dancing" class="teto-gif">
     <div class="teto-note">measurement assistant online</div>
   </div>
@@ -102,13 +102,14 @@ const GOOD_R=1/GOOD-1,OKAY_R=1/OKAY-1;
 function metrics(l,g){const ln=l/L0,gn=g/G0,le=ln-1,ge=gn-1,wge=W*ge,e=Math.hypot(le,wge);return{ln,le,ge,wge,x:1+wge,g:1/(1+e)}}
 function pct(v){const n=v*100;return(n>=0?'+':'')+n.toFixed(2)+'%'}
 function classify(v){return v>=GOOD?'GOOD':v>=OKAY?'OKAY':'BAD'}
-function tetoText(v){const s=classify(v);return s==='GOOD'?'TETO SAYS: GOOD! NICE MEASUREMENT.':s==='OKAY'?'TETO SAYS: OKAY! PRETTY CLOSE.':'TETO SAYS: BAD! NEEDS ADJUSTMENT.'}
+function tetoText(v){if(Math.abs(v-1)<1e-12)return 'TETO SAYS: True Adam';const s=classify(v);return s==='GOOD'?'TETO SAYS: GOOD! NICE MEASUREMENT.':s==='OKAY'?'TETO SAYS: OKAY! PRETTY CLOSE.':'TETO SAYS: BAD! NEEDS ADJUSTMENT.'}
 function S(tag,a){const e=document.createElementNS(svgNS,tag);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e}
 function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
 function draw(m){const dx=Math.abs(m.x-1),dy=Math.abs(m.ln-1),span=Math.max(.39,dx*1.25,dy*1.25),min=1-span,max=1+span;const X=v=>70+(v-min)/(max-min)*510,Y=v=>540-(v-min)/(max-min)*510,U=v=>v/(max-min)*510;const z=$('zones'),gl=$('gridlines'),t=$('ticks');z.innerHTML=gl.innerHTML=t.innerHTML='';const gc=css('--plotgrid'),tc=css('--tick'),good=css('--good'),okay=css('--okay'),bad=css('--bad');z.append(S('rect',{x:70,y:30,width:510,height:510,fill:bad,'fill-opacity':'.10'}));z.append(S('circle',{cx:X(1),cy:Y(1),r:U(OKAY_R),fill:okay,'fill-opacity':'.18',stroke:okay,'stroke-width':'2'}));z.append(S('circle',{cx:X(1),cy:Y(1),r:U(GOOD_R),fill:good,'fill-opacity':'.28',stroke:good,'stroke-width':'2'}));for(let i=0;i<=8;i++){const p=70+i*63.75,q=30+i*63.75;gl.append(S('line',{x1:p,y1:30,x2:p,y2:540,stroke:gc}),S('line',{x1:70,y1:q,x2:580,y2:q,stroke:gc}))}for(let i=0;i<=4;i++){let v=min+i*(max-min)/4,x=S('text',{x:70+i*127.5,y:562,'text-anchor':'middle',fill:tc,'font-size':'12','font-family':'Courier New, monospace','font-weight':'700'});x.textContent=v.toFixed(2);t.append(x);v=max-i*(max-min)/4;x=S('text',{x:57,y:34+i*127.5,'text-anchor':'end',fill:tc,'font-size':'12','font-family':'Courier New, monospace','font-weight':'700'});x.textContent=v.toFixed(2);t.append(x)}$('vx').setAttribute('x1',X(1));$('vx').setAttribute('x2',X(1));$('hy').setAttribute('y1',Y(1));$('hy').setAttribute('y2',Y(1));$('measured').setAttribute('cx',X(m.x));$('measured').setAttribute('cy',Y(m.ln))}
-function update(){const l=+$('l').value,g=+$('g').value;if(!(l>0&&g>0)){$('err').style.display='block';return}$('err').style.display='none';const m=metrics(l,g);$('score').textContent=m.g.toFixed(4);$('ld').textContent=pct(m.le);$('gd').textContent=pct(m.ge);$('tetoBubble').textContent=tetoText(m.g);$('statusbarScore').textContent=`JU ${m.g.toFixed(4)}`;draw(m)}
+function clearResult(message='TETO SAYS: Enter measurements.'){ $('err').style.display='none';$('score').textContent='—';$('ld').textContent='—';$('gd').textContent='—';$('tetoBubble').textContent=message;$('statusbarScore').textContent='JU —';draw(metrics(L0,G0));$('measured').style.display='none'}
+function update(){const ls=$('l').value.trim(),gs=$('g').value.trim();if(!ls||!gs){clearResult(ls||gs?'TETO SAYS: Enter both measurements.':'TETO SAYS: Enter measurements.');return}const l=+ls,g=+gs;if(!(l>0&&g>0)){$('err').style.display='block';$('score').textContent='—';$('ld').textContent='—';$('gd').textContent='—';$('tetoBubble').textContent='TETO SAYS: Measurements must be positive.';$('statusbarScore').textContent='JU —';$('measured').style.display='none';return}$('err').style.display='none';const m=metrics(l,g);$('measured').style.display='';$('score').textContent=m.g.toFixed(4);$('ld').textContent=pct(m.le);$('gd').textContent=pct(m.ge);$('tetoBubble').textContent=tetoText(m.g);$('statusbarScore').textContent=`JU ${m.g.toFixed(4)}`;draw(m)}
 function applyTheme(theme){document.documentElement.dataset.theme=theme;const dark=theme==='dark';$('themeToggle').textContent=dark?'Light Mode':'Dark Mode';localStorage.setItem('justin-unit-theme',theme);update()}
-$('l').addEventListener('input',update);$('g').addEventListener('input',update);$('reset').addEventListener('click',()=>{$('l').value='6.00';$('g').value='5.20';update()});$('themeToggle').addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));applyTheme(localStorage.getItem('justin-unit-theme')==='dark'?'dark':'light');
+$('l').addEventListener('input',update);$('g').addEventListener('input',update);$('reset').addEventListener('click',()=>{$('l').value='';$('g').value='';clearResult();$('l').focus()});$('themeToggle').addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));applyTheme(localStorage.getItem('justin-unit-theme')==='dark'?'dark':'light');
 </script>
 </body>
 </html>
