@@ -4,45 +4,201 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Justin Unit Measurement</title>
-<link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=2">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=3">
 <style>
-:root{--paper:#ece5d6;--paper-2:#e4dac6;--panel:#f4eedf;--input:#fffaf0;--stat:#ebe1ce;--plot:#f7f0df;--ink:#20272b;--muted:#6a6b63;--line:#2f3a3e;--soft-line:#b9ad96;--grid:#d8ccb5;--tick:#66685f;--guide:#6e746e;--orange:#d56832;--teal:#2d7f7a;--green:#4c8b5f;--amber:#c58a2e;--red:#b94a3e;--button-text:#fffaf0;--shadow:6px 6px 0 rgba(32,39,43,.14)}
-html[data-theme="dark"]{--paper:#161918;--paper-2:#222520;--panel:#1c201e;--input:#111412;--stat:#252923;--plot:#141816;--ink:#e9e1cf;--muted:#aaa28e;--line:#ded4bd;--soft-line:#575b50;--grid:#30352f;--tick:#b4ab96;--guide:#777c70;--orange:#d9783f;--teal:#5da9a0;--green:#72a97c;--amber:#d1a04e;--red:#cf6c5f;--button-text:#171a18;--shadow:6px 6px 0 rgba(0,0,0,.35)}
-*{box-sizing:border-box}html,body{min-height:100%}
-body{margin:0;color:var(--ink);font:15px "Courier New",Courier,monospace;background:linear-gradient(color-mix(in srgb,var(--ink) 4%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--ink) 4%,transparent) 1px,transparent 1px),var(--paper);background-size:28px 28px;transition:background-color .15s ease,color .15s ease}
-main{width:min(1140px,calc(100% - 32px));margin:auto;padding:40px 0 54px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px;border-bottom:3px solid var(--ink);padding-bottom:14px}.title-wrap{display:flex;align-items:center;gap:14px;min-width:0}
-h1{margin:0;font-size:clamp(1.7rem,4.5vw,3.15rem);font-weight:900;letter-spacing:-.06em;text-transform:uppercase;line-height:.98}.theme-btn{flex:0 0 auto;padding:9px 12px;border:2px solid var(--ink);background:var(--panel);color:var(--ink);font:800 .75rem "Courier New",Courier,monospace;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}.theme-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}.theme-btn:active{transform:translate(3px,3px);box-shadow:none}
-.layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;align-items:stretch}.card{background:var(--panel);border:3px solid var(--ink);box-shadow:var(--shadow)}.controls{padding:24px;display:flex;flex-direction:column;min-height:640px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;border-bottom:1px solid var(--soft-line);padding-bottom:10px}h2{margin:0;font-size:1rem;letter-spacing:.06em;text-transform:uppercase}.field{margin-top:18px}label{display:block;margin:0 0 7px;color:var(--ink);font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}.input-wrap{position:relative}input{width:100%;padding:13px 48px 13px 14px;border:2px solid var(--ink);background:var(--input);color:var(--ink);font:700 1rem "Courier New",Courier,monospace;outline:none;border-radius:0;box-shadow:3px 3px 0 color-mix(in srgb,var(--ink) 13%,transparent)}input:focus{outline:3px solid var(--teal);outline-offset:2px}.unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.8rem;font-weight:700}.reset-btn{margin-top:20px;width:100%;padding:12px 14px;border:2px solid var(--ink);background:var(--orange);color:var(--button-text);font:800 .88rem "Courier New",Courier,monospace;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}.reset-btn:hover{transform:translate(1px,1px);box-shadow:3px 3px 0 var(--ink)}.reset-btn:active{transform:translate(4px,4px);box-shadow:none}.error{display:none;margin-top:10px;color:var(--red);font-size:.82rem;font-weight:700}.score-card{margin-top:26px;padding:20px;border:2px solid var(--ink);background:var(--paper-2);position:relative}.score-card:before{content:"";position:absolute;left:0;top:0;width:8px;height:100%;background:var(--teal)}.score-label{color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;font-weight:800;padding-left:6px}.score{margin-top:7px;padding-left:6px;font-size:3.05rem;line-height:.95;font-weight:900;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.stats{display:grid;gap:10px;margin-top:14px}.stat{display:flex;justify-content:space-between;align-items:center;padding:12px 13px;border:1px solid var(--soft-line);background:var(--stat)}.stat span{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}.stat strong{font-variant-numeric:tabular-nums;color:var(--ink)}
-.chart-card{padding:24px;min-height:640px;display:flex;flex-direction:column}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:10px;border-bottom:1px solid var(--soft-line);padding-bottom:10px}.legend{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px 14px;color:var(--muted);font-size:.72rem;text-transform:uppercase}.key{display:inline-flex;align-items:center;gap:6px}.dot{width:10px;height:10px;border:1px solid var(--ink)}.plot{width:100%;aspect-ratio:1/1;max-height:580px;margin:auto 0 0}.axis-label{fill:var(--tick);font-size:13px;font-weight:700;text-transform:uppercase}#plot-frame{fill:var(--plot);stroke:var(--ink)}#vx,#hy{stroke:var(--guide)}#measured{fill:var(--teal);stroke:var(--ink)}
-@media(max-width:860px){main{padding-top:24px}.topbar{margin-bottom:18px;align-items:flex-start}.layout{grid-template-columns:1fr}.controls{min-height:auto}.chart-card{min-height:540px}.chart-head{align-items:flex-start;flex-direction:column}.legend{justify-content:flex-start}}@media(max-width:560px){.topbar{gap:12px}.title-wrap{min-width:0}h1{font-size:1.55rem}.theme-btn{padding:8px 9px;font-size:.68rem}}
+:root{
+  --desktop:#e8c9cf;
+  --desktop-grid:#d8aeb7;
+  --win:#d7d4cc;
+  --win-hi:#fffdf5;
+  --win-mid:#b6b1a8;
+  --win-lo:#514a4b;
+  --ink:#211b1d;
+  --muted:#6e5d61;
+  --title:#8f243d;
+  --title-hi:#c84a68;
+  --title-text:#fff7ed;
+  --panel:#f3e7e1;
+  --field:#fffaf3;
+  --hair:#9d3048;
+  --hair-dark:#682033;
+  --teto-red:#c82f4f;
+  --cream:#f8e7cf;
+  --uniform:#343236;
+  --good:#4b8b63;
+  --okay:#c6973f;
+  --bad:#b74246;
+  --plot:#f9eee9;
+  --grid:#d9c5c2;
+  --guide:#897477;
+  --tick:#5f5154;
+}
+html[data-theme="dark"]{
+  --desktop:#261a20;
+  --desktop-grid:#38242c;
+  --win:#4a4344;
+  --win-hi:#7b7072;
+  --win-mid:#302b2c;
+  --win-lo:#0f0c0d;
+  --ink:#f3e9df;
+  --muted:#bda9ab;
+  --title:#6d1630;
+  --title-hi:#a62c4d;
+  --title-text:#fff5e9;
+  --panel:#34292c;
+  --field:#21191c;
+  --hair:#bf4862;
+  --hair-dark:#7a2339;
+  --teto-red:#e6506f;
+  --cream:#f0d7b7;
+  --uniform:#17171a;
+  --good:#70a880;
+  --okay:#d4aa59;
+  --bad:#d35b60;
+  --plot:#241b1e;
+  --grid:#46363a;
+  --guide:#8f777d;
+  --tick:#d4c1c2;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{
+  margin:0;
+  color:var(--ink);
+  font:15px "Courier New",Courier,monospace;
+  background:
+    linear-gradient(90deg,color-mix(in srgb,var(--desktop-grid) 28%,transparent) 1px,transparent 1px),
+    linear-gradient(color-mix(in srgb,var(--desktop-grid) 28%,transparent) 1px,transparent 1px),
+    var(--desktop);
+  background-size:16px 16px;
+}
+.desktop{width:min(1160px,calc(100% - 28px));margin:auto;padding:28px 0 54px}
+.window{background:var(--win);border-top:3px solid var(--win-hi);border-left:3px solid var(--win-hi);border-right:3px solid var(--win-lo);border-bottom:3px solid var(--win-lo);box-shadow:3px 3px 0 rgba(40,25,30,.25)}
+.titlebar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(90deg,var(--title),var(--title-hi));color:var(--title-text);padding:5px 6px 5px 9px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;min-height:34px}
+.titlebar-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.title-buttons{display:flex;gap:4px;flex:0 0 auto}.win-btn{width:24px;height:22px;display:grid;place-items:center;background:var(--win);color:var(--ink);border-top:2px solid var(--win-hi);border-left:2px solid var(--win-hi);border-right:2px solid var(--win-lo);border-bottom:2px solid var(--win-lo);font-weight:900;font-size:12px;line-height:1}
+.menurow{display:flex;gap:18px;padding:6px 9px;border-bottom:2px solid var(--win-mid);font-size:.8rem;background:var(--win)}
+.menurow span:first-letter{text-decoration:underline}
+.app-body{padding:10px}
+.header-window{margin-bottom:16px}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;background:var(--panel)}
+h1{margin:0;font-size:clamp(1.7rem,4.5vw,3.2rem);line-height:.95;letter-spacing:-.055em;text-transform:uppercase}.subtitle-code{margin-top:7px;color:var(--muted);font-size:.78rem}
+.theme-btn,.reset-btn{font:800 .78rem "Courier New",Courier,monospace;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;color:var(--ink);background:var(--win);border-top:3px solid var(--win-hi);border-left:3px solid var(--win-hi);border-right:3px solid var(--win-lo);border-bottom:3px solid var(--win-lo);padding:9px 12px}.theme-btn:active,.reset-btn:active{border-top-color:var(--win-lo);border-left-color:var(--win-lo);border-right-color:var(--win-hi);border-bottom-color:var(--win-hi);padding:10px 11px 8px 13px}
+.layout{display:grid;grid-template-columns:350px minmax(0,1fr);gap:16px}.pane-body{padding:18px;background:var(--panel);min-height:600px}
+.groupbox{border:2px groove var(--win-hi);padding:18px 14px 14px;position:relative;margin-bottom:18px}.groupbox-title{position:absolute;top:-9px;left:10px;background:var(--panel);padding:0 6px;font-size:.78rem;font-weight:900;text-transform:uppercase;color:var(--muted)}
+.field{margin-bottom:15px}label{display:block;margin:0 0 6px;font-size:.78rem;font-weight:900;text-transform:uppercase}.input-wrap{position:relative}input{width:100%;padding:10px 42px 10px 10px;background:var(--field);color:var(--ink);border-top:3px solid var(--win-lo);border-left:3px solid var(--win-lo);border-right:3px solid var(--win-hi);border-bottom:3px solid var(--win-hi);font:900 1rem "Courier New",Courier,monospace;outline:none}input:focus{box-shadow:0 0 0 2px var(--teto-red)}.unit{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--muted);font-weight:900}
+.reset-btn{width:100%;background:var(--cream)}.error{display:none;margin-top:10px;color:var(--bad);font-weight:900;font-size:.78rem}
+.score-panel{background:var(--field);border-top:3px solid var(--win-lo);border-left:3px solid var(--win-lo);border-right:3px solid var(--win-hi);border-bottom:3px solid var(--win-hi);padding:16px}.score-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.score-label{font-size:.72rem;color:var(--muted);font-weight:900;text-transform:uppercase}.score{font-size:3.15rem;line-height:.95;font-weight:900;letter-spacing:-.07em;margin-top:5px}.status{padding:6px 9px;border:2px solid var(--ink);font-weight:900;text-transform:uppercase;font-size:.78rem;background:var(--good);color:#fff}.status.okay{background:var(--okay);color:#251d12}.status.bad{background:var(--bad);color:#fff}
+.stats{display:grid;gap:8px;margin-top:13px}.stat{display:flex;justify-content:space-between;gap:10px;background:var(--win);border:1px solid var(--win-mid);padding:9px 10px;font-size:.77rem;text-transform:uppercase}.stat span{color:var(--muted)}
+.chart-body{padding:14px;background:var(--panel);min-height:600px}.toolbar{display:flex;gap:6px;padding-bottom:10px;border-bottom:2px solid var(--win-mid);margin-bottom:8px}.tool{width:28px;height:27px;background:var(--win);border-top:2px solid var(--win-hi);border-left:2px solid var(--win-hi);border-right:2px solid var(--win-lo);border-bottom:2px solid var(--win-lo);display:grid;place-items:center;font-weight:900;color:var(--hair-dark)}
+.legend{display:flex;gap:8px 14px;flex-wrap:wrap;padding:8px 4px 2px;font-size:.72rem;text-transform:uppercase}.key{display:flex;align-items:center;gap:6px}.dot{width:11px;height:11px;border:1px solid var(--ink)}
+.plot{width:100%;aspect-ratio:1/1;max-height:570px;margin:auto;display:block}.axis-label{fill:var(--tick);font-size:13px;font-weight:900;text-transform:uppercase}#plot-frame{fill:var(--plot);stroke:var(--ink)}#vx,#hy{stroke:var(--guide)}#measured{fill:var(--teto-red);stroke:var(--ink)}
+.statusbar{display:grid;grid-template-columns:1fr auto;gap:6px;padding:4px 6px;margin-top:8px}.statuscell{border-top:2px solid var(--win-lo);border-left:2px solid var(--win-lo);border-right:2px solid var(--win-hi);border-bottom:2px solid var(--win-hi);padding:4px 7px;font-size:.68rem;color:var(--muted)}
+.teto-widget{position:fixed;right:18px;bottom:16px;width:150px;z-index:10}.teto-widget .titlebar{font-size:.7rem;min-height:28px}.teto-screen{background:#f7d9df;border-top:3px solid var(--win-lo);border-left:3px solid var(--win-lo);border-right:3px solid var(--win-hi);border-bottom:3px solid var(--win-hi);margin:6px;padding:6px;overflow:hidden}.teto-dance{display:block;width:100%;height:auto;image-rendering:pixelated;animation:teto-bop .7s steps(2,end) infinite;transform-origin:center bottom}@keyframes teto-bop{0%,100%{transform:translateY(1px) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
+.teto-note{text-align:center;font-size:.62rem;color:#512331;padding:0 4px 5px;font-weight:900;text-transform:uppercase}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.pane-body,.chart-body{min-height:auto}.teto-widget{width:115px;right:8px;bottom:8px;opacity:.92}}
+@media(max-width:560px){.desktop{width:min(100% - 12px,1160px);padding-top:8px}.header-inner{padding:12px;align-items:flex-start}.theme-btn{padding:7px 8px;font-size:.67rem}h1{font-size:1.45rem}.teto-widget{display:none}.titlebar{font-size:.78rem}}
 </style>
 </head>
 <body>
-<main>
-<div class="topbar"><div class="title-wrap"><h1>Justin Unit Measurement</h1></div><button id="themeToggle" class="theme-btn" type="button" aria-pressed="false">Dark Mode</button></div>
-<div class="layout">
-<section class="card controls">
-<div class="section-head"><h2>Measurements</h2></div>
-<div class="field"><label for="l">Length</label><div class="input-wrap"><input id="l" type="number" min=".001" step=".01" value="6.00"><span class="unit">in</span></div></div>
-<div class="field"><label for="g">Girth</label><div class="input-wrap"><input id="g" type="number" min=".001" step=".01" value="5.20"><span class="unit">in</span></div></div>
-<button id="reset" class="reset-btn" type="button">Reset</button><div id="err" class="error">Enter positive values for both measurements.</div>
-<div class="score-card"><div class="score-label">Justin Unit</div><div id="score" class="score">1.0000</div></div>
-<div class="stats"><div class="stat"><span>Length deviation</span><strong id="ld">+0.00%</strong></div><div class="stat"><span>Girth deviation</span><strong id="gd">+0.00%</strong></div></div>
-</section>
-<section class="card chart-card">
-<div class="chart-head"><h2>Weighted Dimension Map</h2><div class="legend"><span class="key"><i class="dot" style="background:var(--teal)"></i>Measured</span><span class="key"><i class="dot" style="background:var(--green)"></i>5%</span><span class="key"><i class="dot" style="background:var(--amber)"></i>10%</span><span class="key"><i class="dot" style="background:var(--red)"></i>20%</span></div></div>
-<svg id="plot" class="plot" viewBox="0 0 620 620" role="img" aria-label="Weighted dimension graph"><rect id="plot-frame" x="70" y="30" width="510" height="510" stroke-width="2"/><g id="grid"></g><g id="rings"></g><g id="ticks"></g><line id="vx" x1="325" y1="30" x2="325" y2="540" stroke-width="1" stroke-dasharray="4 5"/><line id="hy" x1="70" y1="285" x2="580" y2="285" stroke-width="1" stroke-dasharray="4 5"/><text x="325" y="594" text-anchor="middle" class="axis-label">Weighted normalized girth</text><text x="20" y="285" text-anchor="middle" class="axis-label" transform="rotate(-90 20 285)">Normalized length</text><circle id="measured" r="8" stroke-width="2"/></svg>
-</section>
+<div class="desktop">
+  <section class="window header-window">
+    <div class="titlebar"><span class="titlebar-text">JUSTIN.EXE — UNIT MEASUREMENT</span><span class="title-buttons"><span class="win-btn">_</span><span class="win-btn">□</span><span class="win-btn">×</span></span></div>
+    <div class="menurow"><span>File</span><span>Measure</span><span>View</span><span>Help</span></div>
+    <div class="header-inner"><div><h1>Justin Unit Measurement</h1><div class="subtitle-code">TETO SYSTEMS // DIMENSION ANALYZER v1.5</div></div><button id="themeToggle" class="theme-btn" type="button" aria-pressed="false">Dark Mode</button></div>
+  </section>
+
+  <main class="layout">
+    <section class="window">
+      <div class="titlebar"><span class="titlebar-text">MEASUREMENTS.DAT</span><span class="title-buttons"><span class="win-btn">_</span><span class="win-btn">×</span></span></div>
+      <div class="pane-body">
+        <div class="groupbox"><span class="groupbox-title">Cylinder Dimensions</span>
+          <div class="field"><label for="l">Length</label><div class="input-wrap"><input id="l" type="number" min=".001" step=".01" value="6.00"><span class="unit">in</span></div></div>
+          <div class="field"><label for="g">Girth</label><div class="input-wrap"><input id="g" type="number" min=".001" step=".01" value="5.20"><span class="unit">in</span></div></div>
+          <button id="reset" class="reset-btn" type="button">Reset Defaults</button><div id="err" class="error">ENTER POSITIVE VALUES FOR BOTH MEASUREMENTS.</div>
+        </div>
+
+        <div class="groupbox"><span class="groupbox-title">Result</span>
+          <div class="score-panel"><div class="score-top"><div><div class="score-label">Justin Unit</div><div id="score" class="score">1.0000</div></div><div id="status" class="status">GOOD</div></div></div>
+          <div class="stats"><div class="stat"><span>Length deviation</span><strong id="ld">+0.00%</strong></div><div class="stat"><span>Girth deviation</span><strong id="gd">+0.00%</strong></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="window">
+      <div class="titlebar"><span class="titlebar-text">WEIGHTED_DIMENSION_MAP.WND</span><span class="title-buttons"><span class="win-btn">_</span><span class="win-btn">□</span><span class="win-btn">×</span></span></div>
+      <div class="chart-body">
+        <div class="toolbar"><span class="tool">↖</span><span class="tool">+</span><span class="tool">−</span><span class="tool">◎</span></div>
+        <div class="legend"><span class="key"><i class="dot" style="background:var(--good)"></i>Good ≥ 0.90</span><span class="key"><i class="dot" style="background:var(--okay)"></i>Okay ≥ 0.75</span><span class="key"><i class="dot" style="background:var(--bad)"></i>Bad &lt; 0.75</span><span class="key"><i class="dot" style="background:var(--teto-red)"></i>Measured</span></div>
+        <svg id="plot" class="plot" viewBox="0 0 620 620" role="img" aria-label="Weighted dimension classification graph">
+          <rect id="plot-frame" x="70" y="30" width="510" height="510" stroke-width="2"/>
+          <g id="zones"></g><g id="grid"></g><g id="ticks"></g>
+          <line id="vx" x1="325" y1="30" x2="325" y2="540" stroke-width="1" stroke-dasharray="4 5"/>
+          <line id="hy" x1="70" y1="285" x2="580" y2="285" stroke-width="1" stroke-dasharray="4 5"/>
+          <text x="325" y="594" text-anchor="middle" class="axis-label">Weighted normalized girth</text>
+          <text x="20" y="285" text-anchor="middle" class="axis-label" transform="rotate(-90 20 285)">Normalized length</text>
+          <circle id="measured" r="8" stroke-width="2"/>
+        </svg>
+        <div class="statusbar"><div class="statuscell">READY // GIRTH WEIGHT = 1.5×</div><div id="statusbarScore" class="statuscell">JU 1.0000 // GOOD</div></div>
+      </div>
+    </section>
+  </main>
 </div>
-</main>
+
+<aside class="window teto-widget" aria-label="Pixel art Kasane Teto dancing">
+  <div class="titlebar"><span>TETO.DLL</span><span class="win-btn">×</span></div>
+  <div class="teto-screen">
+    <svg class="teto-dance" viewBox="0 0 96 112" shape-rendering="crispEdges" aria-hidden="true">
+      <rect width="96" height="112" fill="#f7d9df"/>
+      <!-- drill twin-tails -->
+      <g fill="#8f2942"><rect x="12" y="18" width="14" height="10"/><rect x="8" y="26" width="14" height="9"/><rect x="12" y="35" width="14" height="9"/><rect x="7" y="44" width="14" height="8"/><rect x="70" y="18" width="14" height="10"/><rect x="74" y="26" width="14" height="9"/><rect x="70" y="35" width="14" height="9"/><rect x="75" y="44" width="14" height="8"/></g>
+      <g fill="#bd405b"><rect x="16" y="20" width="8" height="5"/><rect x="11" y="29" width="8" height="4"/><rect x="16" y="38" width="8" height="4"/><rect x="72" y="20" width="8" height="5"/><rect x="77" y="29" width="8" height="4"/><rect x="72" y="38" width="8" height="4"/></g>
+      <!-- hair/head -->
+      <rect x="29" y="14" width="38" height="35" fill="#9d3048"/><rect x="34" y="10" width="28" height="8" fill="#9d3048"/><rect x="32" y="20" width="32" height="27" fill="#f2c9b5"/><rect x="28" y="18" width="8" height="22" fill="#9d3048"/><rect x="60" y="18" width="8" height="22" fill="#9d3048"/>
+      <!-- bangs -->
+      <rect x="33" y="16" width="9" height="10" fill="#9d3048"/><rect x="42" y="14" width="8" height="11" fill="#9d3048"/><rect x="51" y="15" width="8" height="10" fill="#9d3048"/>
+      <!-- eyes -->
+      <rect x="38" y="31" width="4" height="4" fill="#b31334"/><rect x="54" y="31" width="4" height="4" fill="#b31334"/><rect x="46" y="39" width="5" height="2" fill="#9b5d5c"/>
+      <!-- body military uniform -->
+      <rect x="31" y="49" width="34" height="36" fill="#303034"/><rect x="42" y="49" width="12" height="36" fill="#f1dfc6"/><rect x="46" y="54" width="4" height="4" fill="#c42f4d"/><rect x="46" y="64" width="4" height="4" fill="#c42f4d"/><rect x="46" y="74" width="4" height="4" fill="#c42f4d"/>
+      <!-- red tie / collar -->
+      <rect x="38" y="47" width="20" height="5" fill="#f1dfc6"/><rect x="44" y="48" width="8" height="12" fill="#bd2947"/>
+      <!-- arms dancing -->
+      <g class="arms"><rect x="21" y="53" width="10" height="9" fill="#303034"/><rect x="15" y="46" width="9" height="9" fill="#f2c9b5"/><rect x="65" y="53" width="10" height="9" fill="#303034"/><rect x="73" y="45" width="9" height="9" fill="#f2c9b5"/></g>
+      <!-- skirt -->
+      <rect x="27" y="83" width="42" height="8" fill="#bd2947"/><rect x="31" y="91" width="34" height="8" fill="#303034"/>
+      <!-- legs -->
+      <rect x="35" y="99" width="9" height="9" fill="#f2c9b5"/><rect x="52" y="99" width="9" height="9" fill="#f2c9b5"/>
+      <!-- baguette -->
+      <rect x="66" y="70" width="19" height="6" fill="#d99b4e"/><rect x="70" y="69" width="2" height="8" fill="#f0c473"/><rect x="77" y="69" width="2" height="8" fill="#f0c473"/>
+    </svg>
+    <div class="teto-note">drill-powered QA assistant</div>
+  </div>
+</aside>
+
 <script>
-const L0=6,G0=5.2,W=1.5,$=id=>document.getElementById(id),svgNS="http://www.w3.org/2000/svg";
-function metrics(l,g){const ln=l/L0,gn=g/G0,le=ln-1,ge=gn-1,wge=W*ge,e=Math.hypot(le,wge);return{ln,le,ge,wge,x:1+wge,g:1/(1+e)}}
+const L0=6,G0=5.2,W=1.5,GOOD=0.90,OKAY=0.75,$=id=>document.getElementById(id),svgNS="http://www.w3.org/2000/svg";
+const GOOD_R=1/GOOD-1,OKAY_R=1/OKAY-1;
+function metrics(l,g){const ln=l/L0,gn=g/G0,le=ln-1,ge=gn-1,wge=W*ge,e=Math.hypot(le,wge);return{ln,le,ge,wge,x:1+wge,g:1/(1+e),e}}
 function pct(v){const n=v*100;return(n>=0?"+":"")+n.toFixed(2)+"%"}
+function classify(g){return g>=GOOD?"GOOD":g>=OKAY?"OKAY":"BAD"}
 function S(tag,a){const e=document.createElementNS(svgNS,tag);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e}
 function css(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
-function draw(m){const dx=Math.abs(m.x-1),dy=Math.abs(m.ln-1),span=Math.max(.24,dx*1.3,dy*1.3),min=1-span,max=1+span;const X=v=>70+(v-min)/(max-min)*510,Y=v=>540-(v-min)/(max-min)*510,U=v=>v/(max-min)*510;const grid=$("grid"),rings=$("rings"),ticks=$("ticks");grid.innerHTML=rings.innerHTML=ticks.innerHTML="";const gridColor=css("--grid"),tickColor=css("--tick");for(let i=0;i<=8;i++){const p=70+i*63.75,q=30+i*63.75;grid.append(S("line",{x1:p,y1:30,x2:p,y2:540,stroke:gridColor,"stroke-width":"1"}),S("line",{x1:70,y1:q,x2:580,y2:q,stroke:gridColor,"stroke-width":"1"}))}[[.2,css("--red")],[.1,css("--amber")],[.05,css("--green")]].forEach(([r,color])=>rings.append(S("circle",{cx:X(1),cy:Y(1),r:U(r),fill:"none",stroke:color,"stroke-width":"2","stroke-dasharray":"8 6"})));for(let i=0;i<=4;i++){let v=min+i*(max-min)/4,t=S("text",{x:70+i*127.5,y:562,"text-anchor":"middle",fill:tickColor,"font-size":"12","font-family":"Courier New, monospace","font-weight":"700"});t.textContent=v.toFixed(2);ticks.append(t);v=max-i*(max-min)/4;t=S("text",{x:57,y:34+i*127.5,"text-anchor":"end",fill:tickColor,"font-size":"12","font-family":"Courier New, monospace","font-weight":"700"});t.textContent=v.toFixed(2);ticks.append(t)}$("vx").setAttribute("x1",X(1));$("vx").setAttribute("x2",X(1));$("hy").setAttribute("y1",Y(1));$("hy").setAttribute("y2",Y(1));$("measured").setAttribute("cx",X(m.x));$("measured").setAttribute("cy",Y(m.ln))}
-function update(){const l=+$("l").value,g=+$("g").value;if(!(l>0&&g>0)){ $("err").style.display="block";return }$("err").style.display="none";const m=metrics(l,g);$("score").textContent=m.g.toFixed(4);$("ld").textContent=pct(m.le);$("gd").textContent=pct(m.ge);draw(m)}
+function draw(m){
+  const dx=Math.abs(m.x-1),dy=Math.abs(m.ln-1),span=Math.max(.39,dx*1.25,dy*1.25),min=1-span,max=1+span;
+  const X=v=>70+(v-min)/(max-min)*510,Y=v=>540-(v-min)/(max-min)*510,U=v=>v/(max-min)*510;
+  const zones=$("zones"),grid=$("grid"),ticks=$("ticks");zones.innerHTML=grid.innerHTML=ticks.innerHTML="";
+  const gridColor=css("--grid"),tickColor=css("--tick"),good=css("--good"),okay=css("--okay"),bad=css("--bad");
+  zones.append(S("rect",{x:70,y:30,width:510,height:510,fill:bad,"fill-opacity":".10"}));
+  zones.append(S("circle",{cx:X(1),cy:Y(1),r:U(OKAY_R),fill:okay,"fill-opacity":".18",stroke:okay,"stroke-width":"2"}));
+  zones.append(S("circle",{cx:X(1),cy:Y(1),r:U(GOOD_R),fill:good,"fill-opacity":".28",stroke:good,"stroke-width":"2"}));
+  for(let i=0;i<=8;i++){const p=70+i*63.75,q=30+i*63.75;grid.append(S("line",{x1:p,y1:30,x2:p,y2:540,stroke:gridColor,"stroke-width":"1"}),S("line",{x1:70,y1:q,x2:580,y2:q,stroke:gridColor,"stroke-width":"1"}))}
+  for(let i=0;i<=4;i++){let v=min+i*(max-min)/4,t=S("text",{x:70+i*127.5,y:562,"text-anchor":"middle",fill:tickColor,"font-size":"12","font-family":"Courier New, monospace","font-weight":"700"});t.textContent=v.toFixed(2);ticks.append(t);v=max-i*(max-min)/4;t=S("text",{x:57,y:34+i*127.5,"text-anchor":"end",fill:tickColor,"font-size":"12","font-family":"Courier New, monospace","font-weight":"700"});t.textContent=v.toFixed(2);ticks.append(t)}
+  $("vx").setAttribute("x1",X(1));$("vx").setAttribute("x2",X(1));$("hy").setAttribute("y1",Y(1));$("hy").setAttribute("y2",Y(1));$("measured").setAttribute("cx",X(m.x));$("measured").setAttribute("cy",Y(m.ln));
+}
+function update(){
+  const l=+$("l").value,g=+$("g").value;if(!(l>0&&g>0)){ $("err").style.display="block";return }
+  $("err").style.display="none";const m=metrics(l,g),s=classify(m.g);$("score").textContent=m.g.toFixed(4);$("ld").textContent=pct(m.le);$("gd").textContent=pct(m.ge);$("status").textContent=s;$("status").className="status "+s.toLowerCase();$("statusbarScore").textContent=`JU ${m.g.toFixed(4)} // ${s}`;draw(m)
+}
 function applyTheme(theme){document.documentElement.dataset.theme=theme;const dark=theme==="dark";$("themeToggle").textContent=dark?"Light Mode":"Dark Mode";$("themeToggle").setAttribute("aria-pressed",String(dark));localStorage.setItem("justin-unit-theme",theme);update()}
 $("l").addEventListener("input",update);$("g").addEventListener("input",update);$("reset").addEventListener("click",()=>{$("l").value="6.00";$("g").value="5.20";update()});$("themeToggle").addEventListener("click",()=>applyTheme(document.documentElement.dataset.theme==="dark"?"light":"dark"));applyTheme(localStorage.getItem("justin-unit-theme")==="dark"?"dark":"light");
 </script>
