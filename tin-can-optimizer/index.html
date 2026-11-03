@@ -12,10 +12,9 @@ main{width:min(1120px,calc(100% - 32px));margin:auto;padding:40px 0 56px}h1{marg
 label{display:block;font-weight:700;margin:14px 0 7px}.input{position:relative}.input span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
 input{width:100%;padding:12px 42px 12px 13px;border:1px solid #cbd5e1;border-radius:12px;font:inherit;outline:none}input:focus{border-color:var(--blue);box-shadow:0 0 0 4px #2563eb18}
 button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:12px;background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;font:inherit;font-weight:800;cursor:pointer}
-.scorebox{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}.label{color:var(--muted);font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.score{font-size:2.7rem;font-weight:850;letter-spacing:-.05em}.hint{color:var(--muted);font-size:.82rem}.stats{display:grid;gap:10px;margin-top:20px}.stat span:first-child{color:var(--muted)}
+.scorebox{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}.label{color:var(--muted);font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.score{font-size:2.7rem;font-weight:850;letter-spacing:-.05em}.stats{display:grid;gap:10px;margin-top:20px}.stat span:first-child{color:var(--muted)}
 .chart{padding:20px}.charthead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.charthead h2{margin:0;font-size:1.05rem}.charthead p{margin:5px 0;color:var(--muted);font-size:.84rem}.legend{display:flex;flex-wrap:wrap;gap:8px 12px;color:var(--muted);font-size:.78rem}.key{display:flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%}
-.plot{width:100%;aspect-ratio:1/1;max-height:620px;margin-top:8px}.formula{text-align:center;color:var(--muted);font:12px ui-monospace,monospace;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:9px}
-.err{display:none;color:#b42318;font-size:.82rem;margin-top:10px}
+.plot{width:100%;aspect-ratio:1/1;max-height:620px;margin-top:8px}.err{display:none;color:#b42318;font-size:.82rem;margin-top:10px}
 @media(max-width:820px){main{padding-top:25px}.grid{grid-template-columns:1fr}.charthead{flex-direction:column}}
 </style>
 </head>
@@ -27,10 +26,10 @@ button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:12px;backg
 <section class="card controls">
 <h2>Measurements</h2>
 <div class="ideal"><span>Ideal circumference</span><strong>5.20 in</strong><span>Ideal height</span><strong>6.00 in</strong></div>
-<label for="c">Circumference</label><div class="input"><input id="c" type="number" min=".001" step=".01" value="5.20"><span>in</span></div>
 <label for="h">Height</label><div class="input"><input id="h" type="number" min=".001" step=".01" value="6.00"><span>in</span></div>
+<label for="c">Circumference</label><div class="input"><input id="c" type="number" min=".001" step=".01" value="5.20"><span>in</span></div>
 <button id="calc">Calculate</button><div id="err" class="err">Enter positive values for both measurements.</div>
-<div class="scorebox"><div class="label">Justin Unit</div><div id="score" class="score">1.0000</div><div class="hint">1.0000 is ideal.</div></div>
+<div class="scorebox"><div class="label">Justin Unit</div><div id="score" class="score">1.0000</div></div>
 <div class="stats"><div class="stat"><span>Height deviation</span><strong id="hd">+0.00%</strong></div><div class="stat"><span>Circ. deviation</span><strong id="cd">+0.00%</strong></div></div>
 </section>
 <section class="card chart">
@@ -46,7 +45,6 @@ button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:12px;backg
 <polygon id="ideal" fill="#2563eb" stroke="white" stroke-width="1.5"/>
 <circle id="measured" r="8" fill="#7c3aed" stroke="white" stroke-width="2"/>
 </svg>
-<div class="formula">X = 1 + 1.5(C / 5.2 − 1) &nbsp;&nbsp; Y = H / 6.0</div>
 </section>
 </div>
 </main>
