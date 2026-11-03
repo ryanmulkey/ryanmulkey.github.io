@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tin Can Optimizer</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#dde4ee;--blue:#2563eb;--purple:#7c3aed;--green:#15945a;--amber:#d99013;--red:#d84a4a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 0 0,#dfeaff 0,transparent 32rem),var(--bg);color:var(--ink);font:15px system-ui,-apple-system,"Segoe UI",sans-serif}
+main{width:min(1120px,calc(100% - 32px));margin:auto;padding:40px 0 56px}h1{margin:0;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-.05em}.sub{color:var(--muted);max-width:760px;line-height:1.6;margin:10px 0 24px}
+.grid{display:grid;grid-template-columns:320px 1fr;gap:20px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 45px #1f304c17}
+.controls{padding:24px}.ideal,.stat{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);background:#f8fafc;border-radius:12px;padding:11px 12px}.ideal{display:grid;grid-template-columns:1fr auto;margin-bottom:20px;color:var(--muted)}
+label{display:block;font-weight:700;margin:14px 0 7px}.input{position:relative}.input span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+input{width:100%;padding:12px 42px 12px 13px;border:1px solid #cbd5e1;border-radius:12px;font:inherit;outline:none}input:focus{border-color:var(--blue);box-shadow:0 0 0 4px #2563eb18}
+button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:12px;background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+.scorebox{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}.label{color:var(--muted);font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.score{font-size:2.7rem;font-weight:850;letter-spacing:-.05em}.hint{color:var(--muted);font-size:.82rem}.stats{display:grid;gap:10px;margin-top:20px}.stat span:first-child{color:var(--muted)}
+.chart{padding:20px}.charthead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.charthead h2{margin:0;font-size:1.05rem}.charthead p{margin:5px 0;color:var(--muted);font-size:.84rem}.legend{display:flex;flex-wrap:wrap;gap:8px 12px;color:var(--muted);font-size:.78rem}.key{display:flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%}
+.plot{width:100%;aspect-ratio:1/1;max-height:620px;margin-top:8px}.formula{text-align:center;color:var(--muted);font:12px ui-monospace,monospace;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:9px}
+.err{display:none;color:#b42318;font-size:.82rem;margin-top:10px}
+@media(max-width:820px){main{padding-top:25px}.grid{grid-template-columns:1fr}.charthead{flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<h1>Tin Can Optimizer</h1>
+<p class="sub">Compare a measured cylinder against the ideal dimensions of 5.2 in circumference and 6.0 in height. Circumference deviations are weighted 1.5× relative to height.</p>
+<div class="grid">
+<section class="card controls">
+<h2>Measurements</h2>
+<div class="ideal"><span>Ideal circumference</span><strong>5.20 in</strong><span>Ideal height</span><strong>6.00 in</strong></div>
+<label for="c">Circumference</label><div class="input"><input id="c" type="number" min=".001" step=".01" value="5.20"><span>in</span></div>
+<label for="h">Height</label><div class="input"><input id="h" type="number" min=".001" step=".01" value="6.00"><span>in</span></div>
+<button id="calc">Calculate</button><div id="err" class="err">Enter positive values for both measurements.</div>
+<div class="scorebox"><div class="label">Justin Unit</div><div id="score" class="score">1.0000</div><div class="hint">1.0000 is ideal.</div></div>
+<div class="stats"><div class="stat"><span>Height deviation</span><strong id="hd">+0.00%</strong></div><div class="stat"><span>Circ. deviation</span><strong id="cd">+0.00%</strong></div></div>
+</section>
+<section class="card chart">
+<div class="charthead"><div><h2>Weighted Dimension Map</h2><p>Distance from the center corresponds directly to weighted error.</p></div>
+<div class="legend"><span class="key"><i class="dot" style="background:#2563eb"></i>Ideal</span><span class="key"><i class="dot" style="background:#7c3aed"></i>Measured</span><span class="key"><i class="dot" style="background:#15945a"></i>5%</span><span class="key"><i class="dot" style="background:#d99013"></i>10%</span><span class="key"><i class="dot" style="background:#d84a4a"></i>20%</span></div></div>
+<svg id="plot" class="plot" viewBox="0 0 600 600" role="img" aria-label="Weighted dimension graph">
+<rect x="60" y="30" width="500" height="500" rx="4" fill="#f8fafc" stroke="#bcc7d6"/>
+<g id="grid"></g><g id="rings"></g><g id="ticks"></g>
+<line x1="310" y1="30" x2="310" y2="530" stroke="#94a3b8" stroke-dasharray="3 5"/>
+<line x1="60" y1="280" x2="560" y2="280" stroke="#94a3b8" stroke-dasharray="3 5"/>
+<text x="310" y="583" text-anchor="middle" fill="#475569" font-size="13">Weighted normalized circumference</text>
+<text x="17" y="280" text-anchor="middle" fill="#475569" font-size="13" transform="rotate(-90 17 280)">Normalized height</text>
+<polygon id="ideal" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+<circle id="measured" r="8" fill="#7c3aed" stroke="white" stroke-width="2"/>
+</svg>
+<div class="formula">X = 1 + 1.5(C / 5.2 − 1) &nbsp;&nbsp; Y = H / 6.0</div>
+</section>
+</div>
+</main>
+<script>
+const H0=6,C0=5.2,W=1.5,$=id=>document.getElementById(id),svgNS="http://www.w3.org/2000/svg";
+let M=null;
+function metrics(h,c){const hn=h/H0,cn=c/C0,he=hn-1,ce=cn-1,we=W*ce,e=Math.hypot(he,we);return{hn,cn,he,ce,we,x:1+we,g:1/(1+e)}}
+function pct(v){const n=v*100;return(n>=0?"+":"")+n.toFixed(2)+"%"}
+function S(tag,a){const e=document.createElementNS(svgNS,tag);for(const[k,v]of Object.entries(a))e.setAttribute(k,v);return e}
+function star(cx,cy){let pts=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?5:11;pts.push(`${cx+Math.cos(a)*r},${cy+Math.sin(a)*r}`)}return pts.join(" ")}
+function draw(m){
+ const dx=Math.abs(m.x-1),dy=Math.abs(m.hn-1),span=Math.max(.24,dx*1.3,dy*1.3),min=1-span,max=1+span;
+ const X=v=>60+(v-min)/(max-min)*500,Y=v=>530-(v-min)/(max-min)*500,U=v=>v/(max-min)*500;
+ const grid=$("grid"),rings=$("rings"),ticks=$("ticks");grid.innerHTML=rings.innerHTML=ticks.innerHTML="";
+ for(let i=0;i<=8;i++){const p=60+i*62.5,q=30+i*62.5;grid.append(S("line",{x1:p,y1:30,x2:p,y2:530,stroke:"#e2e8f0"}),S("line",{x1:60,y1:q,x2:560,y2:q,stroke:"#e2e8f0"}))}
+ [[.2,"#d84a4a","#d84a4a"],[.1,"#d99013","#d99013"],[.05,"#15945a","#15945a"]].forEach(([r,s,f])=>rings.append(S("circle",{cx:X(1),cy:Y(1),r:U(r),fill:f,"fill-opacity":".06",stroke:s,"stroke-width":"1.6","stroke-dasharray":"6 5"})));
+ for(let i=0;i<=4;i++){let v=min+i*(max-min)/4,t=S("text",{x:60+i*125,y:550,"text-anchor":"middle",fill:"#667085","font-size":"12"});t.textContent=v.toFixed(2);ticks.append(t);v=max-i*(max-min)/4;t=S("text",{x:48,y:34+i*125,"text-anchor":"end",fill:"#667085","font-size":"12"});t.textContent=v.toFixed(2);ticks.append(t)}
+ $("ideal").setAttribute("points",star(X(1),Y(1)));$("measured").setAttribute("cx",X(m.x));$("measured").setAttribute("cy",Y(m.hn));
+}
+function update(){
+ const h=+$("h").value,c=+$("c").value;if(!(h>0&&c>0)){ $("err").style.display="block";return }
+ $("err").style.display="none";M=metrics(h,c);$("score").textContent=M.g.toFixed(4);$("hd").textContent=pct(M.he);$("cd").textContent=pct(M.ce);draw(M)
+}
+$("calc").onclick=update;$("h").oninput=update;$("c").oninput=update;update();
+</script>
+</body></html>
